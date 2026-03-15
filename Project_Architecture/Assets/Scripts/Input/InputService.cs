@@ -142,10 +142,26 @@ public class InputService : MonoBehaviour, IInputService
             return;
         }
 
-        attackAction?.started += OnAttackStarted;
-        jumpAction?.started += OnJumpStarted;
-        interactAction?.started += OnInteractStarted;
-        pauseAction?.started += OnPauseStarted;
+        if (attackAction != null)
+        {
+            attackAction.started += OnAttackStarted;
+        }
+
+        if (jumpAction != null)
+        {
+            jumpAction.started += OnJumpStarted;
+        }
+
+        if (interactAction != null)
+        {
+            interactAction.started += OnInteractStarted;
+        }
+
+        if (pauseAction != null)
+        {
+            pauseAction.started += OnPauseStarted;
+        }
+
         callbacksBound = true;
     }
 
@@ -156,10 +172,25 @@ public class InputService : MonoBehaviour, IInputService
             return;
         }
 
-        attackAction?.started -= OnAttackStarted;
-        jumpAction?.started -= OnJumpStarted;
-        interactAction?.started -= OnInteractStarted;
-        pauseAction?.started -= OnPauseStarted;
+        if (attackAction != null)
+        {
+            attackAction.started -= OnAttackStarted;
+        }
+
+        if (jumpAction != null)
+        {
+            jumpAction.started -= OnJumpStarted;
+        }
+
+        if (interactAction != null)
+        {
+            interactAction.started -= OnInteractStarted;
+        }
+
+        if (pauseAction != null)
+        {
+            pauseAction.started -= OnPauseStarted;
+        }
 
         callbacksBound = false;
     }

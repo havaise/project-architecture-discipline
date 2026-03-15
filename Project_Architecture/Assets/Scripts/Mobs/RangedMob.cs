@@ -1,25 +1,14 @@
 using UnityEngine;
 
-public class RangedMob : MonoBehaviour, IDamage, IDamageSource, IHealth
+[RequireComponent(typeof(HealthComponent))]
+public class RangedMob : MonoBehaviour, IDamageSource
 {
-    [Header("Health")]
-    [SerializeField] private int maxHealth = 80;
-    [SerializeField] private int currentHealth = 80;
-
     [Header("Attack")]
     [SerializeField] private int damage = 7;
     [SerializeField] private float attackRange = 10f;
     [SerializeField] private float attackCooldown = 1.5f;
 
     private float nextAttackTime;
-
-    public int _current => currentHealth;
-    public int _max => maxHealth;
-
-    private void Awake()
-    {
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-    }
 
     public int GetDamage()
     {
@@ -50,35 +39,5 @@ public class RangedMob : MonoBehaviour, IDamage, IDamageSource, IHealth
 
         nextAttackTime = Time.time + attackCooldown;
         return true;
-    }
-
-    public void TakeDamage(int amount)
-    {
-        Reduce(amount);
-    }
-
-    public void Reduce(int count)
-    {
-        if (count <= 0 || isDead())
-        {
-            return;
-        }
-
-        currentHealth = Mathf.Max(0, currentHealth - count);
-
-        if (isDead())
-        {
-            OnDeath();
-        }
-    }
-
-    public bool isDead()
-    {
-        return currentHealth <= 0;
-    }
-
-    private void OnDeath()
-    {
-        Destroy(gameObject);
     }
 }

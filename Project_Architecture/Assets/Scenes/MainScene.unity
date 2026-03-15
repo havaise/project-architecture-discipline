@@ -559,7 +559,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1.13, z: 0}
-  m_LocalScale: {x: 10.803, y: 0.29337, z: 11.066}
+  m_LocalScale: {x: 49.053333, y: 0.29337, z: 53.796253}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 547219532}
@@ -1041,10 +1041,12 @@ MonoBehaviour:
   inputService: {fileID: 1365831283}
   cameraTransform: {fileID: 330585546}
   moveSpeed: 6
+  sprintMultiplier: 1.5
   rotateToMovement: 0
   rotationSpeed: 12
   jumpHeight: 1.5
   gravity: -9.81
+  enableDebugLogs: 1
 --- !u!114 &1365831283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1061,7 +1063,9 @@ MonoBehaviour:
   gameplayMapName: Gameplay
   moveActionName: Move
   lookActionName: Look
-  attackActionName: Attack
+  sprintActionName: Sprint
+  physicalAttackActionName: PhysicalAttack
+  magicAttackActionName: MagicAttack
   jumpActionName: Jump
   interactActionName: Interact
   pauseActionName: Pause

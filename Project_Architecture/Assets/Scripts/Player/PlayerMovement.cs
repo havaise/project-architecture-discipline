@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 6f;
+    [SerializeField] private float sprintMultiplier = 1.5f;
     [SerializeField] private bool rotateToMovement;
     [SerializeField] private float rotationSpeed = 12f;
 
@@ -16,8 +17,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpHeight = 1.5f;
     [SerializeField] private float gravity = -9.81f;
 
+    [Header("Debug")]
+    [SerializeField] private bool enableDebugLogs = true;
+
     private CharacterController controller;
     private float verticalVelocity;
+    private bool wasMoving;
+    private bool wasSprinting;
 
     private void Awake()
     {
@@ -38,8 +44,10 @@ public class PlayerMovement : MonoBehaviour
 
         Vector2 input = inputService.Move;
         Vector3 moveDirection = GetMoveDirection(input);
+        bool isSprinting = inputService.IsSprintPressed();
+        float currentSpeed = moveSpeed * (isSprinting ? sprintMultiplier : 1f);
 
-        Move(moveDirection);
+        Move(moveDirection, currentSpeed);
         HandleJump();
         ApplyGravity();
 
@@ -47,6 +55,8 @@ public class PlayerMovement : MonoBehaviour
         {
             RotateTowards(moveDirection);
         }
+
+        HandleDebug(moveDirection, isSprinting, currentSpeed);
     }
 
     private Vector3 GetMoveDirection(Vector2 input)
@@ -72,9 +82,9 @@ public class PlayerMovement : MonoBehaviour
         return (forward * input.y + right * input.x).normalized;
     }
 
-    private void Move(Vector3 moveDirection)
+    private void Move(Vector3 moveDirection, float speed)
     {
-        Vector3 horizontalVelocity = moveDirection * moveSpeed;
+        Vector3 horizontalVelocity = moveDirection * speed;
         Vector3 totalVelocity = horizontalVelocity + Vector3.up * verticalVelocity;
         controller.Move(totalVelocity * Time.deltaTime);
     }
@@ -111,5 +121,40 @@ public class PlayerMovement : MonoBehaviour
 
         Quaternion targetRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+    }
+
+    private void HandleDebug(Vector3 moveDirection, bool isSprinting, float currentSpeed)
+    {
+        if (!enableDebugLogs)
+        {
+            return;
+        }
+
+        bool isMoving = moveDirection.sqrMagnitude > 0.0001f;
+
+        if (isMoving != wasMoving || (isMoving && isSprinting != wasSprinting))
+        {
+            if (isMoving)
+            {
+                Debug.Log($"[PlayerMovement] Move start. Sprint: {isSprinting}, Speed: {currentSpeed:0.00}, Dir: {moveDirection}", this);
+            }
+            else
+            {
+                Debug.Log("[PlayerMovement] Move stop.", this);
+            }
+        }
+
+        if (inputService.IsPhysicalAttackPressed())
+        {
+            Debug.Log("[PlayerMovement] LMB pressed -> Physical attack.", this);
+        }
+
+        if (inputService.IsMagicAttackPressed())
+        {
+            Debug.Log("[PlayerMovement] RMB pressed -> Magic attack.", this);
+        }
+
+        wasMoving = isMoving;
+        wasSprinting = isSprinting;
     }
 }

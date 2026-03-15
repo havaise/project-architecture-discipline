@@ -9,7 +9,9 @@ public class InputService : MonoBehaviour, IInputService
 
     [SerializeField] private string moveActionName = "Move";
     [SerializeField] private string lookActionName = "Look";
-    [SerializeField] private string attackActionName = "Attack";
+    [SerializeField] private string sprintActionName = "Sprint";
+    [SerializeField] private string physicalAttackActionName = "PhysicalAttack";
+    [SerializeField] private string magicAttackActionName = "MagicAttack";
     [SerializeField] private string jumpActionName = "Jump";
     [SerializeField] private string interactActionName = "Interact";
     [SerializeField] private string pauseActionName = "Pause";
@@ -17,7 +19,9 @@ public class InputService : MonoBehaviour, IInputService
     private InputActionMap gameplayMap;
     private InputAction moveAction;
     private InputAction lookAction;
-    private InputAction attackAction;
+    private InputAction sprintAction;
+    private InputAction physicalAttackAction;
+    private InputAction magicAttackAction;
     private InputAction jumpAction;
     private InputAction interactAction;
     private InputAction pauseAction;
@@ -28,6 +32,8 @@ public class InputService : MonoBehaviour, IInputService
     public Vector2 Look => lookAction?.ReadValue<Vector2>() ?? Vector2.zero;
 
     public event Action AttackStarted;
+    public event Action PhysicalAttackStarted;
+    public event Action MagicAttackStarted;
     public event Action JumpStarted;
     public event Action InteractStarted;
     public event Action PauseStarted;
@@ -52,9 +58,24 @@ public class InputService : MonoBehaviour, IInputService
         UnbindCallbacks();
     }
 
+    public bool IsSprintPressed()
+    {
+        return sprintAction != null && sprintAction.IsPressed();
+    }
+
     public bool IsAttackPressed()
     {
-        return attackAction != null && attackAction.WasPressedThisFrame();
+        return IsPhysicalAttackPressed();
+    }
+
+    public bool IsPhysicalAttackPressed()
+    {
+        return physicalAttackAction != null && physicalAttackAction.WasPressedThisFrame();
+    }
+
+    public bool IsMagicAttackPressed()
+    {
+        return magicAttackAction != null && magicAttackAction.WasPressedThisFrame();
     }
 
     public bool IsJumpPressed()
@@ -118,7 +139,9 @@ public class InputService : MonoBehaviour, IInputService
 
         moveAction = FindAction(moveActionName);
         lookAction = FindAction(lookActionName);
-        attackAction = FindAction(attackActionName);
+        sprintAction = FindAction(sprintActionName);
+        physicalAttackAction = FindAction(physicalAttackActionName);
+        magicAttackAction = FindAction(magicAttackActionName);
         jumpAction = FindAction(jumpActionName);
         interactAction = FindAction(interactActionName);
         pauseAction = FindAction(pauseActionName);
@@ -142,9 +165,14 @@ public class InputService : MonoBehaviour, IInputService
             return;
         }
 
-        if (attackAction != null)
+        if (physicalAttackAction != null)
         {
-            attackAction.started += OnAttackStarted;
+            physicalAttackAction.started += OnPhysicalAttackStarted;
+        }
+
+        if (magicAttackAction != null)
+        {
+            magicAttackAction.started += OnMagicAttackStarted;
         }
 
         if (jumpAction != null)
@@ -172,9 +200,14 @@ public class InputService : MonoBehaviour, IInputService
             return;
         }
 
-        if (attackAction != null)
+        if (physicalAttackAction != null)
         {
-            attackAction.started -= OnAttackStarted;
+            physicalAttackAction.started -= OnPhysicalAttackStarted;
+        }
+
+        if (magicAttackAction != null)
+        {
+            magicAttackAction.started -= OnMagicAttackStarted;
         }
 
         if (jumpAction != null)
@@ -195,9 +228,15 @@ public class InputService : MonoBehaviour, IInputService
         callbacksBound = false;
     }
 
-    private void OnAttackStarted(InputAction.CallbackContext _)
+    private void OnPhysicalAttackStarted(InputAction.CallbackContext _)
     {
         AttackStarted?.Invoke();
+        PhysicalAttackStarted?.Invoke();
+    }
+
+    private void OnMagicAttackStarted(InputAction.CallbackContext _)
+    {
+        MagicAttackStarted?.Invoke();
     }
 
     private void OnJumpStarted(InputAction.CallbackContext _)

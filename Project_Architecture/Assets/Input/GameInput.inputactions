@@ -25,7 +25,7 @@
           "initialStateCheck": true
         },
         {
-          "name": "Attack",
+          "name": "Sprint",
           "type": "Button",
           "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e103",
           "expectedControlType": "Button",
@@ -34,7 +34,7 @@
           "initialStateCheck": false
         },
         {
-          "name": "Jump",
+          "name": "PhysicalAttack",
           "type": "Button",
           "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e104",
           "expectedControlType": "Button",
@@ -43,7 +43,7 @@
           "initialStateCheck": false
         },
         {
-          "name": "Interact",
+          "name": "MagicAttack",
           "type": "Button",
           "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e105",
           "expectedControlType": "Button",
@@ -52,9 +52,27 @@
           "initialStateCheck": false
         },
         {
-          "name": "Pause",
+          "name": "Jump",
           "type": "Button",
           "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e106",
+          "expectedControlType": "Button",
+          "processors": "",
+          "interactions": "",
+          "initialStateCheck": false
+        },
+        {
+          "name": "Interact",
+          "type": "Button",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e107",
+          "expectedControlType": "Button",
+          "processors": "",
+          "interactions": "",
+          "initialStateCheck": false
+        },
+        {
+          "name": "Pause",
+          "type": "Button",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e108",
           "expectedControlType": "Button",
           "processors": "",
           "interactions": "",
@@ -118,8 +136,63 @@
           "isPartOfComposite": true
         },
         {
-          "name": "",
+          "name": "Arrows",
           "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e206",
+          "path": "2DVector",
+          "interactions": "",
+          "processors": "",
+          "groups": "Keyboard&Mouse",
+          "action": "Move",
+          "isComposite": true,
+          "isPartOfComposite": false
+        },
+        {
+          "name": "up",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e207",
+          "path": "<Keyboard>/upArrow",
+          "interactions": "",
+          "processors": "",
+          "groups": "Keyboard&Mouse",
+          "action": "Move",
+          "isComposite": false,
+          "isPartOfComposite": true
+        },
+        {
+          "name": "down",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e208",
+          "path": "<Keyboard>/downArrow",
+          "interactions": "",
+          "processors": "",
+          "groups": "Keyboard&Mouse",
+          "action": "Move",
+          "isComposite": false,
+          "isPartOfComposite": true
+        },
+        {
+          "name": "left",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e209",
+          "path": "<Keyboard>/leftArrow",
+          "interactions": "",
+          "processors": "",
+          "groups": "Keyboard&Mouse",
+          "action": "Move",
+          "isComposite": false,
+          "isPartOfComposite": true
+        },
+        {
+          "name": "right",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e210",
+          "path": "<Keyboard>/rightArrow",
+          "interactions": "",
+          "processors": "",
+          "groups": "Keyboard&Mouse",
+          "action": "Move",
+          "isComposite": false,
+          "isPartOfComposite": true
+        },
+        {
+          "name": "",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e211",
           "path": "<Gamepad>/leftStick",
           "interactions": "",
           "processors": "",
@@ -130,7 +203,7 @@
         },
         {
           "name": "",
-          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e207",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e212",
           "path": "<Mouse>/delta",
           "interactions": "",
           "processors": "",
@@ -141,7 +214,7 @@
         },
         {
           "name": "",
-          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e208",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e213",
           "path": "<Gamepad>/rightStick",
           "interactions": "",
           "processors": "",
@@ -152,29 +225,84 @@
         },
         {
           "name": "",
-          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e209",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e214",
+          "path": "<Keyboard>/leftShift",
+          "interactions": "",
+          "processors": "",
+          "groups": "Keyboard&Mouse",
+          "action": "Sprint",
+          "isComposite": false,
+          "isPartOfComposite": false
+        },
+        {
+          "name": "",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e215",
+          "path": "<Keyboard>/rightShift",
+          "interactions": "",
+          "processors": "",
+          "groups": "Keyboard&Mouse",
+          "action": "Sprint",
+          "isComposite": false,
+          "isPartOfComposite": false
+        },
+        {
+          "name": "",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e216",
+          "path": "<Gamepad>/leftStickPress",
+          "interactions": "",
+          "processors": "",
+          "groups": "Gamepad",
+          "action": "Sprint",
+          "isComposite": false,
+          "isPartOfComposite": false
+        },
+        {
+          "name": "",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e217",
           "path": "<Mouse>/leftButton",
           "interactions": "",
           "processors": "",
           "groups": "Keyboard&Mouse",
-          "action": "Attack",
+          "action": "PhysicalAttack",
           "isComposite": false,
           "isPartOfComposite": false
         },
         {
           "name": "",
-          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e210",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e218",
           "path": "<Gamepad>/rightTrigger",
           "interactions": "",
           "processors": "",
           "groups": "Gamepad",
-          "action": "Attack",
+          "action": "PhysicalAttack",
           "isComposite": false,
           "isPartOfComposite": false
         },
         {
           "name": "",
-          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e211",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e219",
+          "path": "<Mouse>/rightButton",
+          "interactions": "",
+          "processors": "",
+          "groups": "Keyboard&Mouse",
+          "action": "MagicAttack",
+          "isComposite": false,
+          "isPartOfComposite": false
+        },
+        {
+          "name": "",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e220",
+          "path": "<Gamepad>/leftTrigger",
+          "interactions": "",
+          "processors": "",
+          "groups": "Gamepad",
+          "action": "MagicAttack",
+          "isComposite": false,
+          "isPartOfComposite": false
+        },
+        {
+          "name": "",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e221",
           "path": "<Keyboard>/space",
           "interactions": "",
           "processors": "",
@@ -185,7 +313,7 @@
         },
         {
           "name": "",
-          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e212",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e222",
           "path": "<Gamepad>/buttonSouth",
           "interactions": "",
           "processors": "",
@@ -196,7 +324,7 @@
         },
         {
           "name": "",
-          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e213",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e223",
           "path": "<Keyboard>/e",
           "interactions": "",
           "processors": "",
@@ -207,7 +335,7 @@
         },
         {
           "name": "",
-          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e214",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e224",
           "path": "<Gamepad>/buttonWest",
           "interactions": "",
           "processors": "",
@@ -218,7 +346,7 @@
         },
         {
           "name": "",
-          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e215",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e225",
           "path": "<Keyboard>/escape",
           "interactions": "",
           "processors": "",
@@ -229,7 +357,7 @@
         },
         {
           "name": "",
-          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e216",
+          "id": "f7fb0000-4f11-4f9f-a893-3641f6e5e226",
           "path": "<Gamepad>/start",
           "interactions": "",
           "processors": "",

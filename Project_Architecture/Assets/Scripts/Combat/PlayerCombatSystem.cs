@@ -1,0 +1,189 @@
+using UnityEngine;
+
+public class PlayerCombatSystem : MonoBehaviour
+{
+    [Header("References")]
+    [SerializeField] private InputService inputService;
+    [SerializeField] private Transform attackOrigin;
+    [SerializeField] private Camera attackCamera;
+
+    [Header("Physical Attack (LMB)")]
+    [SerializeField] private float physicalDamage = 20f;
+    [SerializeField] private float physicalRange = 2.2f;
+    [SerializeField] private float physicalRadius = 0.8f;
+    [SerializeField] private float physicalCooldown = 0.35f;
+
+    [Header("Magic Attack (RMB)")]
+    [SerializeField] private float magicDamage = 30f;
+    [SerializeField] private float magicRange = 20f;
+    [SerializeField] private float magicCooldown = 0.8f;
+
+    [Header("Targeting")]
+    [SerializeField] private LayerMask targetMask = ~0;
+
+    [Header("Debug")]
+    [SerializeField] private bool enableDebugLogs = true;
+    [SerializeField] private bool logCooldownBlocks;
+
+    private float nextPhysicalAttackTime;
+    private float nextMagicAttackTime;
+
+    private void Awake()
+    {
+        if (inputService == null)
+        {
+            inputService = FindFirstObjectByType<InputService>();
+        }
+
+        if (attackOrigin == null)
+        {
+            attackOrigin = transform;
+        }
+
+        if (attackCamera == null)
+        {
+            attackCamera = Camera.main;
+        }
+
+        Log("Combat system initialized.");
+    }
+
+    private void Update()
+    {
+        if (inputService == null)
+        {
+            return;
+        }
+
+        if (inputService.IsPhysicalAttackPressed())
+        {
+            Log("LMB pressed -> physical attack request.");
+            TryPhysicalAttack();
+        }
+
+        if (inputService.IsMagicAttackPressed())
+        {
+            Log("RMB pressed -> magic attack request.");
+            TryMagicAttack();
+        }
+    }
+
+    private void TryPhysicalAttack()
+    {
+        if (Time.time < nextPhysicalAttackTime)
+        {
+            if (logCooldownBlocks)
+            {
+                Log($"Physical blocked by cooldown: {(nextPhysicalAttackTime - Time.time):0.00}s left.");
+            }
+
+            return;
+        }
+
+        nextPhysicalAttackTime = Time.time + physicalCooldown;
+
+        Vector3 origin = attackOrigin.position + Vector3.up * 1.0f;
+        Vector3 direction = GetForwardDirection();
+
+        RaycastHit[] hits = Physics.SphereCastAll(
+            origin,
+            physicalRadius,
+            direction,
+            physicalRange,
+            targetMask,
+            QueryTriggerInteraction.Ignore);
+
+        if (hits.Length == 0)
+        {
+            Log("Physical attack missed.");
+            return;
+        }
+
+        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.transform == transform || hit.transform.IsChildOf(transform))
+            {
+                continue;
+            }
+
+            if (CombatDamageResolver.TryApplyDamage(hit.transform, physicalDamage, 0f))
+            {
+                Log($"Physical attack hit: {hit.transform.name}, dmg={physicalDamage:0.#}");
+                return;
+            }
+        }
+
+        Log("Physical attack hit collider, but no damage receiver found.");
+    }
+
+    private void TryMagicAttack()
+    {
+        if (Time.time < nextMagicAttackTime)
+        {
+            if (logCooldownBlocks)
+            {
+                Log($"Magic blocked by cooldown: {(nextMagicAttackTime - Time.time):0.00}s left.");
+            }
+
+            return;
+        }
+
+        nextMagicAttackTime = Time.time + magicCooldown;
+
+        Ray ray = attackCamera != null
+            ? attackCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f))
+            : new Ray(attackOrigin.position + Vector3.up * 1.0f, GetForwardDirection());
+
+        RaycastHit[] hits = Physics.RaycastAll(ray, magicRange, targetMask, QueryTriggerInteraction.Ignore);
+        if (hits.Length == 0)
+        {
+            Log("Magic attack missed.");
+            return;
+        }
+
+        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.transform == transform || hit.transform.IsChildOf(transform))
+            {
+                continue;
+            }
+
+            if (CombatDamageResolver.TryApplyDamage(hit.transform, 0f, magicDamage))
+            {
+                Log($"Magic attack hit: {hit.transform.name}, dmg={magicDamage:0.#}");
+                return;
+            }
+        }
+
+        Log("Magic attack hit colliders, but no damage receiver found.");
+    }
+
+    private Vector3 GetForwardDirection()
+    {
+        if (attackCamera != null)
+        {
+            Vector3 forward = attackCamera.transform.forward;
+            forward.y = 0f;
+            if (forward.sqrMagnitude > 0.0001f)
+            {
+                return forward.normalized;
+            }
+        }
+
+        return transform.forward;
+    }
+
+    private void Log(string message)
+    {
+        if (!enableDebugLogs)
+        {
+            return;
+        }
+
+        Debug.Log($"[PlayerCombatSystem] {message}", this);
+    }
+}

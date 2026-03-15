@@ -29,6 +29,10 @@ public class EnemyAI : MonoBehaviour
     [Header("Physics")]
     [SerializeField] private bool configureRigidbodyForNavMesh = true;
 
+    [Header("Debug")]
+    [SerializeField] private bool enableCombatDebugLogs;
+    [SerializeField] private bool logCooldownBlocks;
+
     private IDamageSource damageSource;
     private NavMeshAgent navMeshAgent;
     private Rigidbody body;
@@ -214,57 +218,33 @@ public class EnemyAI : MonoBehaviour
     {
         if (Time.time < nextAttackTime)
         {
+            if (logCooldownBlocks)
+            {
+                Log($"Attack blocked by cooldown: {(nextAttackTime - Time.time):0.00}s left.");
+            }
+
             return;
         }
 
         nextAttackTime = Time.time + attackCooldown;
-        int damage = damageSource != null ? damageSource.GetDamage() : fallbackDamage;
-        ApplyDamageToTarget(damage);
+        float damage = damageSource != null ? damageSource.GetDamage() : fallbackDamage;
+
+        if (CombatDamageResolver.TryApplyDamage(target, damage, 0f))
+        {
+            Log($"Attack hit player: {target.name}, dmg={damage:0.#}");
+            return;
+        }
+
+        Log("Attack attempted, but no damage receiver found on target.");
     }
 
-    private void ApplyDamageToTarget(int damage)
+    private void Log(string message)
     {
-        if (target == null || damage <= 0)
+        if (!enableCombatDebugLogs)
         {
             return;
         }
 
-        if (TryGetDamageReceiver(target, out IDamage directDamage, out IDamageable mixedDamage))
-        {
-            if (directDamage != null)
-            {
-                directDamage.TakeDamage(damage);
-                return;
-            }
-
-            mixedDamage.TakeDamage(damage, 0f);
-        }
-    }
-
-    private static bool TryGetDamageReceiver(Transform targetTransform, out IDamage damage, out IDamageable damageable)
-    {
-        damage = targetTransform.GetComponent<IDamage>();
-        if (damage == null)
-        {
-            damage = targetTransform.GetComponentInParent<IDamage>();
-        }
-
-        if (damage == null)
-        {
-            damage = targetTransform.GetComponentInChildren<IDamage>();
-        }
-
-        damageable = targetTransform.GetComponent<IDamageable>();
-        if (damageable == null)
-        {
-            damageable = targetTransform.GetComponentInParent<IDamageable>();
-        }
-
-        if (damageable == null)
-        {
-            damageable = targetTransform.GetComponentInChildren<IDamageable>();
-        }
-
-        return damage != null || damageable != null;
+        Debug.Log($"[EnemyAI] {message}", this);
     }
 }

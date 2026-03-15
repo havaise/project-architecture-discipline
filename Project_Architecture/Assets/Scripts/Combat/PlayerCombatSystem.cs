@@ -15,8 +15,13 @@ public class PlayerCombatSystem : MonoBehaviour
 
     [Header("Magic Attack (RMB)")]
     [SerializeField] private float magicDamage = 30f;
-    [SerializeField] private float magicRange = 20f;
     [SerializeField] private float magicCooldown = 0.8f;
+    [SerializeField] private MagicProjectile magicProjectilePrefab;
+    [SerializeField] private float magicProjectileSpeed = 12f;
+    [SerializeField] private float magicProjectileLifetime = 2.5f;
+    [SerializeField] private float magicProjectileRadius = 0.25f;
+    [SerializeField] private float magicProjectileWaveAmplitude = 0.6f;
+    [SerializeField] private float magicProjectileWaveFrequency = 8f;
 
     [Header("Targeting")]
     [SerializeField] private LayerMask targetMask = ~0;
@@ -132,34 +137,30 @@ public class PlayerCombatSystem : MonoBehaviour
 
         nextMagicAttackTime = Time.time + magicCooldown;
 
-        Ray ray = attackCamera != null
-            ? attackCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f))
-            : new Ray(attackOrigin.position + Vector3.up * 1.0f, GetForwardDirection());
-
-        RaycastHit[] hits = Physics.RaycastAll(ray, magicRange, targetMask, QueryTriggerInteraction.Ignore);
-        if (hits.Length == 0)
+        if (magicProjectilePrefab == null)
         {
-            Log("Magic attack missed.");
+            Log("Magic projectile prefab is not assigned.");
             return;
         }
 
-        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+        Vector3 spawnPosition = attackOrigin.position + Vector3.up * 1.0f;
+        Vector3 direction = GetForwardDirection();
+        Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
 
-        foreach (RaycastHit hit in hits)
-        {
-            if (hit.transform == transform || hit.transform.IsChildOf(transform))
-            {
-                continue;
-            }
+        MagicProjectile projectile = Instantiate(magicProjectilePrefab, spawnPosition, rotation);
+        projectile.Initialize(
+            transform,
+            direction,
+            magicDamage,
+            magicProjectileSpeed,
+            magicProjectileLifetime,
+            magicProjectileRadius,
+            magicProjectileWaveAmplitude,
+            magicProjectileWaveFrequency,
+            targetMask,
+            enableDebugLogs);
 
-            if (CombatDamageResolver.TryApplyDamage(hit.transform, 0f, magicDamage))
-            {
-                Log($"Magic attack hit: {hit.transform.name}, dmg={magicDamage:0.#}");
-                return;
-            }
-        }
-
-        Log("Magic attack hit colliders, but no damage receiver found.");
+        Log($"Magic projectile spawned: dmg={magicDamage:0.#}, speed={magicProjectileSpeed:0.#}");
     }
 
     private Vector3 GetForwardDirection()

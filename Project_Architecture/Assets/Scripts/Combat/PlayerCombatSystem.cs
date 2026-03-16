@@ -47,6 +47,36 @@ public class PlayerCombatSystem : MonoBehaviour
     public event Action PhysicalAttackPerformed;
     public event Action MagicAttackPerformed;
 
+    public float MagicCooldownDuration => magicCooldown;
+
+    public float MagicCooldownRemaining
+    {
+        get
+        {
+            if (nextMagicAttackTime <= Time.time)
+            {
+                return 0f;
+            }
+
+            return nextMagicAttackTime - Time.time;
+        }
+    }
+
+    public float MagicCooldownNormalized
+    {
+        get
+        {
+            if (magicCooldown <= 0.0001f)
+            {
+                return 0f;
+            }
+
+            return Mathf.Clamp01(MagicCooldownRemaining / magicCooldown);
+        }
+    }
+
+    public bool IsMagicReady => MagicCooldownRemaining <= 0f;
+
     private float nextPhysicalAttackTime;
     private float nextMagicAttackTime;
 
@@ -230,3 +260,4 @@ public class PlayerCombatSystem : MonoBehaviour
         Debug.Log($"[PlayerCombatSystem] {message}", this);
     }
 }
+

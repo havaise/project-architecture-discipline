@@ -15,6 +15,7 @@ public class InputService : MonoBehaviour, IInputService
     [SerializeField] private string jumpActionName = "Jump";
     [SerializeField] private string interactActionName = "Interact";
     [SerializeField] private string pauseActionName = "Pause";
+    [SerializeField] private bool lockAndHideCursorOnEnable = true;
 
     private InputActionMap gameplayMap;
     private InputAction moveAction;
@@ -104,6 +105,12 @@ public class InputService : MonoBehaviour, IInputService
 
         BindCallbacks();
         gameplayMap.Enable();
+
+        if (lockAndHideCursorOnEnable)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     public void DisableGameplay()

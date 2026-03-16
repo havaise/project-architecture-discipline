@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (rotateToMovement)
         {
-            RotateTowards(moveDirection);
+            RotateTowards(GetLookDirection());
         }
 
         HandleDebug(moveDirection, isSprinting, currentSpeed);
@@ -121,6 +121,22 @@ public class PlayerMovement : MonoBehaviour
 
         Quaternion targetRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+    }
+
+    private Vector3 GetLookDirection()
+    {
+        if (cameraTransform != null)
+        {
+            Vector3 cameraForward = cameraTransform.forward;
+            cameraForward.y = 0f;
+
+            if (cameraForward.sqrMagnitude > 0.0001f)
+            {
+                return cameraForward.normalized;
+            }
+        }
+
+        return transform.forward;
     }
 
     private void HandleDebug(Vector3 moveDirection, bool isSprinting, float currentSpeed)

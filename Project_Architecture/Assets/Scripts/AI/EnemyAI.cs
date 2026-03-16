@@ -13,6 +13,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float viewDistance = 12f;
     [SerializeField, Range(1f, 360f)] private float viewAngle = 120f;
     [SerializeField] private float eyeHeight = 1.4f;
+    [SerializeField] private float visibilityMemoryDuration = 1.5f;
     [SerializeField] private LayerMask visibilityBlockers = ~0;
     [SerializeField] private bool patrolLookAroundWhenIdle = true;
 
@@ -34,13 +35,17 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private bool logCooldownBlocks;
 
     private IDamageSource damageSource;
+    private RangedMob rangedMob;
     private NavMeshAgent navMeshAgent;
     private Rigidbody body;
     private float nextAttackTime;
+    private float visibleUntilTime;
+    private Vector3 lastKnownTargetPosition;
 
     private void Awake()
     {
         damageSource = GetComponent<IDamageSource>();
+        rangedMob = GetComponent<RangedMob>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         body = GetComponent<Rigidbody>();
 
@@ -66,23 +71,30 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        if (!CanSeeTarget())
+        bool canSeeTarget = CanSeeTarget();
+        if (canSeeTarget)
+        {
+            visibleUntilTime = Time.time + visibilityMemoryDuration;
+            lastKnownTargetPosition = target.position;
+        }
+
+        bool targetRemembered = Time.time <= visibleUntilTime;
+        if (!canSeeTarget && !targetRemembered)
         {
             StopChasing();
             RotateIdle();
             return;
         }
 
-        float distance = Vector3.Distance(transform.position, target.position);
-
-        if (distance > attackRange)
+        if (!canSeeTarget || !IsTargetInAttackRange())
         {
-            ChaseTarget();
+            Vector3 chasePoint = canSeeTarget ? target.position : lastKnownTargetPosition;
+            ChaseTarget(chasePoint);
             return;
         }
 
         StopChasing();
-        TryAttack();
+        TryAttack(canSeeTarget);
     }
 
     private void ConfigurePhysics()
@@ -118,6 +130,8 @@ public class EnemyAI : MonoBehaviour
         if (taggedPlayer != null)
         {
             target = taggedPlayer.transform;
+            lastKnownTargetPosition = target.position;
+            visibleUntilTime = Time.time;
             return;
         }
 
@@ -125,6 +139,8 @@ public class EnemyAI : MonoBehaviour
         if (playerMovement != null)
         {
             target = playerMovement.transform;
+            lastKnownTargetPosition = target.position;
+            visibleUntilTime = Time.time;
         }
     }
 
@@ -174,16 +190,31 @@ public class EnemyAI : MonoBehaviour
         return true;
     }
 
-    private void ChaseTarget()
+    private bool IsTargetInAttackRange()
+    {
+        if (target == null)
+        {
+            return false;
+        }
+
+        if (rangedMob != null)
+        {
+            return rangedMob.CanAttack(target);
+        }
+
+        return Vector3.Distance(transform.position, target.position) <= attackRange;
+    }
+
+    private void ChaseTarget(Vector3 destination)
     {
         if (UseNavMeshAgent())
         {
             navMeshAgent.isStopped = false;
-            navMeshAgent.SetDestination(target.position);
+            navMeshAgent.SetDestination(destination);
             return;
         }
 
-        Vector3 toTarget = target.position - transform.position;
+        Vector3 toTarget = destination - transform.position;
         toTarget.y = 0f;
 
         if (toTarget.sqrMagnitude <= 0.0001f)
@@ -214,8 +245,28 @@ public class EnemyAI : MonoBehaviour
         return navMeshAgent != null && navMeshAgent.enabled && navMeshAgent.isOnNavMesh;
     }
 
-    private void TryAttack()
+    private void TryAttack(bool canSeeTarget)
     {
+        if (target == null || !canSeeTarget)
+        {
+            return;
+        }
+
+        if (rangedMob != null)
+        {
+            bool projectileFired = rangedMob.TryAttack(target);
+            if (projectileFired)
+            {
+                Log($"Ranged attack fired at: {target.name}");
+            }
+            else if (logCooldownBlocks)
+            {
+                Log("Ranged attack blocked (cooldown, range, or missing projectile prefab).");
+            }
+
+            return;
+        }
+
         if (Time.time < nextAttackTime)
         {
             if (logCooldownBlocks)

@@ -720,15 +720,15 @@ MonoBehaviour:
   autoFindPlayer: 1
   playerTag: Player
   viewDistance: 20
-  viewAngle: 120
+  viewAngle: 180
   eyeHeight: 1.4
   visibilityBlockers:
     serializedVersion: 2
     m_Bits: 4294967295
   patrolLookAroundWhenIdle: 1
   moveSpeed: 5
-  rotationSpeed: 8
-  idleTurnSpeed: 45
+  rotationSpeed: 10
+  idleTurnSpeed: 60
   attackRange: 2.2
   attackCooldown: 1.2
   fallbackDamage: 10

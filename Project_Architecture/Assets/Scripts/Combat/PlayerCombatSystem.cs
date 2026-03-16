@@ -1,7 +1,15 @@
+using System;
 using UnityEngine;
 
 public class PlayerCombatSystem : MonoBehaviour
 {
+    private enum MagicSpawnSource
+    {
+        AttackOrigin = 0,
+        Camera = 1,
+        CustomPoint = 2
+    }
+
     [Header("References")]
     [SerializeField] private InputService inputService;
     [SerializeField] private Transform attackOrigin;
@@ -23,12 +31,21 @@ public class PlayerCombatSystem : MonoBehaviour
     [SerializeField] private float magicProjectileWaveAmplitude = 0.6f;
     [SerializeField] private float magicProjectileWaveFrequency = 8f;
 
+    [Header("Magic Spawn")]
+    [SerializeField] private MagicSpawnSource magicSpawnSource = MagicSpawnSource.AttackOrigin;
+    [SerializeField] private Transform customMagicSpawnPoint;
+    [SerializeField] private float magicSpawnHeightOffset = 1.0f;
+    [SerializeField] private float magicSpawnForwardOffset = 0.5f;
+
     [Header("Targeting")]
     [SerializeField] private LayerMask targetMask = ~0;
 
     [Header("Debug")]
     [SerializeField] private bool enableDebugLogs = true;
     [SerializeField] private bool logCooldownBlocks;
+
+    public event Action PhysicalAttackPerformed;
+    public event Action MagicAttackPerformed;
 
     private float nextPhysicalAttackTime;
     private float nextMagicAttackTime;
@@ -86,6 +103,7 @@ public class PlayerCombatSystem : MonoBehaviour
         }
 
         nextPhysicalAttackTime = Time.time + physicalCooldown;
+        PhysicalAttackPerformed?.Invoke();
 
         Vector3 origin = attackOrigin.position + Vector3.up * 1.0f;
         Vector3 direction = GetForwardDirection();
@@ -104,7 +122,7 @@ public class PlayerCombatSystem : MonoBehaviour
             return;
         }
 
-        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+        Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
 
         foreach (RaycastHit hit in hits)
         {
@@ -135,16 +153,16 @@ public class PlayerCombatSystem : MonoBehaviour
             return;
         }
 
-        nextMagicAttackTime = Time.time + magicCooldown;
-
         if (magicProjectilePrefab == null)
         {
             Log("Magic projectile prefab is not assigned.");
             return;
         }
 
-        Vector3 spawnPosition = attackOrigin.position + Vector3.up * 1.0f;
+        nextMagicAttackTime = Time.time + magicCooldown;
+
         Vector3 direction = GetForwardDirection();
+        Vector3 spawnPosition = GetMagicSpawnPosition(direction);
         Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
 
         MagicProjectile projectile = Instantiate(magicProjectilePrefab, spawnPosition, rotation);
@@ -160,7 +178,31 @@ public class PlayerCombatSystem : MonoBehaviour
             targetMask,
             enableDebugLogs);
 
+        MagicAttackPerformed?.Invoke();
         Log($"Magic projectile spawned: dmg={magicDamage:0.#}, speed={magicProjectileSpeed:0.#}");
+    }
+
+    private Vector3 GetMagicSpawnPosition(Vector3 direction)
+    {
+        switch (magicSpawnSource)
+        {
+            case MagicSpawnSource.Camera:
+                if (attackCamera != null)
+                {
+                    return attackCamera.transform.position + direction * magicSpawnForwardOffset;
+                }
+
+                break;
+            case MagicSpawnSource.CustomPoint:
+                if (customMagicSpawnPoint != null)
+                {
+                    return customMagicSpawnPoint.position;
+                }
+
+                break;
+        }
+
+        return attackOrigin.position + Vector3.up * magicSpawnHeightOffset;
     }
 
     private Vector3 GetForwardDirection()

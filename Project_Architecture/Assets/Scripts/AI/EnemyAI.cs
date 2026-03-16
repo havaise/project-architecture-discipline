@@ -34,6 +34,12 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private bool enableCombatDebugLogs;
     [SerializeField] private bool logCooldownBlocks;
 
+    public event Action MeleeAttackPerformed;
+    public event Action RangedAttackPerformed;
+
+    public bool IsMoving => isMoving;
+    public float MoveSpeedNormalized => moveSpeedNormalized;
+
     private IDamageSource damageSource;
     private RangedMob rangedMob;
     private NavMeshAgent navMeshAgent;
@@ -41,6 +47,8 @@ public class EnemyAI : MonoBehaviour
     private float nextAttackTime;
     private float visibleUntilTime;
     private Vector3 lastKnownTargetPosition;
+    private bool isMoving;
+    private float moveSpeedNormalized;
 
     private void Awake()
     {
@@ -211,6 +219,17 @@ public class EnemyAI : MonoBehaviour
         {
             navMeshAgent.isStopped = false;
             navMeshAgent.SetDestination(destination);
+
+            float speed01 = navMeshAgent.speed > 0.01f
+                ? Mathf.Clamp01(navMeshAgent.velocity.magnitude / navMeshAgent.speed)
+                : 0f;
+
+            if (speed01 <= 0.01f && Vector3.Distance(transform.position, destination) > 0.2f)
+            {
+                speed01 = 1f;
+            }
+
+            SetMoveState(speed01 > 0.01f, speed01);
             return;
         }
 
@@ -219,6 +238,7 @@ public class EnemyAI : MonoBehaviour
 
         if (toTarget.sqrMagnitude <= 0.0001f)
         {
+            SetMoveState(false, 0f);
             return;
         }
 
@@ -227,10 +247,14 @@ public class EnemyAI : MonoBehaviour
 
         Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+        SetMoveState(true, 1f);
     }
 
     private void StopChasing()
     {
+        SetMoveState(false, 0f);
+
         if (!UseNavMeshAgent())
         {
             return;
@@ -257,6 +281,7 @@ public class EnemyAI : MonoBehaviour
             bool projectileFired = rangedMob.TryAttack(target);
             if (projectileFired)
             {
+                RangedAttackPerformed?.Invoke();
                 Log($"Ranged attack fired at: {target.name}");
             }
             else if (logCooldownBlocks)
@@ -278,6 +303,8 @@ public class EnemyAI : MonoBehaviour
         }
 
         nextAttackTime = Time.time + attackCooldown;
+        MeleeAttackPerformed?.Invoke();
+
         float damage = damageSource != null ? damageSource.GetDamage() : fallbackDamage;
 
         if (CombatDamageResolver.TryApplyDamage(target, damage, 0f))
@@ -287,6 +314,12 @@ public class EnemyAI : MonoBehaviour
         }
 
         Log("Attack attempted, but no damage receiver found on target.");
+    }
+
+    private void SetMoveState(bool moving, float speed01)
+    {
+        isMoving = moving;
+        moveSpeedNormalized = Mathf.Clamp01(speed01);
     }
 
     private void Log(string message)

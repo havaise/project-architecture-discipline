@@ -9,7 +9,7 @@ public class RangedMob : MonoBehaviour, IDamageSource
     [SerializeField] private float attackCooldown = 1.5f;
 
     [Header("Projectile")]
-    [SerializeField] private EnemyProjectile projectilePrefab;
+    [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform projectileSpawnPoint;
     [SerializeField] private float projectileSpeed = 14f;
     [SerializeField] private float projectileLifetime = 3f;
@@ -81,13 +81,20 @@ public class RangedMob : MonoBehaviour, IDamageSource
 
         if (projectilePrefab != null)
         {
-            return Instantiate(projectilePrefab, spawnPosition, rotation);
+            GameObject projectileObject = Instantiate(projectilePrefab, spawnPosition, rotation);
+            if (projectileObject.TryGetComponent(out EnemyProjectile projectile))
+            {
+                return projectile;
+            }
+
+            Log("Projectile prefab has no EnemyProjectile component. Added at runtime.");
+            return projectileObject.AddComponent<EnemyProjectile>();
         }
 
-        GameObject projectileObject = new GameObject("EnemyProjectile");
-        projectileObject.transform.SetPositionAndRotation(spawnPosition, rotation);
+        GameObject fallbackProjectileObject = new GameObject("EnemyProjectile");
+        fallbackProjectileObject.transform.SetPositionAndRotation(spawnPosition, rotation);
         Log("Projectile prefab is not assigned. Spawned runtime projectile.");
-        return projectileObject.AddComponent<EnemyProjectile>();
+        return fallbackProjectileObject.AddComponent<EnemyProjectile>();
     }
 
     private Vector3 GetSpawnPosition()

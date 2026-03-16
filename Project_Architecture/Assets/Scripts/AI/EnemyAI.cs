@@ -220,13 +220,22 @@ public class EnemyAI : MonoBehaviour
             navMeshAgent.isStopped = false;
             navMeshAgent.SetDestination(destination);
 
+            float effectiveSpeed = Mathf.Max(navMeshAgent.velocity.magnitude, navMeshAgent.desiredVelocity.magnitude);
             float speed01 = navMeshAgent.speed > 0.01f
-                ? Mathf.Clamp01(navMeshAgent.velocity.magnitude / navMeshAgent.speed)
+                ? Mathf.Clamp01(effectiveSpeed / navMeshAgent.speed)
                 : 0f;
 
             if (speed01 <= 0.01f && Vector3.Distance(transform.position, destination) > 0.2f)
             {
-                speed01 = 1f;
+                bool shouldMove =
+                    navMeshAgent.pathPending
+                    || (navMeshAgent.hasPath && navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance + 0.05f)
+                    || Vector3.Distance(transform.position, destination) > 0.2f;
+
+                if (shouldMove)
+                {
+                    speed01 = 1f;
+                }
             }
 
             SetMoveState(speed01 > 0.01f, speed01);
@@ -332,3 +341,4 @@ public class EnemyAI : MonoBehaviour
         Debug.Log($"[EnemyAI] {message}", this);
     }
 }
+

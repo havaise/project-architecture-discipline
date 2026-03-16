@@ -569,7 +569,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: -0.25
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!136 &4053905793999121645
@@ -592,9 +592,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 1
+  m_Height: 2.33
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1.03, z: 0}
 --- !u!54 &3771600883835423356
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -748,11 +748,48 @@ PrefabInstance:
       propertyPath: m_Name
       value: Model
       objectReference: {fileID: 0}
+    - target: {fileID: 5136903980935407743, guid: d5f3767fec037ae449081225915022e1, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 88fd5805424625046976f6c55c59c180, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2116580323422757211, guid: d5f3767fec037ae449081225915022e1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3506619192950358981}
   m_SourcePrefab: {fileID: 100100000, guid: d5f3767fec037ae449081225915022e1, type: 3}
+--- !u!95 &1215412722575007458 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5136903980935407743, guid: d5f3767fec037ae449081225915022e1, type: 3}
+  m_PrefabInstance: {fileID: 6311779049805133469}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5388674661088417734 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2116580323422757211, guid: d5f3767fec037ae449081225915022e1, type: 3}
+  m_PrefabInstance: {fileID: 6311779049805133469}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3506619192950358981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5388674661088417734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5fbd75552af6654bbe08209306cb26f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationController
+  enemyAI: {fileID: 5298783200442843815}
+  animator: {fileID: 1215412722575007458}
+  isMovingParam: IsMoving
+  moveSpeedParam: MoveSpeed
+  speedDampTime: 0.08
+  meleeAttackTriggerParam: MeleeAttackTrigger
+  rangedAttackTriggerParam: RangedAttackTrigger
+  enableDebugLogs: 0
 --- !u!4 &5999564427878234376 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 348269851332267925, guid: d5f3767fec037ae449081225915022e1, type: 3}

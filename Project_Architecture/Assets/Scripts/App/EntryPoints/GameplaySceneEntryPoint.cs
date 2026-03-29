@@ -9,7 +9,6 @@ public class GameplaySceneEntryPoint : MonoBehaviour
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PlayerCombatSystem playerCombatSystem;
     [SerializeField] private PlayerAnimationController playerAnimationController;
-    [SerializeField] private ThirdPersonCamera thirdPersonCamera;
     [SerializeField] private GameOverController gameOverController;
 
     private void Awake()
@@ -51,11 +50,6 @@ public class GameplaySceneEntryPoint : MonoBehaviour
             playerAnimationController = FindFirstObjectByType<PlayerAnimationController>();
         }
 
-        if (thirdPersonCamera == null)
-        {
-            thirdPersonCamera = FindFirstObjectByType<ThirdPersonCamera>();
-        }
-
         if (gameOverController == null)
         {
             gameOverController = FindFirstObjectByType<GameOverController>();
@@ -64,7 +58,6 @@ public class GameplaySceneEntryPoint : MonoBehaviour
         playerMovement?.SetInputService(service);
         playerCombatSystem?.SetInputService(service);
         playerAnimationController?.SetInputService(service);
-        thirdPersonCamera?.SetInputService(service);
         gameOverController?.SetInputService(service);
     }
 }

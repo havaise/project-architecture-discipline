@@ -11,7 +11,7 @@ public class PlayerCombatSystem : MonoBehaviour
     }
 
     [Header("References")]
-    [SerializeField] private InputService inputService;
+    [SerializeField] private InputService inputServiceSource;
     [SerializeField] private Transform attackOrigin;
     [SerializeField] private Camera attackCamera;
 
@@ -79,13 +79,11 @@ public class PlayerCombatSystem : MonoBehaviour
 
     private float nextPhysicalAttackTime;
     private float nextMagicAttackTime;
+    private IInputService inputService;
 
     private void Awake()
     {
-        if (inputService == null)
-        {
-            inputService = FindFirstObjectByType<InputService>();
-        }
+        ResolveInputService();
 
         if (attackOrigin == null)
         {
@@ -104,6 +102,7 @@ public class PlayerCombatSystem : MonoBehaviour
     {
         if (inputService == null)
         {
+            ResolveInputService();
             return;
         }
 
@@ -258,6 +257,26 @@ public class PlayerCombatSystem : MonoBehaviour
         }
 
         Debug.Log($"[PlayerCombatSystem] {message}", this);
+    }
+
+    public void SetInputService(IInputService service)
+    {
+        inputService = service;
+    }
+
+    private void ResolveInputService()
+    {
+        if (inputService != null)
+        {
+            return;
+        }
+
+        if (inputServiceSource == null)
+        {
+            inputServiceSource = FindFirstObjectByType<InputService>();
+        }
+
+        inputService = inputServiceSource;
     }
 }
 

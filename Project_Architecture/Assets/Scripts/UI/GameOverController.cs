@@ -5,7 +5,7 @@ public class GameOverController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private HealthComponent playerHealth;
-    [SerializeField] private InputService inputService;
+    [SerializeField] private InputService inputServiceSource;
     [SerializeField] private GameObject restartMenuRoot;
 
     [Header("Control Components To Disable")]
@@ -18,6 +18,7 @@ public class GameOverController : MonoBehaviour
     [SerializeField] private bool unlockCursorOnGameOver = true;
 
     private bool gameOverTriggered;
+    private IInputService inputService;
 
     private void Awake()
     {
@@ -66,10 +67,7 @@ public class GameOverController : MonoBehaviour
             }
         }
 
-        if (inputService == null)
-        {
-            inputService = FindFirstObjectByType<InputService>();
-        }
+        ResolveInputService();
     }
 
     private void Subscribe()
@@ -140,5 +138,25 @@ public class GameOverController : MonoBehaviour
                 component.enabled = false;
             }
         }
+    }
+
+    public void SetInputService(IInputService service)
+    {
+        inputService = service;
+    }
+
+    private void ResolveInputService()
+    {
+        if (inputService != null)
+        {
+            return;
+        }
+
+        if (inputServiceSource == null)
+        {
+            inputServiceSource = FindFirstObjectByType<InputService>();
+        }
+
+        inputService = inputServiceSource;
     }
 }

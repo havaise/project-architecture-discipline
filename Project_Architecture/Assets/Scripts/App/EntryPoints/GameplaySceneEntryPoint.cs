@@ -13,6 +13,8 @@ public class GameplaySceneEntryPoint : MonoBehaviour
 
     private void Awake()
     {
+        EnsureGameEntryPoint();
+
         if (GameEntryPoint.Services == null)
         {
             Debug.LogError("GameplaySceneEntryPoint: GameEntryPoint is not initialized.", this);
@@ -59,5 +61,22 @@ public class GameplaySceneEntryPoint : MonoBehaviour
         playerCombatSystem?.SetInputService(service);
         playerAnimationController?.SetInputService(service);
         gameOverController?.SetInputService(service);
+    }
+
+    private static void EnsureGameEntryPoint()
+    {
+        if (GameEntryPoint.Services != null)
+        {
+            return;
+        }
+
+        GameEntryPoint existing = FindFirstObjectByType<GameEntryPoint>();
+        if (existing != null)
+        {
+            return;
+        }
+
+        GameObject bootstrap = new GameObject("GameEntryPoint");
+        bootstrap.AddComponent<GameEntryPoint>();
     }
 }

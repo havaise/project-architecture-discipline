@@ -20,6 +20,8 @@ public class MainMenuSceneEntryPoint : MonoBehaviour
             return;
         }
 
+        EnsureGameEntryPoint();
+
         if (GameEntryPoint.Services == null)
         {
             Debug.LogError("MainMenuSceneEntryPoint: GameEntryPoint not initialized.", this);
@@ -41,5 +43,22 @@ public class MainMenuSceneEntryPoint : MonoBehaviour
     private void OnDestroy()
     {
         mainMenuController?.Dispose();
+    }
+
+    private static void EnsureGameEntryPoint()
+    {
+        if (GameEntryPoint.Services != null)
+        {
+            return;
+        }
+
+        GameEntryPoint existing = FindFirstObjectByType<GameEntryPoint>();
+        if (existing != null)
+        {
+            return;
+        }
+
+        GameObject bootstrap = new GameObject("GameEntryPoint");
+        bootstrap.AddComponent<GameEntryPoint>();
     }
 }

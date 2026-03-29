@@ -25,14 +25,14 @@ public sealed class PauseMenuController : IDisposable
         MonoBehaviour[] gameplayComponentsToToggle,
         string mainMenuSceneName)
     {
-        this.view = view;
-        this.inputService = inputService;
-        this.saveService = saveService;
-        this.sceneLoader = sceneLoader;
-        this.gameSessionState = gameSessionState;
+        this.view = view ?? throw new ArgumentNullException(nameof(view));
+        this.inputService = inputService ?? throw new ArgumentNullException(nameof(inputService));
+        this.saveService = saveService ?? throw new ArgumentNullException(nameof(saveService));
+        this.sceneLoader = sceneLoader ?? throw new ArgumentNullException(nameof(sceneLoader));
+        this.gameSessionState = gameSessionState ?? throw new ArgumentNullException(nameof(gameSessionState));
         this.playerTransform = playerTransform;
         this.gameplayComponentsToToggle = gameplayComponentsToToggle;
-        this.mainMenuSceneName = mainMenuSceneName;
+        this.mainMenuSceneName = string.IsNullOrWhiteSpace(mainMenuSceneName) ? "MaIn" : mainMenuSceneName;
     }
 
     public void Initialize()
@@ -111,7 +111,7 @@ public sealed class PauseMenuController : IDisposable
 
     private void OnMainMenuClicked()
     {
-        Time.timeScale = 1f;
+        ResumeIfPaused();
         sceneLoader.LoadScene(mainMenuSceneName);
     }
 
@@ -154,7 +154,7 @@ public sealed class PauseMenuController : IDisposable
         }
 
         gameSessionState.SetPendingLoadedGame(loadedData);
-        Time.timeScale = 1f;
+        ResumeIfPaused();
         sceneLoader.LoadScene(loadedData.SceneName);
     }
 }

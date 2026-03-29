@@ -119,6 +119,7 @@ public class GameplaySceneEntryPoint : MonoBehaviour
     {
         if (pauseMenuView == null)
         {
+            Debug.LogWarning("GameplaySceneEntryPoint: PauseMenuView is not assigned. ESC pause menu is disabled.", this);
             return;
         }
 

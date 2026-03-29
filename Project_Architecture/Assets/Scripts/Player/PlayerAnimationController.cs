@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerAnimationController : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private InputService inputService;
+    [SerializeField] private InputService inputServiceSource;
     [SerializeField] private PlayerCombatSystem combatSystem;
     [SerializeField] private Animator animator;
 
@@ -26,6 +26,7 @@ public class PlayerAnimationController : MonoBehaviour
     private int magicAttackTriggerHash;
 
     private bool callbacksBound;
+    private IInputService inputService;
 
     private void Awake()
     {
@@ -34,10 +35,7 @@ public class PlayerAnimationController : MonoBehaviour
             animator = GetComponent<Animator>();
         }
 
-        if (inputService == null)
-        {
-            inputService = FindFirstObjectByType<InputService>();
-        }
+        ResolveInputService();
 
         if (combatSystem == null)
         {
@@ -71,7 +69,7 @@ public class PlayerAnimationController : MonoBehaviour
 
         if (inputService == null)
         {
-            inputService = FindFirstObjectByType<InputService>();
+            ResolveInputService();
             return;
         }
 
@@ -158,5 +156,25 @@ public class PlayerAnimationController : MonoBehaviour
         }
 
         Debug.Log($"[PlayerAnimationController] {message}", this);
+    }
+
+    public void SetInputService(IInputService service)
+    {
+        inputService = service;
+    }
+
+    private void ResolveInputService()
+    {
+        if (inputService != null)
+        {
+            return;
+        }
+
+        if (inputServiceSource == null)
+        {
+            inputServiceSource = FindFirstObjectByType<InputService>();
+        }
+
+        inputService = inputServiceSource;
     }
 }

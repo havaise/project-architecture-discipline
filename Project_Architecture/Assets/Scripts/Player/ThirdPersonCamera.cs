@@ -4,7 +4,7 @@ public class ThirdPersonCamera : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform target;
-    [SerializeField] private InputService inputService;
+    [SerializeField] private InputService inputServiceSource;
 
     [Header("Orbit")]
     [SerializeField] private float distance = 6f;
@@ -15,13 +15,11 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private float yaw;
     private float pitch = 15f;
+    private IInputService inputService;
 
     private void Awake()
     {
-        if (inputService == null)
-        {
-            inputService = FindFirstObjectByType<InputService>();
-        }
+        ResolveInputService();
 
         Vector3 euler = transform.eulerAngles;
         yaw = euler.y;
@@ -45,5 +43,25 @@ public class ThirdPersonCamera : MonoBehaviour
         Vector3 cameraPosition = focusPoint - rotation * Vector3.forward * distance;
 
         transform.SetPositionAndRotation(cameraPosition, rotation);
+    }
+
+    public void SetInputService(IInputService service)
+    {
+        inputService = service;
+    }
+
+    private void ResolveInputService()
+    {
+        if (inputService != null)
+        {
+            return;
+        }
+
+        if (inputServiceSource == null)
+        {
+            inputServiceSource = FindFirstObjectByType<InputService>();
+        }
+
+        inputService = inputServiceSource;
     }
 }

@@ -1809,10 +1809,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1513189405617008229}
   - component: {fileID: 685873044775537730}
+  - component: {fileID: 3572463364378633702}
   - component: {fileID: 523815513221285209}
   - component: {fileID: 1271427639521004644}
   - component: {fileID: 2332260262428312153}
-  - component: {fileID: 3572463364378633702}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1862,6 +1862,42 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3572463364378633702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7337900913638976391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b9309896ac04fab852f4c0d5f3cd976, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatSystem
+  inputServiceSource: {fileID: 523815513221285209}
+  attackOrigin: {fileID: 1513189405617008229}
+  attackCamera: {fileID: 0}
+  physicalDamage: 20
+  physicalRange: 2.2
+  physicalRadius: 0.8
+  physicalCooldown: 1.16
+  magicDamage: 30
+  magicCooldown: 1.5
+  magicProjectilePrefab: {fileID: 7762972343197144611, guid: 39160d4c166b6f24eadfe53a31d1766e, type: 3}
+  magicProjectileSpeed: 12
+  magicProjectileLifetime: 2.5
+  magicProjectileRadius: 0.25
+  magicProjectileWaveAmplitude: 0.2
+  magicProjectileWaveFrequency: 8
+  magicSpawnSource: 2
+  customMagicSpawnPoint: {fileID: 1995460480254543801}
+  magicSpawnHeightOffset: 1
+  magicSpawnForwardOffset: 0.5
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  enableDebugLogs: 1
+  logCooldownBlocks: 0
 --- !u!114 &523815513221285209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1922,42 +1958,6 @@ MonoBehaviour:
   currentHealth: 100
   resetToMaxOnAwake: 1
   destroyOnDeath: 0
---- !u!114 &3572463364378633702
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7337900913638976391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b9309896ac04fab852f4c0d5f3cd976, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatSystem
-  inputServiceSource: {fileID: 523815513221285209}
-  attackOrigin: {fileID: 1513189405617008229}
-  attackCamera: {fileID: 0}
-  physicalDamage: 20
-  physicalRange: 2.2
-  physicalRadius: 0.8
-  physicalCooldown: 1.16
-  magicDamage: 30
-  magicCooldown: 1.5
-  magicProjectilePrefab: {fileID: 7762972343197144611, guid: 39160d4c166b6f24eadfe53a31d1766e, type: 3}
-  magicProjectileSpeed: 12
-  magicProjectileLifetime: 2.5
-  magicProjectileRadius: 0.25
-  magicProjectileWaveAmplitude: 0.2
-  magicProjectileWaveFrequency: 8
-  magicSpawnSource: 2
-  customMagicSpawnPoint: {fileID: 1995460480254543801}
-  magicSpawnHeightOffset: 1
-  magicSpawnForwardOffset: 0.5
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  enableDebugLogs: 1
-  logCooldownBlocks: 0
 --- !u!1 &7585824943166451250
 GameObject:
   m_ObjectHideFlags: 0

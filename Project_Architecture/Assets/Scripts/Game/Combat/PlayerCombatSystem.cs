@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCooldownProvider
 {
@@ -12,7 +11,6 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
     }
 
     [Header("References")]
-    [FormerlySerializedAs("inputService")]
     [SerializeField] private MonoBehaviour inputServiceSource;
     [SerializeField] private Transform attackOrigin;
     [SerializeField] private Camera attackCamera;
@@ -265,6 +263,7 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
         return InputServiceResolver.TryResolve(ref inputService, ref inputServiceSource);
     }
 }
+
 
 
 

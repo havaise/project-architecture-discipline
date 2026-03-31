@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [DisallowMultipleComponent]
@@ -7,12 +6,11 @@ using UnityEngine.UI;
 public class HealthSliderView : MonoBehaviour
 {
     [Header("References")]
-    [FormerlySerializedAs("targetHealth")]
     [SerializeField] private MonoBehaviour targetHealthSource;
     [SerializeField] private Slider slider;
     [SerializeField] private bool autoFindHealthInParent = true;
 
-    private IHealth targetHealth;
+    private HealthSliderController controller;
 
     private void Awake()
     {
@@ -21,35 +19,35 @@ public class HealthSliderView : MonoBehaviour
             slider = GetComponent<Slider>();
         }
 
-        ResolveTargetHealth();
-
-        RefreshInstant();
+        TryCreateController();
     }
 
     private void OnEnable()
     {
-        Subscribe();
-        RefreshInstant();
+        controller?.Initialize();
     }
 
     private void OnDisable()
     {
-        Unsubscribe();
+        controller?.Dispose();
+    }
+
+    private void Update()
+    {
+        if (controller == null)
+        {
+            TryCreateController();
+            controller?.Initialize();
+        }
     }
 
     public void SetTarget(MonoBehaviour healthSource)
     {
-        IHealth health = healthSource as IHealth;
-        if (targetHealth == health)
-        {
-            return;
-        }
-
-        Unsubscribe();
         targetHealthSource = healthSource;
-        targetHealth = health;
-        Subscribe();
-        RefreshInstant();
+        controller?.Dispose();
+        controller = null;
+        TryCreateController();
+        controller?.Initialize();
     }
 
     public void SetTarget(HealthComponent healthComponent)
@@ -57,43 +55,7 @@ public class HealthSliderView : MonoBehaviour
         SetTarget((MonoBehaviour)healthComponent);
     }
 
-    private void Subscribe()
-    {
-        if (targetHealth == null)
-        {
-            return;
-        }
-
-        targetHealth.HealthChanged -= OnHealthChanged;
-        targetHealth.HealthChanged += OnHealthChanged;
-    }
-
-    private void Unsubscribe()
-    {
-        if (targetHealth == null)
-        {
-            return;
-        }
-
-        targetHealth.HealthChanged -= OnHealthChanged;
-    }
-
-    private void OnHealthChanged(int current, int max)
-    {
-        UpdateSlider(current, max);
-    }
-
-    private void RefreshInstant()
-    {
-        if (slider == null || !ResolveTargetHealth())
-        {
-            return;
-        }
-
-        UpdateSlider(targetHealth.Current, targetHealth.Max);
-    }
-
-    private void UpdateSlider(int current, int max)
+    public void Render(int current, int max)
     {
         if (slider == null)
         {
@@ -105,28 +67,39 @@ public class HealthSliderView : MonoBehaviour
         slider.value = Mathf.Clamp(current, 0, slider.maxValue);
     }
 
-    private bool ResolveTargetHealth()
+    private void TryCreateController()
     {
-        if (targetHealth != null)
+        if (controller != null)
         {
-            return true;
+            return;
         }
 
-        targetHealth = targetHealthSource as IHealth;
-        if (targetHealth != null)
+        IHealth health = ResolveTargetHealth();
+        if (health == null)
         {
-            return true;
+            return;
+        }
+
+        HealthSliderModel model = new HealthSliderModel(health);
+        controller = new HealthSliderController(model, this);
+    }
+
+    private IHealth ResolveTargetHealth()
+    {
+        IHealth health = targetHealthSource as IHealth;
+        if (health != null)
+        {
+            return health;
         }
 
         if (!autoFindHealthInParent)
         {
-            return false;
+            return null;
         }
 
-        targetHealth = GetComponentInParent<IHealth>();
-        targetHealthSource = targetHealth as MonoBehaviour;
-        return targetHealth != null;
+        health = GetComponentInParent<IHealth>();
+        targetHealthSource = health as MonoBehaviour;
+        return health;
     }
 }
-
 

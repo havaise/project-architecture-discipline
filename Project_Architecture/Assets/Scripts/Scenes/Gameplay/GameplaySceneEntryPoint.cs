@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public class GameplaySceneEntryPoint : MonoBehaviour
 {
     [Header("Scene Services")]
-    [FormerlySerializedAs("inputService")]
     [SerializeField] private MonoBehaviour inputServiceSource;
     [SerializeField] private string mainMenuSceneName = "MainMenu";
 
@@ -14,6 +12,8 @@ public class GameplaySceneEntryPoint : MonoBehaviour
     [SerializeField] private PlayerCombatSystem playerCombatSystem;
     [SerializeField] private PlayerAnimationController playerAnimationController;
     [SerializeField] private GameOverController gameOverController;
+    [SerializeField] private HealthSliderView playerHealthSliderView;
+    [SerializeField] private MagicCooldownView magicCooldownView;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private PauseMenuView pauseMenuView;
     [SerializeField] private MonoBehaviour[] gameplayComponentsToToggle;
@@ -38,6 +38,7 @@ public class GameplaySceneEntryPoint : MonoBehaviour
 
         ResolveSceneComponents();
         ResolvePlayerTransform();
+        ConfigureHud();
         ApplyPendingLoadedGame();
         InitializePauseMenu();
     }
@@ -68,6 +69,17 @@ public class GameplaySceneEntryPoint : MonoBehaviour
         {
             gameOverController = FindFirstObjectByType<GameOverController>();
         }
+        
+        if (playerHealthSliderView == null)
+        {
+            playerHealthSliderView = FindFirstObjectByType<HealthSliderView>();
+        }
+
+        if (magicCooldownView == null)
+        {
+            magicCooldownView = FindFirstObjectByType<MagicCooldownView>();
+        }
+
     }
 
     private void ResolvePlayerTransform()
@@ -107,6 +119,33 @@ public class GameplaySceneEntryPoint : MonoBehaviour
         playerTransform.SetPositionAndRotation(pending.PlayerPosition, pending.PlayerRotation);
     }
 
+    private void ConfigureHud()
+    {
+        if (playerHealthSliderView != null)
+        {
+            HealthComponent playerHealth = null;
+            if (playerTransform != null)
+            {
+                playerHealth = playerTransform.GetComponentInChildren<HealthComponent>();
+            }
+
+            if (playerHealth == null)
+            {
+                playerHealth = FindFirstObjectByType<HealthComponent>();
+            }
+
+            if (playerHealth != null)
+            {
+                playerHealthSliderView.SetTarget(playerHealth);
+            }
+        }
+
+        if (magicCooldownView != null && playerCombatSystem != null)
+        {
+            magicCooldownView.SetCooldownProvider(playerCombatSystem);
+        }
+    }
+
     private void InitializePauseMenu()
     {
         if (pauseMenuView == null)
@@ -138,3 +177,4 @@ public class GameplaySceneEntryPoint : MonoBehaviour
         pauseMenuController.Initialize();
     }
 }
+

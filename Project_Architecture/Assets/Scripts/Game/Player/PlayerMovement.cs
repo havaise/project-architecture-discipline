@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
     [Header("References")]
-    [FormerlySerializedAs("inputService")]
     [SerializeField] private MonoBehaviour inputServiceSource;
     [SerializeField] private Transform cameraTransform;
 
@@ -179,6 +177,7 @@ public class PlayerMovement : MonoBehaviour
         return InputServiceResolver.TryResolve(ref inputService, ref inputServiceSource);
     }
 }
+
 
 
 

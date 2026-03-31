@@ -1,15 +1,11 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.SceneManagement;
 
 public class GameOverController : MonoBehaviour
 {
     [Header("References")]
-    [FormerlySerializedAs("playerHealth")]
     [SerializeField] private MonoBehaviour playerHealthSource;
-    [FormerlySerializedAs("inputService")]
     [SerializeField] private MonoBehaviour inputServiceSource;
-    [SerializeField] private GameObject restartMenuRoot;
+    [SerializeField] private GameOverView view;
 
     [Header("Control Components To Disable")]
     [SerializeField] private MonoBehaviour[] controlComponents;
@@ -20,44 +16,33 @@ public class GameOverController : MonoBehaviour
     [SerializeField] private bool pauseTimeOnGameOver = true;
     [SerializeField] private bool unlockCursorOnGameOver = true;
 
-    private bool gameOverTriggered;
     private IHealth playerHealth;
     private IInputService inputService;
+    private GameOverFlowController flowController;
 
     private void Awake()
     {
-        if (restartMenuRoot != null)
-        {
-            restartMenuRoot.SetActive(false);
-        }
-
         TryResolveReferences();
+        EnsureView();
+
+        flowController = new GameOverFlowController(
+            new GameOverModel(),
+            view,
+            playerHealth,
+            inputService,
+            controlComponents,
+            pauseTimeOnGameOver,
+            unlockCursorOnGameOver);
     }
 
     private void OnEnable()
     {
-        Subscribe();
+        flowController?.Initialize();
     }
 
     private void OnDisable()
     {
-        Unsubscribe();
-    }
-
-    public void RestartLevel()
-    {
-        Time.timeScale = 1f;
-        Scene activeScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(activeScene.buildIndex);
-    }
-
-    public void QuitGame()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        flowController?.Dispose();
     }
 
     private void TryResolveReferences()
@@ -81,84 +66,19 @@ public class GameOverController : MonoBehaviour
             playerHealth = playerHealthSource as IHealth;
         }
 
-        ResolveInputService();
+        InputServiceResolver.TryResolve(ref inputService, ref inputServiceSource);
     }
 
-    private void Subscribe()
+    private void EnsureView()
     {
-        if (playerHealth == null)
+        if (view == null)
         {
-            return;
+            view = GetComponentInChildren<GameOverView>(true);
         }
 
-        playerHealth.Died += OnPlayerDied;
-    }
-
-    private void Unsubscribe()
-    {
-        if (playerHealth == null)
+        if (view == null)
         {
-            return;
+            Debug.LogError("GameOverController: GameOverView is not assigned.", this);
         }
-
-        playerHealth.Died -= OnPlayerDied;
-    }
-
-    private void OnPlayerDied()
-    {
-        if (gameOverTriggered)
-        {
-            return;
-        }
-
-        gameOverTriggered = true;
-
-        if (inputService != null)
-        {
-            inputService.DisableGameplay();
-        }
-
-        DisableControls();
-
-        if (pauseTimeOnGameOver)
-        {
-            Time.timeScale = 0f;
-        }
-
-        if (restartMenuRoot != null)
-        {
-            restartMenuRoot.SetActive(true);
-        }
-
-        if (unlockCursorOnGameOver)
-        {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
-        }
-    }
-
-    private void DisableControls()
-    {
-        if (controlComponents == null)
-        {
-            return;
-        }
-
-        for (int i = 0; i < controlComponents.Length; i++)
-        {
-            MonoBehaviour component = controlComponents[i];
-            if (component != null)
-            {
-                component.enabled = false;
-            }
-        }
-    }
-
-    private bool ResolveInputService()
-    {
-        return InputServiceResolver.TryResolve(ref inputService, ref inputServiceSource);
     }
 }
-
-
-

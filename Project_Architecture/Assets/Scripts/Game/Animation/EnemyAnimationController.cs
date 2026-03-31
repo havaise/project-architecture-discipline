@@ -1,11 +1,9 @@
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
 public class EnemyAnimationController : MonoBehaviour
 {
     [Header("References")]
-    [FormerlySerializedAs("enemyAI")]
     [SerializeField] private MonoBehaviour enemyStateSource;
     [SerializeField] private MonoBehaviour enemyAttackEventsSource;
     [SerializeField] private Animator animator;
@@ -171,3 +169,4 @@ public class EnemyAnimationController : MonoBehaviour
         Debug.Log($"[EnemyAnimationController] {message}", this);
     }
 }
+

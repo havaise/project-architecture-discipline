@@ -12,8 +12,7 @@ public sealed class PauseMenuController : IDisposable
     private readonly Transform playerTransform;
     private readonly MonoBehaviour[] gameplayComponentsToToggle;
     private readonly string mainMenuSceneName;
-
-    private bool isPaused;
+    private readonly PauseMenuModel model;
 
     public PauseMenuController(
         PauseMenuView view,
@@ -33,6 +32,7 @@ public sealed class PauseMenuController : IDisposable
         this.playerTransform = playerTransform;
         this.gameplayComponentsToToggle = gameplayComponentsToToggle;
         this.mainMenuSceneName = string.IsNullOrWhiteSpace(mainMenuSceneName) ? "MainMenu" : mainMenuSceneName;
+        model = new PauseMenuModel();
     }
 
     public void Initialize()
@@ -55,7 +55,7 @@ public sealed class PauseMenuController : IDisposable
 
     private void OnPauseStarted()
     {
-        if (isPaused)
+        if (model.IsPaused)
         {
             Resume();
             return;
@@ -66,7 +66,7 @@ public sealed class PauseMenuController : IDisposable
 
     private void Pause()
     {
-        isPaused = true;
+        model.SetPaused(true);
         Time.timeScale = 0f;
         SetGameplayComponentsEnabled(false);
         Cursor.visible = true;
@@ -76,7 +76,7 @@ public sealed class PauseMenuController : IDisposable
 
     private void Resume()
     {
-        isPaused = false;
+        model.SetPaused(false);
         Time.timeScale = 1f;
         SetGameplayComponentsEnabled(true);
         view.Hide();
@@ -86,7 +86,7 @@ public sealed class PauseMenuController : IDisposable
 
     private void ResumeIfPaused()
     {
-        if (isPaused)
+        if (model.IsPaused)
         {
             Resume();
         }

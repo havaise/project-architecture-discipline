@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 public class ThirdPersonCamera : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform target;
-    [FormerlySerializedAs("inputService")]
     [SerializeField] private MonoBehaviour inputServiceSource;
 
     [Header("Orbit")]
@@ -52,6 +50,7 @@ public class ThirdPersonCamera : MonoBehaviour
         return InputServiceResolver.TryResolve(ref inputService, ref inputServiceSource);
     }
 }
+
 
 
 

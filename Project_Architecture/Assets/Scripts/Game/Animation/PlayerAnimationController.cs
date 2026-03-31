@@ -1,13 +1,10 @@
 ﻿using UnityEngine;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Animator))]
 public class PlayerAnimationController : MonoBehaviour
 {
     [Header("References")]
-    [FormerlySerializedAs("inputService")]
     [SerializeField] private MonoBehaviour inputServiceSource;
-    [FormerlySerializedAs("combatSystem")]
     [SerializeField] private MonoBehaviour combatEventsSource;
     [SerializeField] private Animator animator;
 
@@ -168,6 +165,7 @@ public class PlayerAnimationController : MonoBehaviour
         return inputService != null && combatEvents != null;
     }
 }
+
 
 
 

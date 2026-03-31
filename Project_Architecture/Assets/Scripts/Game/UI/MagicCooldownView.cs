@@ -1,52 +1,81 @@
 ﻿using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class MagicCooldownView : MonoBehaviour
 {
     [Header("References")]
-    [FormerlySerializedAs("playerCombatSystem")]
     [SerializeField] private MonoBehaviour cooldownProviderSource;
     [SerializeField] private TMP_Text cooldownText;
 
-    private IMagicCooldownProvider cooldownProvider;
+    private MagicCooldownController controller;
 
     private void Awake()
     {
-        ResolveCooldownProvider();
+        TryCreateController();
     }
 
     private void Update()
     {
-        if (cooldownText == null || !ResolveCooldownProvider())
+        if (controller == null)
+        {
+            TryCreateController();
+        }
+
+        controller?.Tick();
+    }
+
+    public void Render(float cooldownRemaining)
+    {
+        if (cooldownText == null)
         {
             return;
         }
 
-        float cooldownRemaining = cooldownProvider.MagicCooldownRemaining;
-        cooldownText.text = cooldownRemaining > 0f ? Mathf.CeilToInt(cooldownRemaining).ToString() : string.Empty;
+        cooldownText.text = cooldownRemaining > 0f
+            ? Mathf.CeilToInt(cooldownRemaining).ToString()
+            : string.Empty;
     }
 
-    private bool ResolveCooldownProvider()
+    public void SetCooldownProvider(MonoBehaviour providerSource)
     {
-        if (cooldownProvider != null)
+        cooldownProviderSource = providerSource;
+        controller = null;
+        TryCreateController();
+    }
+
+    private void TryCreateController()
+    {
+        if (controller != null)
         {
-            return true;
+            return;
         }
 
-        cooldownProvider = cooldownProviderSource as IMagicCooldownProvider;
-        if (cooldownProvider == null)
+        IMagicCooldownProvider provider = ResolveCooldownProvider();
+        if (provider == null)
         {
-            PlayerCombatSystem combatSystem = FindFirstObjectByType<PlayerCombatSystem>();
-            if (combatSystem != null)
-            {
-                cooldownProviderSource = combatSystem;
-                cooldownProvider = combatSystem;
-            }
+            return;
         }
 
-        return cooldownProvider != null;
+        MagicCooldownModel model = new MagicCooldownModel(provider);
+        controller = new MagicCooldownController(model, this);
+    }
+
+    private IMagicCooldownProvider ResolveCooldownProvider()
+    {
+        IMagicCooldownProvider provider = cooldownProviderSource as IMagicCooldownProvider;
+        if (provider != null)
+        {
+            return provider;
+        }
+
+        PlayerCombatSystem combatSystem = FindFirstObjectByType<PlayerCombatSystem>();
+        if (combatSystem == null)
+        {
+            return null;
+        }
+
+        cooldownProviderSource = combatSystem;
+        return combatSystem;
     }
 }
-
 

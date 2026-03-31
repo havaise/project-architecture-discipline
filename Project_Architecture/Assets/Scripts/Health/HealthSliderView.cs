@@ -1,4 +1,5 @@
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [DisallowMultipleComponent]
@@ -6,9 +7,12 @@ using UnityEngine.UI;
 public class HealthSliderView : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private HealthComponent targetHealth;
+    [FormerlySerializedAs("targetHealth")]
+    [SerializeField] private MonoBehaviour targetHealthSource;
     [SerializeField] private Slider slider;
     [SerializeField] private bool autoFindHealthInParent = true;
+
+    private IHealth targetHealth;
 
     private void Awake()
     {
@@ -17,10 +21,7 @@ public class HealthSliderView : MonoBehaviour
             slider = GetComponent<Slider>();
         }
 
-        if (targetHealth == null && autoFindHealthInParent)
-        {
-            targetHealth = GetComponentInParent<HealthComponent>();
-        }
+        ResolveTargetHealth();
 
         RefreshInstant();
     }
@@ -36,17 +37,24 @@ public class HealthSliderView : MonoBehaviour
         Unsubscribe();
     }
 
-    public void SetTarget(HealthComponent healthComponent)
+    public void SetTarget(MonoBehaviour healthSource)
     {
-        if (targetHealth == healthComponent)
+        IHealth health = healthSource as IHealth;
+        if (targetHealth == health)
         {
             return;
         }
 
         Unsubscribe();
-        targetHealth = healthComponent;
+        targetHealthSource = healthSource;
+        targetHealth = health;
         Subscribe();
         RefreshInstant();
+    }
+
+    public void SetTarget(HealthComponent healthComponent)
+    {
+        SetTarget((MonoBehaviour)healthComponent);
     }
 
     private void Subscribe()
@@ -77,12 +85,12 @@ public class HealthSliderView : MonoBehaviour
 
     private void RefreshInstant()
     {
-        if (slider == null || targetHealth == null)
+        if (slider == null || !ResolveTargetHealth())
         {
             return;
         }
 
-        UpdateSlider(targetHealth._current, targetHealth._max);
+        UpdateSlider(targetHealth.Current, targetHealth.Max);
     }
 
     private void UpdateSlider(int current, int max)
@@ -96,4 +104,29 @@ public class HealthSliderView : MonoBehaviour
         slider.maxValue = Mathf.Max(1, max);
         slider.value = Mathf.Clamp(current, 0, slider.maxValue);
     }
+
+    private bool ResolveTargetHealth()
+    {
+        if (targetHealth != null)
+        {
+            return true;
+        }
+
+        targetHealth = targetHealthSource as IHealth;
+        if (targetHealth != null)
+        {
+            return true;
+        }
+
+        if (!autoFindHealthInParent)
+        {
+            return false;
+        }
+
+        targetHealth = GetComponentInParent<IHealth>();
+        targetHealthSource = targetHealth as MonoBehaviour;
+        return targetHealth != null;
+    }
 }
+
+

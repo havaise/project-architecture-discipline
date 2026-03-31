@@ -1,10 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ThirdPersonCamera : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Transform target;
-    [SerializeField] private InputService inputService;
+    [FormerlySerializedAs("inputService")]
+    [SerializeField] private MonoBehaviour inputServiceSource;
 
     [Header("Orbit")]
     [SerializeField] private float distance = 6f;
@@ -15,13 +17,11 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private float yaw;
     private float pitch = 15f;
+    private IInputService inputService;
 
     private void Awake()
     {
-        if (inputService == null)
-        {
-            inputService = FindFirstObjectByType<InputService>();
-        }
+        ResolveInputService();
 
         Vector3 euler = transform.eulerAngles;
         yaw = euler.y;
@@ -30,7 +30,7 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (target == null || inputService == null)
+        if (target == null || !ResolveInputService())
         {
             return;
         }
@@ -46,4 +46,12 @@ public class ThirdPersonCamera : MonoBehaviour
 
         transform.SetPositionAndRotation(cameraPosition, rotation);
     }
+
+    private bool ResolveInputService()
+    {
+        return InputServiceResolver.TryResolve(ref inputService, ref inputServiceSource);
+    }
 }
+
+
+

@@ -98,35 +98,24 @@ public class MagicProjectile : MonoBehaviour
             + forwardDirection * (speed * aliveTime)
             + rightDirection * (Mathf.Sin(aliveTime * waveFrequency) * waveAmplitude);
 
-        Vector3 delta = position - previousPosition;
-        float distance = delta.magnitude;
-        if (distance > 0.0001f)
+        if (ProjectileCollisionUtility.TryApplyDamageAlongSegment(
+                previousPosition,
+                position,
+                hitRadius,
+                targetMask,
+                owner,
+                0f,
+                damage,
+                out RaycastHit hit))
         {
-            Vector3 direction = delta / distance;
-            if (Physics.SphereCast(previousPosition, hitRadius, direction, out RaycastHit hit, distance, targetMask, QueryTriggerInteraction.Ignore))
-            {
-                if (!IsOwner(hit.transform) && CombatDamageResolver.TryApplyDamage(hit.transform, 0f, damage))
-                {
-                    Log($"Magic projectile hit: {hit.transform.name}, dmg={damage:0.#}");
-                    Destroy(gameObject);
-                    return;
-                }
-            }
+            Log($"Magic projectile hit: {hit.transform.name}, dmg={damage:0.#}");
+            Destroy(gameObject);
+            return;
         }
 
         transform.position = position;
         transform.forward = forwardDirection;
         previousPosition = position;
-    }
-
-    private bool IsOwner(Transform hitTransform)
-    {
-        if (owner == null || hitTransform == null)
-        {
-            return false;
-        }
-
-        return hitTransform == owner || hitTransform.IsChildOf(owner) || owner.IsChildOf(hitTransform);
     }
 
     private void Log(string message)

@@ -1,28 +1,52 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MagicCooldownView : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private PlayerCombatSystem playerCombatSystem;
+    [FormerlySerializedAs("playerCombatSystem")]
+    [SerializeField] private MonoBehaviour cooldownProviderSource;
     [SerializeField] private TMP_Text cooldownText;
+
+    private IMagicCooldownProvider cooldownProvider;
 
     private void Awake()
     {
-        if (playerCombatSystem == null)
-        {
-            playerCombatSystem = FindFirstObjectByType<PlayerCombatSystem>();
-        }
+        ResolveCooldownProvider();
     }
 
     private void Update()
     {
-        if (playerCombatSystem == null || cooldownText == null)
+        if (cooldownText == null || !ResolveCooldownProvider())
         {
             return;
         }
 
-        float cooldownRemaining = playerCombatSystem.MagicCooldownRemaining;
+        float cooldownRemaining = cooldownProvider.MagicCooldownRemaining;
         cooldownText.text = cooldownRemaining > 0f ? Mathf.CeilToInt(cooldownRemaining).ToString() : string.Empty;
     }
+
+    private bool ResolveCooldownProvider()
+    {
+        if (cooldownProvider != null)
+        {
+            return true;
+        }
+
+        cooldownProvider = cooldownProviderSource as IMagicCooldownProvider;
+        if (cooldownProvider == null)
+        {
+            PlayerCombatSystem combatSystem = FindFirstObjectByType<PlayerCombatSystem>();
+            if (combatSystem != null)
+            {
+                cooldownProviderSource = combatSystem;
+                cooldownProvider = combatSystem;
+            }
+        }
+
+        return cooldownProvider != null;
+    }
 }
+
+

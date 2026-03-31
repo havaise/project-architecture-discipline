@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Animator))]
 public class EnemyAnimationController : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private EnemyAI enemyAI;
+    [FormerlySerializedAs("enemyAI")]
+    [SerializeField] private MonoBehaviour enemyStateSource;
+    [SerializeField] private MonoBehaviour enemyAttackEventsSource;
     [SerializeField] private Animator animator;
 
     [Header("Movement Params")]
@@ -24,6 +27,8 @@ public class EnemyAnimationController : MonoBehaviour
     private int meleeAttackTriggerHash;
     private int rangedAttackTriggerHash;
 
+    private IMovementStateProvider enemyStateProvider;
+    private IEnemyAttackEvents enemyAttackEvents;
     private bool callbacksBound;
 
     private void Awake()
@@ -33,10 +38,7 @@ public class EnemyAnimationController : MonoBehaviour
             animator = GetComponent<Animator>();
         }
 
-        if (enemyAI == null)
-        {
-            enemyAI = GetComponent<EnemyAI>();
-        }
+        ResolveDependencies();
 
         CacheParameterHashes();
     }
@@ -58,39 +60,73 @@ public class EnemyAnimationController : MonoBehaviour
             return;
         }
 
-        if (enemyAI == null)
+        if (!ResolveDependencies())
         {
-            enemyAI = GetComponent<EnemyAI>();
-            BindCallbacks();
             return;
         }
 
-        animator.SetBool(isMovingHash, enemyAI.IsMoving);
-        animator.SetFloat(moveSpeedHash, enemyAI.MoveSpeedNormalized, speedDampTime, Time.deltaTime);
+        animator.SetBool(isMovingHash, enemyStateProvider.IsMoving);
+        animator.SetFloat(moveSpeedHash, enemyStateProvider.MoveSpeedNormalized, speedDampTime, Time.deltaTime);
     }
 
     private void BindCallbacks()
     {
-        if (callbacksBound || enemyAI == null)
+        if (callbacksBound || enemyAttackEvents == null)
         {
             return;
         }
 
-        enemyAI.MeleeAttackPerformed += OnMeleeAttackPerformed;
-        enemyAI.RangedAttackPerformed += OnRangedAttackPerformed;
+        enemyAttackEvents.MeleeAttackPerformed += OnMeleeAttackPerformed;
+        enemyAttackEvents.RangedAttackPerformed += OnRangedAttackPerformed;
         callbacksBound = true;
     }
 
     private void UnbindCallbacks()
     {
-        if (!callbacksBound || enemyAI == null)
+        if (!callbacksBound || enemyAttackEvents == null)
         {
             return;
         }
 
-        enemyAI.MeleeAttackPerformed -= OnMeleeAttackPerformed;
-        enemyAI.RangedAttackPerformed -= OnRangedAttackPerformed;
+        enemyAttackEvents.MeleeAttackPerformed -= OnMeleeAttackPerformed;
+        enemyAttackEvents.RangedAttackPerformed -= OnRangedAttackPerformed;
         callbacksBound = false;
+    }
+
+    private bool ResolveDependencies()
+    {
+        if (enemyStateProvider == null)
+        {
+            enemyStateProvider = enemyStateSource as IMovementStateProvider;
+        }
+
+        if (enemyStateProvider == null && enemyAttackEventsSource != null)
+        {
+            enemyStateProvider = enemyAttackEventsSource as IMovementStateProvider;
+        }
+
+        if (enemyStateProvider == null)
+        {
+            enemyStateProvider = GetComponent<IMovementStateProvider>();
+        }
+
+        if (enemyAttackEvents == null)
+        {
+            enemyAttackEvents = enemyAttackEventsSource as IEnemyAttackEvents;
+        }
+
+        if (enemyAttackEvents == null && enemyStateSource != null)
+        {
+            enemyAttackEvents = enemyStateSource as IEnemyAttackEvents;
+        }
+
+        if (enemyAttackEvents == null)
+        {
+            enemyAttackEvents = GetComponent<IEnemyAttackEvents>();
+        }
+
+        BindCallbacks();
+        return enemyStateProvider != null && enemyAttackEvents != null;
     }
 
     private void OnMeleeAttackPerformed()

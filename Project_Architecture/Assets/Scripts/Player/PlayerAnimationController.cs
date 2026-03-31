@@ -1,11 +1,14 @@
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Animator))]
 public class PlayerAnimationController : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private InputService inputService;
-    [SerializeField] private PlayerCombatSystem combatSystem;
+    [FormerlySerializedAs("inputService")]
+    [SerializeField] private MonoBehaviour inputServiceSource;
+    [FormerlySerializedAs("combatSystem")]
+    [SerializeField] private MonoBehaviour combatEventsSource;
     [SerializeField] private Animator animator;
 
     [Header("Movement Params")]
@@ -25,6 +28,8 @@ public class PlayerAnimationController : MonoBehaviour
     private int physicalAttackTriggerHash;
     private int magicAttackTriggerHash;
 
+    private IInputService inputService;
+    private IPlayerCombatEvents combatEvents;
     private bool callbacksBound;
 
     private void Awake()
@@ -34,20 +39,7 @@ public class PlayerAnimationController : MonoBehaviour
             animator = GetComponent<Animator>();
         }
 
-        if (inputService == null)
-        {
-            inputService = FindFirstObjectByType<InputService>();
-        }
-
-        if (combatSystem == null)
-        {
-            combatSystem = GetComponent<PlayerCombatSystem>();
-        }
-
-        if (combatSystem == null)
-        {
-            combatSystem = FindFirstObjectByType<PlayerCombatSystem>();
-        }
+        ResolveDependencies();
 
         CacheParameterHashes();
     }
@@ -69,21 +61,9 @@ public class PlayerAnimationController : MonoBehaviour
             return;
         }
 
-        if (inputService == null)
+        if (!ResolveDependencies())
         {
-            inputService = FindFirstObjectByType<InputService>();
             return;
-        }
-
-        if (combatSystem == null)
-        {
-            combatSystem = GetComponent<PlayerCombatSystem>();
-            if (combatSystem == null)
-            {
-                combatSystem = FindFirstObjectByType<PlayerCombatSystem>();
-            }
-
-            BindCombatCallbacks();
         }
 
         Vector2 moveInput = inputService.Move;
@@ -96,25 +76,25 @@ public class PlayerAnimationController : MonoBehaviour
 
     private void BindCombatCallbacks()
     {
-        if (callbacksBound || combatSystem == null)
+        if (callbacksBound || combatEvents == null)
         {
             return;
         }
 
-        combatSystem.PhysicalAttackPerformed += OnPhysicalAttackPerformed;
-        combatSystem.MagicAttackPerformed += OnMagicAttackPerformed;
+        combatEvents.PhysicalAttackPerformed += OnPhysicalAttackPerformed;
+        combatEvents.MagicAttackPerformed += OnMagicAttackPerformed;
         callbacksBound = true;
     }
 
     private void UnbindCombatCallbacks()
     {
-        if (!callbacksBound || combatSystem == null)
+        if (!callbacksBound || combatEvents == null)
         {
             return;
         }
 
-        combatSystem.PhysicalAttackPerformed -= OnPhysicalAttackPerformed;
-        combatSystem.MagicAttackPerformed -= OnMagicAttackPerformed;
+        combatEvents.PhysicalAttackPerformed -= OnPhysicalAttackPerformed;
+        combatEvents.MagicAttackPerformed -= OnMagicAttackPerformed;
         callbacksBound = false;
     }
 
@@ -159,4 +139,35 @@ public class PlayerAnimationController : MonoBehaviour
 
         Debug.Log($"[PlayerAnimationController] {message}", this);
     }
+
+    private bool ResolveDependencies()
+    {
+        InputServiceResolver.TryResolve(ref inputService, ref inputServiceSource);
+
+        if (combatEvents == null)
+        {
+            combatEvents = combatEventsSource as IPlayerCombatEvents;
+        }
+
+        if (combatEvents == null)
+        {
+            combatEvents = GetComponent<IPlayerCombatEvents>();
+        }
+
+        if (combatEvents == null)
+        {
+            PlayerCombatSystem sceneCombatSystem = FindFirstObjectByType<PlayerCombatSystem>();
+            if (sceneCombatSystem != null)
+            {
+                combatEventsSource = sceneCombatSystem;
+                combatEvents = sceneCombatSystem;
+            }
+        }
+
+        BindCombatCallbacks();
+        return inputService != null && combatEvents != null;
+    }
 }
+
+
+

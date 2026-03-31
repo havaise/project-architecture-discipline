@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class PlayerCombatSystem : MonoBehaviour
+public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCooldownProvider
 {
     private enum MagicSpawnSource
     {
@@ -11,7 +12,8 @@ public class PlayerCombatSystem : MonoBehaviour
     }
 
     [Header("References")]
-    [SerializeField] private InputService inputService;
+    [FormerlySerializedAs("inputService")]
+    [SerializeField] private MonoBehaviour inputServiceSource;
     [SerializeField] private Transform attackOrigin;
     [SerializeField] private Camera attackCamera;
 
@@ -79,13 +81,11 @@ public class PlayerCombatSystem : MonoBehaviour
 
     private float nextPhysicalAttackTime;
     private float nextMagicAttackTime;
+    private IInputService inputService;
 
     private void Awake()
     {
-        if (inputService == null)
-        {
-            inputService = FindFirstObjectByType<InputService>();
-        }
+        ResolveInputService();
 
         if (attackOrigin == null)
         {
@@ -102,7 +102,7 @@ public class PlayerCombatSystem : MonoBehaviour
 
     private void Update()
     {
-        if (inputService == null)
+        if (!ResolveInputService())
         {
             return;
         }
@@ -259,5 +259,13 @@ public class PlayerCombatSystem : MonoBehaviour
 
         Debug.Log($"[PlayerCombatSystem] {message}", this);
     }
+
+    private bool ResolveInputService()
+    {
+        return InputServiceResolver.TryResolve(ref inputService, ref inputServiceSource);
+    }
 }
+
+
+
 

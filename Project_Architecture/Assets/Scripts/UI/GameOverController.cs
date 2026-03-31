@@ -1,11 +1,14 @@
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
 
 public class GameOverController : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private HealthComponent playerHealth;
-    [SerializeField] private InputService inputService;
+    [FormerlySerializedAs("playerHealth")]
+    [SerializeField] private MonoBehaviour playerHealthSource;
+    [FormerlySerializedAs("inputService")]
+    [SerializeField] private MonoBehaviour inputServiceSource;
     [SerializeField] private GameObject restartMenuRoot;
 
     [Header("Control Components To Disable")]
@@ -18,6 +21,8 @@ public class GameOverController : MonoBehaviour
     [SerializeField] private bool unlockCursorOnGameOver = true;
 
     private bool gameOverTriggered;
+    private IHealth playerHealth;
+    private IInputService inputService;
 
     private void Awake()
     {
@@ -62,14 +67,21 @@ public class GameOverController : MonoBehaviour
             GameObject playerObject = GameObject.FindGameObjectWithTag(playerTag);
             if (playerObject != null)
             {
-                playerHealth = playerObject.GetComponentInChildren<HealthComponent>();
+                HealthComponent healthComponent = playerObject.GetComponentInChildren<HealthComponent>();
+                if (healthComponent != null)
+                {
+                    playerHealthSource = healthComponent;
+                    playerHealth = healthComponent;
+                }
             }
         }
 
-        if (inputService == null)
+        if (playerHealth == null)
         {
-            inputService = FindFirstObjectByType<InputService>();
+            playerHealth = playerHealthSource as IHealth;
         }
+
+        ResolveInputService();
     }
 
     private void Subscribe()
@@ -141,4 +153,12 @@ public class GameOverController : MonoBehaviour
             }
         }
     }
+
+    private bool ResolveInputService()
+    {
+        return InputServiceResolver.TryResolve(ref inputService, ref inputServiceSource);
+    }
 }
+
+
+

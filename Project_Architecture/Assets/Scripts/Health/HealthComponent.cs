@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class HealthComponent : MonoBehaviour, IHealth, IDamage, IDamageable
+public class HealthComponent : MonoBehaviour, IHealth, IDamageable
 {
     [Header("Health")]
     [SerializeField] private int maxHealth = 100;
@@ -11,6 +11,8 @@ public class HealthComponent : MonoBehaviour, IHealth, IDamage, IDamageable
     [Header("Death")]
     [SerializeField] private bool destroyOnDeath;
 
+    public int Current => currentHealth;
+    public int Max => maxHealth;
     public int _current => currentHealth;
     public int _max => maxHealth;
 
@@ -22,11 +24,6 @@ public class HealthComponent : MonoBehaviour, IHealth, IDamage, IDamageable
         maxHealth = Mathf.Max(1, maxHealth);
         currentHealth = resetToMaxOnAwake ? maxHealth : Mathf.Clamp(currentHealth, 0, maxHealth);
         HealthChanged?.Invoke(currentHealth, maxHealth);
-    }
-
-    public void TakeDamage(int amount)
-    {
-        Reduce(amount);
     }
 
     public void TakeDamage(float physicalDamage, float magicDamage)
@@ -76,5 +73,10 @@ public class HealthComponent : MonoBehaviour, IHealth, IDamage, IDamageable
     public bool isDead()
     {
         return currentHealth <= 0;
+    }
+
+    public bool IsDead()
+    {
+        return isDead();
     }
 }

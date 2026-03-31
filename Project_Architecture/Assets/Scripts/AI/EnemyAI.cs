@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyAI : MonoBehaviour, IMovementStateProvider, IEnemyAttackEvents
 {
     [Header("Target")]
     [SerializeField] private Transform target;

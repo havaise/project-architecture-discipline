@@ -75,36 +75,24 @@ public class EnemyProjectile : MonoBehaviour
         }
 
         Vector3 position = previousPosition + moveDirection * (speed * Time.deltaTime);
-        Vector3 delta = position - previousPosition;
-        float distance = delta.magnitude;
-
-        if (distance > 0.0001f)
+        if (ProjectileCollisionUtility.TryApplyDamageAlongSegment(
+                previousPosition,
+                position,
+                hitRadius,
+                targetMask,
+                owner,
+                damage,
+                0f,
+                out RaycastHit hit))
         {
-            Vector3 direction = delta / distance;
-            if (Physics.SphereCast(previousPosition, hitRadius, direction, out RaycastHit hit, distance, targetMask, QueryTriggerInteraction.Ignore))
-            {
-                if (!IsOwner(hit.transform) && CombatDamageResolver.TryApplyDamage(hit.transform, damage, 0f))
-                {
-                    Log($"Projectile hit: {hit.transform.name}, dmg={damage}");
-                    Destroy(gameObject);
-                    return;
-                }
-            }
+            Log($"Projectile hit: {hit.transform.name}, dmg={damage}");
+            Destroy(gameObject);
+            return;
         }
 
         transform.position = position;
         transform.forward = moveDirection;
         previousPosition = position;
-    }
-
-    private bool IsOwner(Transform hitTransform)
-    {
-        if (owner == null || hitTransform == null)
-        {
-            return false;
-        }
-
-        return hitTransform == owner || hitTransform.IsChildOf(owner) || owner.IsChildOf(hitTransform);
     }
 
     private void Log(string message)

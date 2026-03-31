@@ -9,51 +9,30 @@ public static class CombatDamageResolver
             return false;
         }
 
-        if (TryGetDamageReceivers(target.transform, out IDamage intDamage, out IDamageable mixedDamage))
+        IDamageable damageable = FindDamageable(target.transform);
+        if (damageable == null)
         {
-            if (mixedDamage != null)
-            {
-                mixedDamage.TakeDamage(physicalDamage, magicDamage);
-                return true;
-            }
-
-            int totalDamage = Mathf.RoundToInt(Mathf.Max(0f, physicalDamage) + Mathf.Max(0f, magicDamage));
-            if (totalDamage <= 0)
-            {
-                return false;
-            }
-
-            intDamage.TakeDamage(totalDamage);
-            return true;
+            return false;
         }
 
-        return false;
+        damageable.TakeDamage(physicalDamage, magicDamage);
+        return true;
     }
 
-    private static bool TryGetDamageReceivers(Transform targetTransform, out IDamage damage, out IDamageable damageable)
+    private static IDamageable FindDamageable(Transform targetTransform)
     {
-        damage = targetTransform.GetComponent<IDamage>();
-        if (damage == null)
+        IDamageable damageable = targetTransform.GetComponent<IDamageable>();
+        if (damageable != null)
         {
-            damage = targetTransform.GetComponentInParent<IDamage>();
+            return damageable;
         }
 
-        if (damage == null)
+        damageable = targetTransform.GetComponentInParent<IDamageable>();
+        if (damageable != null)
         {
-            damage = targetTransform.GetComponentInChildren<IDamage>();
+            return damageable;
         }
 
-        damageable = targetTransform.GetComponent<IDamageable>();
-        if (damageable == null)
-        {
-            damageable = targetTransform.GetComponentInParent<IDamageable>();
-        }
-
-        if (damageable == null)
-        {
-            damageable = targetTransform.GetComponentInChildren<IDamageable>();
-        }
-
-        return damage != null || damageable != null;
+        return targetTransform.GetComponentInChildren<IDamageable>();
     }
 }

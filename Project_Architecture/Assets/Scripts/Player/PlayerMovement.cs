@@ -1,10 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private InputService inputService;
+    [FormerlySerializedAs("inputService")]
+    [SerializeField] private MonoBehaviour inputServiceSource;
     [SerializeField] private Transform cameraTransform;
 
     [Header("Movement")]
@@ -21,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool enableDebugLogs = true;
 
     private CharacterController controller;
+    private IInputService inputService;
     private float verticalVelocity;
     private bool wasMoving;
     private bool wasSprinting;
@@ -29,15 +32,12 @@ public class PlayerMovement : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
 
-        if (inputService == null)
-        {
-            inputService = FindFirstObjectByType<InputService>();
-        }
+        ResolveInputService();
     }
 
     private void Update()
     {
-        if (inputService == null)
+        if (!ResolveInputService())
         {
             return;
         }
@@ -173,4 +173,12 @@ public class PlayerMovement : MonoBehaviour
         wasMoving = isMoving;
         wasSprinting = isSprinting;
     }
+
+    private bool ResolveInputService()
+    {
+        return InputServiceResolver.TryResolve(ref inputService, ref inputServiceSource);
+    }
 }
+
+
+

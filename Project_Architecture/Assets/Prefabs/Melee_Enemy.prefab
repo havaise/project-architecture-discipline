@@ -2013,6 +2013,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4744800880320853584}
+  - component: {fileID: 2145528990443915504}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -2036,6 +2037,24 @@ Transform:
   - {fileID: 8976876248381603205}
   m_Father: {fileID: 4522544625985934105}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2145528990443915504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7227207153048562302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f074cc99a22aeb24eb03ab1893204bbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HudView
+  healthSource: {fileID: 3113195049516612055}
+  cooldownSource: {fileID: 0}
+  healthSlider: {fileID: 4817798273325908474}
+  cooldownText: {fileID: 0}
+  autoFindInParent: 1
+  autoFindInScene: 1
 --- !u!1 &7332740488128563574
 GameObject:
   m_ObjectHideFlags: 0
@@ -2152,7 +2171,6 @@ GameObject:
   m_Component:
   - component: {fileID: 900862296854065315}
   - component: {fileID: 4817798273325908474}
-  - component: {fileID: 4524752431586709458}
   m_Layer: 5
   m_Name: Health
   m_TagString: Untagged
@@ -2232,21 +2250,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4524752431586709458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7888645254719749558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dc5c28d69734ea2b9e370e2f5f79956, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthSliderView
-  targetHealthSource: {fileID: 0}
-  slider: {fileID: 0}
-  autoFindHealthInParent: 1
 --- !u!1 &8551323782694836763
 GameObject:
   m_ObjectHideFlags: 0
@@ -2258,8 +2261,8 @@ GameObject:
   - component: {fileID: 4522544625985934105}
   - component: {fileID: 1021707589157216459}
   - component: {fileID: 3771600883835423356}
-  - component: {fileID: 5298783200442843815}
   - component: {fileID: 3113195049516612055}
+  - component: {fileID: 5298783200442843815}
   - component: {fileID: 2032673920814925774}
   m_Layer: 6
   m_Name: Melee_Enemy
@@ -2334,6 +2337,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3113195049516612055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8551323782694836763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6da2f26fc9e143f4aaf1b35f4f7ff26e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
+  maxHealth: 100
+  currentHealth: 100
+  resetToMaxOnAwake: 1
+  destroyOnDeath: 1
 --- !u!114 &5298783200442843815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2378,22 +2397,6 @@ MonoBehaviour:
   configureRigidbodyForNavMesh: 1
   enableCombatDebugLogs: 0
   logCooldownBlocks: 0
---- !u!114 &3113195049516612055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8551323782694836763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6da2f26fc9e143f4aaf1b35f4f7ff26e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
-  maxHealth: 100
-  currentHealth: 100
-  resetToMaxOnAwake: 1
-  destroyOnDeath: 1
 --- !u!136 &2032673920814925774
 CapsuleCollider:
   m_ObjectHideFlags: 0

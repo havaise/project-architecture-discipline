@@ -46,6 +46,11 @@ public class GameplaySceneEntryPoint : MonoBehaviour
         pauseMenuController?.Dispose();
     }
 
+    private void Update()
+    {
+        pauseMenuController?.Tick();
+    }
+
     private void ResolveSceneComponents()
     {
         if (playerMovement == null)
@@ -153,6 +158,7 @@ public class GameplaySceneEntryPoint : MonoBehaviour
     {
         if (pauseMenuView == null)
         {
+            Debug.LogError("GameplaySceneEntryPoint: PauseMenuView is not assigned.", this);
             return;
         }
 

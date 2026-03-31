@@ -13,6 +13,7 @@ public sealed class PauseMenuController : IDisposable
     private readonly MonoBehaviour[] gameplayComponentsToToggle;
     private readonly string mainMenuSceneName;
     private readonly PauseMenuModel model;
+    private int lastPauseToggleFrame = -1;
 
     public PauseMenuController(
         PauseMenuView view,
@@ -53,8 +54,28 @@ public sealed class PauseMenuController : IDisposable
         ResumeIfPaused();
     }
 
+    public void Tick()
+    {
+        if (inputService.IsPausePressed())
+        {
+            HandlePauseToggleRequested();
+        }
+    }
+
     private void OnPauseStarted()
     {
+        HandlePauseToggleRequested();
+    }
+
+    private void HandlePauseToggleRequested()
+    {
+        if (lastPauseToggleFrame == Time.frameCount)
+        {
+            return;
+        }
+
+        lastPauseToggleFrame = Time.frameCount;
+
         if (model.IsPaused)
         {
             Resume();

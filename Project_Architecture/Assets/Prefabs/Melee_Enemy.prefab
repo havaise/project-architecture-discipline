@@ -1255,7 +1255,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5fbd75552af6654bbe08209306cb26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationController
-  enemyAI: {fileID: 5298783200442843815}
+  enemyStateSource: {fileID: 5298783200442843815}
+  enemyAttackEventsSource: {fileID: 0}
   animator: {fileID: 4103029190647617822}
   isMovingParam: IsMoving
   moveSpeedParam: MoveSpeed
@@ -2243,7 +2244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dc5c28d69734ea2b9e370e2f5f79956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSliderView
-  targetHealth: {fileID: 0}
+  targetHealthSource: {fileID: 0}
   slider: {fileID: 0}
   autoFindHealthInParent: 1
 --- !u!1 &8551323782694836763
@@ -2259,7 +2260,6 @@ GameObject:
   - component: {fileID: 3771600883835423356}
   - component: {fileID: 5298783200442843815}
   - component: {fileID: 3113195049516612055}
-  - component: {fileID: 3711027945702503852}
   - component: {fileID: 2032673920814925774}
   m_Layer: 6
   m_Name: Melee_Enemy
@@ -2360,9 +2360,21 @@ MonoBehaviour:
   moveSpeed: 5
   rotationSpeed: 10
   idleTurnSpeed: 60
-  attackRange: 2.2
+  attackMode: 0
+  damage: 10
+  meleeAttackRange: 1.8
+  rangedAttackRange: 10
   attackCooldown: 1.2
-  fallbackDamage: 10
+  projectilePrefab: {fileID: 0}
+  projectileSpawnPoint: {fileID: 0}
+  projectileSpeed: 14
+  projectileLifetime: 3
+  projectileRadius: 0.2
+  projectileSpawnHeightOffset: 1.2
+  projectileSpawnForwardOffset: 0.4
+  projectileHitMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
   configureRigidbodyForNavMesh: 1
   enableCombatDebugLogs: 0
   logCooldownBlocks: 0
@@ -2382,20 +2394,6 @@ MonoBehaviour:
   currentHealth: 100
   resetToMaxOnAwake: 1
   destroyOnDeath: 1
---- !u!114 &3711027945702503852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8551323782694836763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a1f1862516e87140b754af816115e4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MeleeMob
-  damage: 10
-  attackRange: 2
 --- !u!136 &2032673920814925774
 CapsuleCollider:
   m_ObjectHideFlags: 0

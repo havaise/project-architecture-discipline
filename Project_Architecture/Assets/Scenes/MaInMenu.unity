@@ -325,12 +325,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 573193949}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 102.07365, y: -0, z: 285.05594}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 17323.47, y: -0.00002, z: -48095.457}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1621003975}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &573193952
 MonoBehaviour:
@@ -491,7 +491,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 853620545}
-  - component: {fileID: 853620546}
   m_Layer: 5
   m_Name: Main
   m_TagString: Untagged
@@ -520,21 +519,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &853620546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 853620544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2de5f148bb746b4d8b1a003882063b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MainMenuView
-  root: {fileID: 853620544}
-  playButton: {fileID: 1190510976}
-  settingsButton: {fileID: 1753472363}
 --- !u!1 &887702751
 GameObject:
   m_ObjectHideFlags: 0
@@ -941,6 +925,39 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &1621003974
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1621003975}
+  m_Layer: 0
+  m_Name: Entrypoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1621003975
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1621003974}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -17221.396, y: 0.00002, z: 48380.51}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1747613779}
+  - {fileID: 573193951}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1747613777
 GameObject:
   m_ObjectHideFlags: 0
@@ -971,8 +988,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MainMenuSceneEntryPoint
   gameplaySceneName: MainScene
-  mainMenuView: {fileID: 853620546}
-  settingsMenuView: {fileID: 4395604622832627234}
+  mainMenuView: {fileID: 2066876280}
+  settingsMenuView: {fileID: 2066876279}
 --- !u!4 &1747613779
 Transform:
   m_ObjectHideFlags: 0
@@ -981,12 +998,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1747613777}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17221.451, y: 0.00002, z: 48380.633}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.0546875, y: 0, z: 0.12109375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1621003975}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1753472360
 PrefabInstance:
@@ -1185,6 +1202,8 @@ GameObject:
   - component: {fileID: 2066876277}
   - component: {fileID: 2066876276}
   - component: {fileID: 2066876275}
+  - component: {fileID: 2066876279}
+  - component: {fileID: 2066876280}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1278,6 +1297,36 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &2066876279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066876274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c1c2275b0163ce4380a6c97262cd75d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SettingsMenuView
+  root: {fileID: 4395604622832627232}
+  sfxVolumeSlider: {fileID: 4395604623054780981}
+  backButton: {fileID: 410501603}
+--- !u!114 &2066876280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066876274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2de5f148bb746b4d8b1a003882063b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainMenuView
+  root: {fileID: 853620544}
+  playButton: {fileID: 1190510976}
+  settingsButton: {fileID: 1753472363}
 --- !u!1 &4395604622548388505
 GameObject:
   m_ObjectHideFlags: 0
@@ -1470,7 +1519,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4395604622832627233}
-  - component: {fileID: 4395604622832627234}
   m_Layer: 5
   m_Name: Setting
   m_TagString: Untagged
@@ -1499,21 +1547,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4395604622832627234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4395604622832627232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c1c2275b0163ce4380a6c97262cd75d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SettingsMenuView
-  root: {fileID: 4395604622832627232}
-  sfxVolumeSlider: {fileID: 4395604623054780981}
-  backButton: {fileID: 410501603}
 --- !u!1 &4395604622957991547
 GameObject:
   m_ObjectHideFlags: 0
@@ -2520,5 +2553,4 @@ SceneRoots:
   - {fileID: 1361233662}
   - {fileID: 2066876278}
   - {fileID: 887702754}
-  - {fileID: 1747613779}
-  - {fileID: 573193951}
+  - {fileID: 1621003975}

@@ -2,7 +2,7 @@
 
 public abstract class PanelViewBase : MonoBehaviour
 {
-    [SerializeField] private GameObject root;
+    [SerializeField] protected GameObject root;
 
     protected virtual void Awake()
     {

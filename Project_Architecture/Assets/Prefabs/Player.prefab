@@ -1402,7 +1402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationController
   inputServiceSource: {fileID: 523815513221285209}
-  combatEventsSource: {fileID: 0}
+  combatEventsSource: {fileID: 3572463364378633702}
   animator: {fileID: 8047600474782730236}
   isMovingParam: IsMoving
   moveSpeedParam: MoveSpeed
@@ -1810,9 +1810,9 @@ GameObject:
   - component: {fileID: 1513189405617008229}
   - component: {fileID: 685873044775537730}
   - component: {fileID: 3572463364378633702}
+  - component: {fileID: 2332260262428312153}
   - component: {fileID: 523815513221285209}
   - component: {fileID: 1271427639521004644}
-  - component: {fileID: 2332260262428312153}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1898,6 +1898,22 @@ MonoBehaviour:
     m_Bits: 4294967295
   enableDebugLogs: 1
   logCooldownBlocks: 0
+--- !u!114 &2332260262428312153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7337900913638976391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6da2f26fc9e143f4aaf1b35f4f7ff26e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
+  maxHealth: 100
+  currentHealth: 100
+  resetToMaxOnAwake: 1
+  destroyOnDeath: 0
 --- !u!114 &523815513221285209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1942,22 +1958,6 @@ MonoBehaviour:
   jumpHeight: 1.5
   gravity: -9.81
   enableDebugLogs: 1
---- !u!114 &2332260262428312153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7337900913638976391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6da2f26fc9e143f4aaf1b35f4f7ff26e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
-  maxHealth: 100
-  currentHealth: 100
-  resetToMaxOnAwake: 1
-  destroyOnDeath: 0
 --- !u!1 &7585824943166451250
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,7 +23,16 @@ public class GameOverController : MonoBehaviour
     private void Awake()
     {
         TryResolveReferences();
-        EnsureView();
+        if (!EnsureView())
+        {
+            return;
+        }
+
+        if (playerHealth == null)
+        {
+            Debug.LogError("GameOverController: Player health source is not assigned.", this);
+            return;
+        }
 
         flowController = new GameOverFlowController(
             new GameOverModel(),
@@ -69,7 +78,7 @@ public class GameOverController : MonoBehaviour
         InputServiceResolver.TryResolve(ref inputService, ref inputServiceSource);
     }
 
-    private void EnsureView()
+    private bool EnsureView()
     {
         if (view == null)
         {
@@ -79,6 +88,9 @@ public class GameOverController : MonoBehaviour
         if (view == null)
         {
             Debug.LogError("GameOverController: GameOverView is not assigned.", this);
+            return false;
         }
+
+        return true;
     }
 }

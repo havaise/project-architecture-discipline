@@ -13,8 +13,6 @@ public class HealthComponent : MonoBehaviour, IHealth, IDamageable
 
     public int Current => currentHealth;
     public int Max => maxHealth;
-    public int _current => currentHealth;
-    public int _max => maxHealth;
 
     public event Action<int, int> HealthChanged;
     public event Action Died;
@@ -34,7 +32,7 @@ public class HealthComponent : MonoBehaviour, IHealth, IDamageable
 
     public void Reduce(int count)
     {
-        if (count <= 0 || isDead())
+        if (count <= 0 || IsDead())
         {
             return;
         }
@@ -42,7 +40,7 @@ public class HealthComponent : MonoBehaviour, IHealth, IDamageable
         currentHealth = Mathf.Max(0, currentHealth - count);
         HealthChanged?.Invoke(currentHealth, maxHealth);
 
-        if (isDead())
+        if (IsDead())
         {
             Died?.Invoke();
 
@@ -55,7 +53,7 @@ public class HealthComponent : MonoBehaviour, IHealth, IDamageable
 
     public void Heal(int amount)
     {
-        if (amount <= 0 || isDead())
+        if (amount <= 0 || IsDead())
         {
             return;
         }
@@ -70,13 +68,8 @@ public class HealthComponent : MonoBehaviour, IHealth, IDamageable
         HealthChanged?.Invoke(currentHealth, maxHealth);
     }
 
-    public bool isDead()
-    {
-        return currentHealth <= 0;
-    }
-
     public bool IsDead()
     {
-        return isDead();
+        return currentHealth <= 0;
     }
 }

@@ -41,6 +41,15 @@ public sealed class JsonFileSaveService : ISaveService
                 return false;
             }
 
+            if (loaded.Player == null)
+            {
+                loaded.Player = new PlayerSaveData
+                {
+                    Position = loaded.PlayerPosition,
+                    Rotation = loaded.PlayerRotation
+                };
+            }
+
             data = loaded;
             return true;
         }

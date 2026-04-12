@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCooldownProvider
@@ -48,38 +48,12 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
     public event Action MagicAttackPerformed;
 
     public float MagicCooldownDuration => magicCooldown;
-
-    public float MagicCooldownRemaining
-    {
-        get
-        {
-            if (nextMagicAttackTime <= Time.time)
-            {
-                return 0f;
-            }
-
-            return nextMagicAttackTime - Time.time;
-        }
-    }
-
-    public float MagicCooldownNormalized
-    {
-        get
-        {
-            if (magicCooldown <= 0.0001f)
-            {
-                return 0f;
-            }
-
-            return Mathf.Clamp01(MagicCooldownRemaining / magicCooldown);
-        }
-    }
-
+    public float MagicCooldownRemaining => combatModel != null ? combatModel.GetMagicCooldownRemaining(Time.time) : 0f;
+    public float MagicCooldownNormalized => combatModel != null ? combatModel.GetMagicCooldownNormalized(Time.time) : 0f;
     public bool IsMagicReady => MagicCooldownRemaining <= 0f;
 
-    private float nextPhysicalAttackTime;
-    private float nextMagicAttackTime;
     private IInputService inputService;
+    private PlayerCombatModel combatModel;
 
     private void Awake()
     {
@@ -95,12 +69,13 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
             attackCamera = Camera.main;
         }
 
+        combatModel = new PlayerCombatModel(physicalCooldown, magicCooldown);
         Log("Combat system initialized.");
     }
 
     private void Update()
     {
-        if (!ResolveInputService())
+        if (!ResolveInputService() || combatModel == null)
         {
             return;
         }
@@ -120,17 +95,16 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
 
     private void TryPhysicalAttack()
     {
-        if (Time.time < nextPhysicalAttackTime)
+        if (!combatModel.TryStartPhysicalAttack(Time.time, out float cooldownRemaining))
         {
             if (logCooldownBlocks)
             {
-                Log($"Physical blocked by cooldown: {(nextPhysicalAttackTime - Time.time):0.00}s left.");
+                Log($"Physical blocked by cooldown: {cooldownRemaining:0.00}s left.");
             }
 
             return;
         }
 
-        nextPhysicalAttackTime = Time.time + physicalCooldown;
         PhysicalAttackPerformed?.Invoke();
 
         Vector3 origin = attackOrigin.position + Vector3.up * 1.0f;
@@ -171,24 +145,21 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
 
     private void TryMagicAttack()
     {
-        if (Time.time < nextMagicAttackTime)
-        {
-            if (logCooldownBlocks)
-            {
-                Log($"Magic blocked by cooldown: {(nextMagicAttackTime - Time.time):0.00}s left.");
-            }
-
-            return;
-        }
-
         if (magicProjectilePrefab == null)
         {
             Log("Magic projectile prefab is not assigned.");
             return;
         }
 
-        nextMagicAttackTime = Time.time + magicCooldown;
+        if (!combatModel.TryStartMagicAttack(Time.time, out float cooldownRemaining))
+        {
+            if (logCooldownBlocks)
+            {
+                Log($"Magic blocked by cooldown: {cooldownRemaining:0.00}s left.");
+            }
 
+            return;
+        }
         Vector3 direction = GetForwardDirection();
         Vector3 spawnPosition = GetMagicSpawnPosition(direction);
         Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
@@ -263,8 +234,3 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
         return InputServiceResolver.TryResolve(ref inputService, ref inputServiceSource);
     }
 }
-
-
-
-
-

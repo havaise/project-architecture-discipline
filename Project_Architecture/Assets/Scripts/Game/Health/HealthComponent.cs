@@ -11,65 +11,67 @@ public class HealthComponent : MonoBehaviour, IHealth, IDamageable
     [Header("Death")]
     [SerializeField] private bool destroyOnDeath;
 
-    public int Current => currentHealth;
-    public int Max => maxHealth;
+    private readonly HealthModel model = new HealthModel();
+
+    public int Current => model.Current;
+    public int Max => model.Max;
 
     public event Action<int, int> HealthChanged;
     public event Action Died;
 
     private void Awake()
     {
-        maxHealth = Mathf.Max(1, maxHealth);
-        currentHealth = resetToMaxOnAwake ? maxHealth : Mathf.Clamp(currentHealth, 0, maxHealth);
-        HealthChanged?.Invoke(currentHealth, maxHealth);
+        model.HealthChanged += OnHealthChanged;
+        model.Died += OnDied;
+        model.Initialize(maxHealth, currentHealth, resetToMaxOnAwake);
+    }
+
+    private void OnDestroy()
+    {
+        model.HealthChanged -= OnHealthChanged;
+        model.Died -= OnDied;
     }
 
     public void TakeDamage(float physicalDamage, float magicDamage)
     {
         int totalDamage = Mathf.RoundToInt(Mathf.Max(0f, physicalDamage) + Mathf.Max(0f, magicDamage));
-        Reduce(totalDamage);
+        model.Reduce(totalDamage);
     }
 
     public void Reduce(int count)
     {
-        if (count <= 0 || IsDead())
-        {
-            return;
-        }
-
-        currentHealth = Mathf.Max(0, currentHealth - count);
-        HealthChanged?.Invoke(currentHealth, maxHealth);
-
-        if (IsDead())
-        {
-            Died?.Invoke();
-
-            if (destroyOnDeath)
-            {
-                Destroy(gameObject);
-            }
-        }
+        model.Reduce(count);
     }
 
     public void Heal(int amount)
     {
-        if (amount <= 0 || IsDead())
-        {
-            return;
-        }
+        model.Heal(amount);
+    }
 
-        int newHealth = Mathf.Min(maxHealth, currentHealth + amount);
-        if (newHealth == currentHealth)
-        {
-            return;
-        }
-
-        currentHealth = newHealth;
-        HealthChanged?.Invoke(currentHealth, maxHealth);
+    public void SetCurrent(int value)
+    {
+        model.SetCurrent(value);
     }
 
     public bool IsDead()
     {
-        return currentHealth <= 0;
+        return model.IsDead();
+    }
+
+    private void OnHealthChanged(int current, int max)
+    {
+        currentHealth = current;
+        maxHealth = max;
+        HealthChanged?.Invoke(current, max);
+    }
+
+    private void OnDied()
+    {
+        Died?.Invoke();
+
+        if (destroyOnDeath)
+        {
+            Destroy(gameObject);
+        }
     }
 }

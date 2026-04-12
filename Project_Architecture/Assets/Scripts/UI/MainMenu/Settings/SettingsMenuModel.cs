@@ -1,15 +1,28 @@
-﻿public sealed class SettingsMenuModel
+public sealed class SettingsMenuModel
 {
     private readonly IAudioService audioService;
+    private readonly ISettingsRepository settingsRepository;
+    private readonly SettingsData settingsData;
 
-    public SettingsMenuModel(IAudioService audioService)
+    public SettingsMenuModel(IAudioService audioService, ISettingsRepository settingsRepository)
     {
         this.audioService = audioService;
+        this.settingsRepository = settingsRepository;
+
+        settingsData = settingsRepository.Load().Clamp();
+        this.audioService.SfxVolume = settingsData.SfxVolume;
     }
 
     public float SfxVolume
     {
-        get => audioService.SfxVolume;
-        set => audioService.SfxVolume = value;
+        get => settingsData.SfxVolume;
+        set
+        {
+            settingsData.SfxVolume = value;
+            settingsData.Clamp();
+
+            audioService.SfxVolume = settingsData.SfxVolume;
+            settingsRepository.Save(settingsData);
+        }
     }
 }

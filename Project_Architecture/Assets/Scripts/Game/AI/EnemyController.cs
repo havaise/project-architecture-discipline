@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -55,21 +55,18 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
     public event Action MeleeAttackPerformed;
     public event Action RangedAttackPerformed;
 
-    public bool IsMoving => isMoving;
-    public float MoveSpeedNormalized => moveSpeedNormalized;
+    public bool IsMoving => aiModel != null && aiModel.IsMoving;
+    public float MoveSpeedNormalized => aiModel != null ? aiModel.MoveSpeedNormalized : 0f;
 
     private NavMeshAgent navMeshAgent;
     private Rigidbody body;
-    private float nextAttackTime;
-    private float visibleUntilTime;
-    private Vector3 lastKnownTargetPosition;
-    private bool isMoving;
-    private float moveSpeedNormalized;
+    private EnemyAiModel aiModel;
 
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         body = GetComponent<Rigidbody>();
+        aiModel = new EnemyAiModel(visibilityMemoryDuration, attackCooldown);
 
         ConfigurePhysics();
 
@@ -96,11 +93,10 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         bool canSeeTarget = CanSeeTarget();
         if (canSeeTarget)
         {
-            visibleUntilTime = Time.time + visibilityMemoryDuration;
-            lastKnownTargetPosition = target.position;
+            aiModel.RememberTarget(target.position, Time.time);
         }
 
-        bool targetRemembered = Time.time <= visibleUntilTime;
+        bool targetRemembered = aiModel.HasMemory(Time.time);
         if (!canSeeTarget && !targetRemembered)
         {
             StopChasing();
@@ -110,7 +106,7 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
 
         if (!canSeeTarget || !IsTargetInAttackRange())
         {
-            Vector3 chasePoint = canSeeTarget ? target.position : lastKnownTargetPosition;
+            Vector3 chasePoint = aiModel.GetChasePoint(target.position, canSeeTarget);
             ChaseTarget(chasePoint);
             return;
         }
@@ -157,8 +153,7 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         if (taggedPlayer != null)
         {
             target = taggedPlayer.transform;
-            lastKnownTargetPosition = target.position;
-            visibleUntilTime = Time.time;
+            aiModel.RememberTarget(target.position, Time.time);
             return;
         }
 
@@ -166,8 +161,7 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         if (playerMovement != null)
         {
             target = playerMovement.transform;
-            lastKnownTargetPosition = target.position;
-            visibleUntilTime = Time.time;
+            aiModel.RememberTarget(target.position, Time.time);
         }
     }
 
@@ -225,7 +219,6 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         }
 
         float range = attackMode == AttackMode.Ranged ? rangedAttackRange : meleeAttackRange;
-
         return Vector3.Distance(transform.position, target.position) <= range;
     }
 
@@ -254,7 +247,7 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
                 }
             }
 
-            SetMoveState(speed01 > 0.01f, speed01);
+            aiModel.SetMoveState(speed01 > 0.01f, speed01);
             return;
         }
 
@@ -263,7 +256,7 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
 
         if (toTarget.sqrMagnitude <= 0.0001f)
         {
-            SetMoveState(false, 0f);
+            aiModel.SetMoveState(false, 0f);
             return;
         }
 
@@ -273,12 +266,12 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-        SetMoveState(true, 1f);
+        aiModel.SetMoveState(true, 1f);
     }
 
     private void StopChasing()
     {
-        SetMoveState(false, 0f);
+        aiModel.SetMoveState(false, 0f);
 
         if (!UseNavMeshAgent())
         {
@@ -301,17 +294,15 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
             return;
         }
 
-        if (Time.time < nextAttackTime)
+        if (!aiModel.TryConsumeAttack(Time.time, out float cooldownRemaining))
         {
             if (logCooldownBlocks)
             {
-                Log($"Attack blocked by cooldown: {(nextAttackTime - Time.time):0.00}s left.");
+                Log($"Attack blocked by cooldown: {cooldownRemaining:0.00}s left.");
             }
 
             return;
         }
-
-        nextAttackTime = Time.time + attackCooldown;
 
         if (attackMode == AttackMode.Ranged)
         {
@@ -403,12 +394,6 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         return transform.position
             + Vector3.up * projectileSpawnHeightOffset
             + transform.forward * projectileSpawnForwardOffset;
-    }
-
-    private void SetMoveState(bool moving, float speed01)
-    {
-        isMoving = moving;
-        moveSpeedNormalized = Mathf.Clamp01(speed01);
     }
 
     private void Log(string message)

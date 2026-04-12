@@ -5,16 +5,19 @@ public sealed class MainMenuController : IDisposable
     private readonly MainMenuView mainMenuView;
     private readonly SettingsMenuController settingsMenuController;
     private readonly ISceneLoader sceneLoader;
+    private readonly IGameSaveInteractor gameSaveInteractor;
     private readonly string gameplaySceneName;
 
     public MainMenuController(
         MainMenuView mainMenuView,
         SettingsMenuController settingsMenuController,
+        IGameSaveInteractor gameSaveInteractor,
         ISceneLoader sceneLoader,
         string gameplaySceneName)
     {
         this.mainMenuView = mainMenuView;
         this.settingsMenuController = settingsMenuController;
+        this.gameSaveInteractor = gameSaveInteractor;
         this.sceneLoader = sceneLoader;
         this.gameplaySceneName = gameplaySceneName;
     }
@@ -22,6 +25,7 @@ public sealed class MainMenuController : IDisposable
     public void Initialize()
     {
         mainMenuView.PlayClicked += OnPlayClicked;
+        mainMenuView.LoadClicked += OnLoadClicked;
         mainMenuView.SettingsClicked += OnSettingsClicked;
         settingsMenuController.BackRequested += OnSettingsBack;
 
@@ -32,6 +36,7 @@ public sealed class MainMenuController : IDisposable
     public void Dispose()
     {
         mainMenuView.PlayClicked -= OnPlayClicked;
+        mainMenuView.LoadClicked -= OnLoadClicked;
         mainMenuView.SettingsClicked -= OnSettingsClicked;
         settingsMenuController.BackRequested -= OnSettingsBack;
         settingsMenuController.Dispose();
@@ -40,6 +45,14 @@ public sealed class MainMenuController : IDisposable
     private void OnPlayClicked()
     {
         sceneLoader.LoadScene(gameplaySceneName);
+    }
+
+    private void OnLoadClicked()
+    {
+        if (!gameSaveInteractor.LoadGame())
+        {
+            UnityEngine.Debug.LogWarning("MainMenuController: save file not found.");
+        }
     }
 
     private void OnSettingsClicked()

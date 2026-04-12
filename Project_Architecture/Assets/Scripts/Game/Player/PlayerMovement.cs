@@ -4,7 +4,6 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private MonoBehaviour inputServiceSource;
     [SerializeField] private Transform cameraTransform;
 
     [Header("Movement")]
@@ -21,8 +20,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool enableDebugLogs = true;
 
     private CharacterController controller;
-    private IInputService inputService;
     private PlayerMovementModel movementModel;
+    private PlayerModel lastFrameInput;
     private float verticalVelocity;
 
     private void Awake()
@@ -35,29 +34,27 @@ public class PlayerMovement : MonoBehaviour
             rotationSpeed,
             jumpHeight,
             gravity);
-
-        ResolveInputService();
     }
 
-    private void Update()
+    public void ProcessFrame(PlayerModel input)
     {
-        if (!ResolveInputService())
+        if (input == null)
         {
             return;
         }
 
-        Vector2 input = inputService.Move;
+        lastFrameInput = input;
+
         Vector3 forward = cameraTransform != null ? cameraTransform.forward : transform.forward;
         Vector3 right = cameraTransform != null ? cameraTransform.right : transform.right;
-        Vector3 moveDirection = movementModel.GetMoveDirection(input, forward, right);
+        Vector3 moveDirection = movementModel.GetMoveDirection(input.MoveInput, forward, right);
 
-        bool isSprinting = inputService.IsSprintPressed();
-        float currentSpeed = movementModel.GetHorizontalSpeed(isSprinting);
+        float currentSpeed = movementModel.GetHorizontalSpeed(input.IsSprinting);
 
         verticalVelocity = movementModel.UpdateVerticalVelocity(
             verticalVelocity,
             controller.isGrounded,
-            inputService.IsJumpPressed(),
+            input.JumpPressed,
             Time.deltaTime);
 
         Vector3 totalVelocity = movementModel.BuildVelocity(moveDirection, currentSpeed, verticalVelocity);
@@ -72,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = nextRotation;
         }
 
-        HandleDebug(moveDirection, isSprinting, currentSpeed);
+        HandleDebug(moveDirection, input.IsSprinting, currentSpeed);
     }
 
     private void HandleDebug(Vector3 moveDirection, bool isSprinting, float currentSpeed)
@@ -94,19 +91,14 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (inputService.IsPhysicalAttackPressed())
+        if (lastFrameInput != null && lastFrameInput.PhysicalAttackPressed)
         {
             Debug.Log("[PlayerMovement] LMB pressed -> Physical attack.", this);
         }
 
-        if (inputService.IsMagicAttackPressed())
+        if (lastFrameInput != null && lastFrameInput.MagicAttackPressed)
         {
             Debug.Log("[PlayerMovement] RMB pressed -> Magic attack.", this);
         }
-    }
-
-    private bool ResolveInputService()
-    {
-        return InputServiceResolver.TryResolve(ref inputService, ref inputServiceSource);
     }
 }

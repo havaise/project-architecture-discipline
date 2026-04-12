@@ -9,6 +9,8 @@ public class GameplaySceneEntryPoint : MonoBehaviour
     [Header("Scene Components")]
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PlayerCombatSystem playerCombatSystem;
+    [SerializeField] private PlayerController playerController;
+    [SerializeField] private PlayerView playerView;
     [SerializeField] private PlayerAnimationController playerAnimationController;
     [SerializeField] private GameOverController gameOverController;
     [SerializeField] private HudView hudView;
@@ -36,6 +38,7 @@ public class GameplaySceneEntryPoint : MonoBehaviour
 
         ResolveSceneComponents();
         ResolvePlayerTransform();
+        InitializePlayerMvc();
         ConfigureHud();
         InitializeGameSaveInteractor();
         gameSaveInteractor?.ApplyPendingLoadedGame();
@@ -62,6 +65,16 @@ public class GameplaySceneEntryPoint : MonoBehaviour
         if (playerCombatSystem == null)
         {
             playerCombatSystem = FindFirstObjectByType<PlayerCombatSystem>();
+        }
+
+        if (playerController == null)
+        {
+            playerController = FindFirstObjectByType<PlayerController>();
+        }
+
+        if (playerView == null)
+        {
+            playerView = FindFirstObjectByType<PlayerView>();
         }
 
         if (playerAnimationController == null)
@@ -98,6 +111,34 @@ public class GameplaySceneEntryPoint : MonoBehaviour
         {
             playerTransform = movement.transform;
         }
+    }
+
+    private void InitializePlayerMvc()
+    {
+        if (playerTransform == null)
+        {
+            return;
+        }
+
+        if (playerView == null)
+        {
+            playerView = playerTransform.GetComponent<PlayerView>();
+            if (playerView == null)
+            {
+                playerView = playerTransform.gameObject.AddComponent<PlayerView>();
+            }
+        }
+
+        if (playerController == null)
+        {
+            playerController = playerTransform.GetComponent<PlayerController>();
+            if (playerController == null)
+            {
+                playerController = playerTransform.gameObject.AddComponent<PlayerController>();
+            }
+        }
+
+        playerController.Initialize(inputService);
     }
 
     private void InitializeGameSaveInteractor()
@@ -219,6 +260,7 @@ public class GameplaySceneEntryPoint : MonoBehaviour
         {
             componentsToToggle = new MonoBehaviour[]
             {
+                playerController,
                 playerMovement,
                 playerCombatSystem,
                 playerAnimationController

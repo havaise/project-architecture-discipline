@@ -11,7 +11,6 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
     }
 
     [Header("References")]
-    [SerializeField] private MonoBehaviour inputServiceSource;
     [SerializeField] private Transform attackOrigin;
     [SerializeField] private Camera attackCamera;
 
@@ -52,13 +51,10 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
     public float MagicCooldownNormalized => combatModel != null ? combatModel.GetMagicCooldownNormalized(Time.time) : 0f;
     public bool IsMagicReady => MagicCooldownRemaining <= 0f;
 
-    private IInputService inputService;
     private PlayerCombatModel combatModel;
 
     private void Awake()
     {
-        ResolveInputService();
-
         if (attackOrigin == null)
         {
             attackOrigin = transform;
@@ -73,20 +69,20 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
         Log("Combat system initialized.");
     }
 
-    private void Update()
+    public void ProcessFrame(PlayerModel input)
     {
-        if (!ResolveInputService() || combatModel == null)
+        if (combatModel == null || input == null)
         {
             return;
         }
 
-        if (inputService.IsPhysicalAttackPressed())
+        if (input.PhysicalAttackPressed)
         {
             Log("LMB pressed -> physical attack request.");
             TryPhysicalAttack();
         }
 
-        if (inputService.IsMagicAttackPressed())
+        if (input.MagicAttackPressed)
         {
             Log("RMB pressed -> magic attack request.");
             TryMagicAttack();
@@ -160,6 +156,7 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
 
             return;
         }
+
         Vector3 direction = GetForwardDirection();
         Vector3 spawnPosition = GetMagicSpawnPosition(direction);
         Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
@@ -227,10 +224,5 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
         }
 
         Debug.Log($"[PlayerCombatSystem] {message}", this);
-    }
-
-    private bool ResolveInputService()
-    {
-        return InputServiceResolver.TryResolve(ref inputService, ref inputServiceSource);
     }
 }

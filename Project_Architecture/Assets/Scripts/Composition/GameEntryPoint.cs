@@ -28,9 +28,17 @@ public class GameEntryPoint : MonoBehaviour
             return;
         }
 
+        ISaveService saveService = new JsonFileSaveService();
+        ISettingsRepository settingsRepository = new SettingsRepository();
+        IAudioService audioService = new UnityAudioService();
+
+        SettingsData settings = settingsRepository.Load();
+        audioService.SfxVolume = settings.SfxVolume;
+
         Services = new GameServices(
-            new UnityAudioService(),
-            new JsonFileSaveService(),
+            audioService,
+            settingsRepository,
+            new SaveGameRepository(saveService),
             new UnitySceneLoader(),
             new GameSessionState());
     }

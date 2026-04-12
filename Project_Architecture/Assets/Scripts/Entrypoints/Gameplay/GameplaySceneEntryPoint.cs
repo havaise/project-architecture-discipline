@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine;
 
 public class GameplaySceneEntryPoint : MonoBehaviour
 {
@@ -19,6 +18,7 @@ public class GameplaySceneEntryPoint : MonoBehaviour
 
     private IInputService inputService;
     private PauseMenuController pauseMenuController;
+    private IGameSaveInteractor gameSaveInteractor;
 
     private void Awake()
     {
@@ -37,7 +37,8 @@ public class GameplaySceneEntryPoint : MonoBehaviour
         ResolveSceneComponents();
         ResolvePlayerTransform();
         ConfigureHud();
-        ApplyPendingLoadedGame();
+        InitializeGameSaveInteractor();
+        gameSaveInteractor?.ApplyPendingLoadedGame();
         InitializePauseMenu();
     }
 
@@ -72,7 +73,7 @@ public class GameplaySceneEntryPoint : MonoBehaviour
         {
             gameOverController = FindFirstObjectByType<GameOverController>();
         }
-        
+
         if (hudView == null)
         {
             hudView = FindFirstObjectByType<HudView>();
@@ -99,30 +100,38 @@ public class GameplaySceneEntryPoint : MonoBehaviour
         }
     }
 
-    private void ApplyPendingLoadedGame()
+    private void InitializeGameSaveInteractor()
     {
-        SaveGameData pending = GameEntryPoint.Services.GameSessionState.ConsumePendingLoadedGame();
-        if (pending == null || playerTransform == null)
-        {
-            return;
-        }
+        HealthComponent playerHealth = ResolvePlayerHealthComponent();
+        ManaComponent playerMana = ResolvePlayerManaComponent();
+        PlayerStatsComponent playerStats = ResolvePlayerStatsComponent();
+        EnemyController[] enemies = FindObjectsByType<EnemyController>(FindObjectsSortMode.None);
 
-        string activeSceneName = SceneManager.GetActiveScene().name;
-        if (!string.Equals(activeSceneName, pending.SceneName, System.StringComparison.Ordinal))
-        {
-            return;
-        }
+        IPlayerStateRepository playerRepository = new PlayerStateRepository(
+            playerTransform,
+            playerHealth,
+            playerMana,
+            playerStats);
 
-        playerTransform.SetPositionAndRotation(pending.PlayerPosition, pending.PlayerRotation);
+        IEnemyStateRepository enemyRepository = new EnemyStateRepository(enemies);
+
+        gameSaveInteractor = new GameSaveInteractor(
+            GameEntryPoint.Services.SaveGameRepository,
+            playerRepository,
+            enemyRepository,
+            GameEntryPoint.Services.GameSessionState,
+            GameEntryPoint.Services.SceneLoader);
     }
 
     private void ConfigureHud()
     {
-        if (hudView != null)
+        if (hudView == null)
         {
-            HealthComponent playerHealth = ResolvePlayerHealthComponent();
-            hudView.SetSources(playerHealth, playerCombatSystem);
+            return;
         }
+
+        HealthComponent playerHealth = ResolvePlayerHealthComponent();
+        hudView.SetSources(playerHealth, playerCombatSystem);
     }
 
     private HealthComponent ResolvePlayerHealthComponent()
@@ -146,12 +155,55 @@ public class GameplaySceneEntryPoint : MonoBehaviour
             }
         }
 
-        if (playerMovement != null)
+        return playerMovement != null ? playerMovement.GetComponentInChildren<HealthComponent>() : null;
+    }
+
+    private ManaComponent ResolvePlayerManaComponent()
+    {
+        if (playerTransform != null)
         {
-            return playerMovement.GetComponentInChildren<HealthComponent>();
+            ManaComponent manaFromTransform = playerTransform.GetComponentInChildren<ManaComponent>();
+            if (manaFromTransform != null)
+            {
+                return manaFromTransform;
+            }
         }
 
-        return null;
+        GameObject taggedPlayer = GameObject.FindGameObjectWithTag("Player");
+        if (taggedPlayer != null)
+        {
+            ManaComponent manaFromTag = taggedPlayer.GetComponentInChildren<ManaComponent>();
+            if (manaFromTag != null)
+            {
+                return manaFromTag;
+            }
+        }
+
+        return playerMovement != null ? playerMovement.GetComponentInChildren<ManaComponent>() : null;
+    }
+
+    private PlayerStatsComponent ResolvePlayerStatsComponent()
+    {
+        if (playerTransform != null)
+        {
+            PlayerStatsComponent statsFromTransform = playerTransform.GetComponentInChildren<PlayerStatsComponent>();
+            if (statsFromTransform != null)
+            {
+                return statsFromTransform;
+            }
+        }
+
+        GameObject taggedPlayer = GameObject.FindGameObjectWithTag("Player");
+        if (taggedPlayer != null)
+        {
+            PlayerStatsComponent statsFromTag = taggedPlayer.GetComponentInChildren<PlayerStatsComponent>();
+            if (statsFromTag != null)
+            {
+                return statsFromTag;
+            }
+        }
+
+        return playerMovement != null ? playerMovement.GetComponentInChildren<PlayerStatsComponent>() : null;
     }
 
     private void InitializePauseMenu()
@@ -176,14 +228,11 @@ public class GameplaySceneEntryPoint : MonoBehaviour
         pauseMenuController = new PauseMenuController(
             pauseMenuView,
             inputService,
-            GameEntryPoint.Services.SaveService,
+            gameSaveInteractor,
             GameEntryPoint.Services.SceneLoader,
-            GameEntryPoint.Services.GameSessionState,
-            playerTransform,
             componentsToToggle,
             mainMenuSceneName);
 
         pauseMenuController.Initialize();
     }
 }
-

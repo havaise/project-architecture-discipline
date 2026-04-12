@@ -26,12 +26,21 @@ public class MainMenuSceneEntryPoint : MonoBehaviour
             return;
         }
 
-        SettingsMenuModel settingsModel = new SettingsMenuModel(GameEntryPoint.Services.AudioService);
+        SettingsMenuModel settingsModel = new SettingsMenuModel(
+            GameEntryPoint.Services.AudioService,
+            GameEntryPoint.Services.SettingsRepository);
         SettingsMenuController settingsController = new SettingsMenuController(settingsMenuView, settingsModel);
+        IGameSaveInteractor gameSaveInteractor = new GameSaveInteractor(
+            GameEntryPoint.Services.SaveGameRepository,
+            null,
+            null,
+            GameEntryPoint.Services.GameSessionState,
+            GameEntryPoint.Services.SceneLoader);
 
         mainMenuController = new MainMenuController(
             mainMenuView,
             settingsController,
+            gameSaveInteractor,
             GameEntryPoint.Services.SceneLoader,
             gameplaySceneName);
 

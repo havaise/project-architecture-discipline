@@ -1,15 +1,12 @@
-﻿using System;
+using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public sealed class PauseMenuController : IDisposable
 {
     private readonly PauseMenuView view;
     private readonly IInputService inputService;
-    private readonly ISaveService saveService;
+    private readonly IGameSaveInteractor gameSaveInteractor;
     private readonly ISceneLoader sceneLoader;
-    private readonly IGameSessionState gameSessionState;
-    private readonly Transform playerTransform;
     private readonly MonoBehaviour[] gameplayComponentsToToggle;
     private readonly string mainMenuSceneName;
     private readonly PauseMenuModel model;
@@ -18,19 +15,15 @@ public sealed class PauseMenuController : IDisposable
     public PauseMenuController(
         PauseMenuView view,
         IInputService inputService,
-        ISaveService saveService,
+        IGameSaveInteractor gameSaveInteractor,
         ISceneLoader sceneLoader,
-        IGameSessionState gameSessionState,
-        Transform playerTransform,
         MonoBehaviour[] gameplayComponentsToToggle,
         string mainMenuSceneName)
     {
         this.view = view ?? throw new ArgumentNullException(nameof(view));
         this.inputService = inputService ?? throw new ArgumentNullException(nameof(inputService));
-        this.saveService = saveService ?? throw new ArgumentNullException(nameof(saveService));
+        this.gameSaveInteractor = gameSaveInteractor ?? throw new ArgumentNullException(nameof(gameSaveInteractor));
         this.sceneLoader = sceneLoader ?? throw new ArgumentNullException(nameof(sceneLoader));
-        this.gameSessionState = gameSessionState ?? throw new ArgumentNullException(nameof(gameSessionState));
-        this.playerTransform = playerTransform;
         this.gameplayComponentsToToggle = gameplayComponentsToToggle;
         this.mainMenuSceneName = string.IsNullOrWhiteSpace(mainMenuSceneName) ? "MainMenu" : mainMenuSceneName;
         model = new PauseMenuModel();
@@ -138,44 +131,20 @@ public sealed class PauseMenuController : IDisposable
 
     private void OnSaveClicked()
     {
-        if (playerTransform == null)
+        if (!gameSaveInteractor.SaveCurrentGame())
         {
-            Debug.LogWarning("PauseMenuController: player transform is missing, save skipped.");
-            return;
+            Debug.LogWarning("PauseMenuController: unable to save current game state.");
         }
-
-        SaveGameData data = new SaveGameData
-        {
-            SceneName = SceneManager.GetActiveScene().name,
-            PlayerPosition = playerTransform.position,
-            PlayerRotation = playerTransform.rotation
-        };
-
-        saveService.Save(data);
     }
 
     private void OnLoadClicked()
     {
-        if (!saveService.TryLoad(out SaveGameData loadedData))
+        if (!gameSaveInteractor.LoadGame())
         {
             Debug.LogWarning("PauseMenuController: save file not found.");
             return;
         }
 
-        string activeSceneName = SceneManager.GetActiveScene().name;
-        if (string.Equals(activeSceneName, loadedData.SceneName, StringComparison.Ordinal))
-        {
-            if (playerTransform != null)
-            {
-                playerTransform.SetPositionAndRotation(loadedData.PlayerPosition, loadedData.PlayerRotation);
-            }
-
-            ResumeIfPaused();
-            return;
-        }
-
-        gameSessionState.SetPendingLoadedGame(loadedData);
         ResumeIfPaused();
-        sceneLoader.LoadScene(loadedData.SceneName);
     }
 }

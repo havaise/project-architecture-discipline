@@ -15,7 +15,7 @@ public static class InputServiceResolver
             return true;
         }
 
-        InputService sceneInputService = Object.FindFirstObjectByType<InputService>();
+        InputServiceComponent sceneInputService = Object.FindFirstObjectByType<InputServiceComponent>();
         if (sceneInputService == null)
         {
             return false;

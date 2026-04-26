@@ -58,6 +58,7 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
     private EnemyVisionSensor visionSensor;
     private EnemyMovementMotor movementMotor;
     private EnemyAttackSystem attackSystem;
+    private EnemyBrain enemyBrain;
 
     private void Awake()
     {
@@ -67,6 +68,7 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         visionSensor = new EnemyVisionSensor(transform);
         movementMotor = new EnemyMovementMotor(transform, navMeshAgent, aiModel);
         attackSystem = new EnemyAttackSystem(transform, aiModel, CreateProjectile);
+        enemyBrain = new EnemyBrain(aiModel, attackSystem);
 
         movementMotor.ConfigurePhysics(body, configureRigidbodyForNavMesh);
 
@@ -90,27 +92,28 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
             viewAngle,
             eyeHeight,
             visibilityBlockers);
+        EnemyBrainDecision decision = enemyBrain.Evaluate(
+            target,
+            canSeeTarget,
+            Time.time,
+            attackMode,
+            meleeAttackRange,
+            rangedAttackRange);
 
-        if (canSeeTarget)
-        {
-            aiModel.RememberTarget(target.position, Time.time);
-        }
-
-        if (!canSeeTarget && !aiModel.HasMemory(Time.time))
+        if (decision.Action == EnemyBrainAction.Idle)
         {
             StopAndIdle();
             return;
         }
 
-        if (!canSeeTarget || !attackSystem.IsInRange(target, attackMode, meleeAttackRange, rangedAttackRange))
+        if (decision.Action == EnemyBrainAction.Chase)
         {
-            Vector3 chasePoint = aiModel.GetChasePoint(target.position, canSeeTarget);
-            movementMotor.Chase(chasePoint, moveSpeed, rotationSpeed, Time.deltaTime);
+            movementMotor.Chase(decision.ChasePoint, moveSpeed, rotationSpeed, Time.deltaTime);
             return;
         }
 
         movementMotor.Stop();
-        TryAttack(canSeeTarget);
+        TryAttack(decision.CanSeeTarget);
     }
 
     public int GetDamage()

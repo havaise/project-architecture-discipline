@@ -1,4 +1,4 @@
-%YAML 1.1
+﻿%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!1 &1068751602311516797
 GameObject:
@@ -1923,7 +1923,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7337900913638976391}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5837af6e5c7f470fb2c7bc15764ac899, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e2cedc1513387a40921b774ad4323c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputService
   inputActions: {fileID: -944628639613478452, guid: c46858dcb84f4147a0d7f57107f5f388, type: 3}
@@ -2087,3 +2087,4 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5a5972bae02681b45b01edb57cfeb73c, type: 3}
   m_PrefabInstance: {fileID: 219554637032337324}
   m_PrefabAsset: {fileID: 0}
+

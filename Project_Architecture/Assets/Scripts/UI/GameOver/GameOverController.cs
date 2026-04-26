@@ -35,7 +35,6 @@ public class GameOverController : MonoBehaviour
         }
 
         flowController = new GameOverFlowController(
-            new GameOverModel(),
             view,
             playerHealth,
             inputService,

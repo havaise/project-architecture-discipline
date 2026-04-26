@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 
 public sealed class GameOverFlowController
 {
-    private readonly GameOverModel model;
     private readonly GameOverView view;
     private readonly IHealth playerHealth;
     private readonly IInputService inputService;
@@ -12,9 +11,9 @@ public sealed class GameOverFlowController
     private readonly bool unlockCursorOnGameOver;
 
     private bool initialized;
+    private bool isTriggered;
 
     public GameOverFlowController(
-        GameOverModel model,
         GameOverView view,
         IHealth playerHealth,
         IInputService inputService,
@@ -22,7 +21,6 @@ public sealed class GameOverFlowController
         bool pauseTimeOnGameOver,
         bool unlockCursorOnGameOver)
     {
-        this.model = model;
         this.view = view;
         this.playerHealth = playerHealth;
         this.inputService = inputService;
@@ -59,11 +57,12 @@ public sealed class GameOverFlowController
 
     private void OnPlayerDied()
     {
-        if (!model.TryTrigger())
+        if (isTriggered)
         {
             return;
         }
 
+        isTriggered = true;
         inputService?.DisableGameplay();
         DisableControls();
 

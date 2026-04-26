@@ -7,6 +7,6 @@ public static class HudComposition
             return;
         }
 
-        hudView.SetSources(playerHealth, playerCombatSystem);
+        hudView.Initialize(playerHealth, playerCombatSystem);
     }
 }

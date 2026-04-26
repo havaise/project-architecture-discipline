@@ -49,6 +49,39 @@ public sealed class EnemyAiModel
         return true;
     }
 
+    public EnemyBrainDecision EvaluateDecision(
+        Transform target,
+        bool canSeeTarget,
+        EnemyAttackSystem attackSystem,
+        float currentTime,
+        EnemyAttackKind attackKind,
+        float meleeAttackRange,
+        float rangedAttackRange)
+    {
+        if (target == null)
+        {
+            return new EnemyBrainDecision(EnemyBrainAction.Idle, Vector3.zero, false);
+        }
+
+        if (canSeeTarget)
+        {
+            RememberTarget(target.position, currentTime);
+        }
+
+        if (!canSeeTarget && !HasMemory(currentTime))
+        {
+            return new EnemyBrainDecision(EnemyBrainAction.Idle, Vector3.zero, false);
+        }
+
+        if (!canSeeTarget || !attackSystem.IsInRange(target, attackKind, meleeAttackRange, rangedAttackRange))
+        {
+            Vector3 chasePoint = GetChasePoint(target.position, canSeeTarget);
+            return new EnemyBrainDecision(EnemyBrainAction.Chase, chasePoint, canSeeTarget);
+        }
+
+        return new EnemyBrainDecision(EnemyBrainAction.Attack, Vector3.zero, true);
+    }
+
     public void SetMoveState(bool moving, float speed01)
     {
         isMoving = moving;

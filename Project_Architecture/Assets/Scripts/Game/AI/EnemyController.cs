@@ -28,17 +28,12 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
     public event Action MeleeAttackPerformed;
     public event Action RangedAttackPerformed;
 
-    public bool IsMoving => aiModel != null && aiModel.IsMoving;
-    public float MoveSpeedNormalized => aiModel != null ? aiModel.MoveSpeedNormalized : 0f;
+    public bool IsMoving => enemyAgent != null && enemyAgent.IsMoving;
+    public float MoveSpeedNormalized => enemyAgent != null ? enemyAgent.MoveSpeedNormalized : 0f;
 
     private NavMeshAgent navMeshAgent;
     private Rigidbody body;
-    private EnemyAiModel aiModel;
-    private EnemyVisionSensor visionSensor;
-    private EnemyMovementMotor movementMotor;
-    private EnemyAttackSystem attackSystem;
-    private EnemyBrain enemyBrain;
-    private IEnemyTargetProvider targetProvider;
+    private EnemyAgent enemyAgent;
     private IEnemyProjectileFactory projectileFactory;
 
     private void Awake()
@@ -47,131 +42,48 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
 
         navMeshAgent = GetComponent<NavMeshAgent>();
         body = GetComponent<Rigidbody>();
-        targetProvider = new UnityEnemyTargetProvider(playerTag);
+        IEnemyTargetProvider targetProvider = new UnityEnemyTargetProvider(playerTag);
         projectileFactory = new UnityEnemyProjectileFactory(projectileConfig.ProjectilePrefab, Log);
-        aiModel = new EnemyAiModel(visionConfig.VisibilityMemoryDuration, attackConfig.AttackCooldown);
-        visionSensor = new EnemyVisionSensor(transform);
-        movementMotor = new EnemyMovementMotor(transform, navMeshAgent, aiModel);
-        attackSystem = new EnemyAttackSystem(transform, aiModel, CreateProjectile);
-        enemyBrain = new EnemyBrain(aiModel, attackSystem);
+        EnemyAiModel aiModel = new EnemyAiModel(visionConfig.VisibilityMemoryDuration, attackConfig.AttackCooldown);
+        EnemyVisionSensor visionSensor = new EnemyVisionSensor(transform);
+        EnemyMovementMotor movementMotor = new EnemyMovementMotor(transform, navMeshAgent, aiModel);
+        EnemyAttackSystem attackSystem = new EnemyAttackSystem(transform, aiModel, CreateProjectile);
 
         movementMotor.ConfigurePhysics(body, movementConfig.ConfigureRigidbodyForNavMesh);
 
-        if (autoFindPlayer)
-        {
-            Transform resolvedTarget = targetProvider.Resolve(target, true);
-            if (resolvedTarget != null)
-            {
-                SetTarget(resolvedTarget);
-            }
-        }
+        enemyAgent = new EnemyAgent(
+            target,
+            aiModel,
+            visionSensor,
+            movementMotor,
+            attackSystem,
+            targetProvider,
+            visionConfig,
+            movementConfig,
+            attackConfig,
+            projectileConfig,
+            autoFindPlayer,
+            GetDamage,
+            HandleAttackResult,
+            enableCombatDebugLogs);
+        enemyAgent.Initialize(Time.time);
+        target = enemyAgent.CurrentTarget;
     }
 
     private void Update()
     {
-        if (!EnsureTarget())
+        if (enemyAgent == null)
         {
-            StopAndIdle();
             return;
         }
 
-        bool canSeeTarget = visionSensor.CanSee(
-            target,
-            visionConfig.ViewDistance,
-            visionConfig.ViewAngle,
-            visionConfig.EyeHeight,
-            visionConfig.VisibilityBlockers);
-        EnemyBrainDecision decision = enemyBrain.Evaluate(
-            target,
-            canSeeTarget,
-            Time.time,
-            attackConfig.AttackMode,
-            attackConfig.MeleeAttackRange,
-            attackConfig.RangedAttackRange);
-
-        if (decision.Action == EnemyBrainAction.Idle)
-        {
-            StopAndIdle();
-            return;
-        }
-
-        if (decision.Action == EnemyBrainAction.Chase)
-        {
-            movementMotor.Chase(
-                decision.ChasePoint,
-                movementConfig.MoveSpeed,
-                movementConfig.RotationSpeed,
-                Time.deltaTime);
-            return;
-        }
-
-        movementMotor.Stop();
-        TryAttack(decision.CanSeeTarget);
+        enemyAgent.Tick(Time.time, Time.deltaTime);
+        target = enemyAgent.CurrentTarget;
     }
 
     public int GetDamage()
     {
         return Mathf.Max(0, attackConfig.Damage);
-    }
-
-    private bool EnsureTarget()
-    {
-        if (target != null)
-        {
-            return true;
-        }
-
-        Transform resolvedTarget = targetProvider.Resolve(target, autoFindPlayer);
-        if (resolvedTarget != null)
-        {
-            SetTarget(resolvedTarget);
-        }
-
-        return target != null;
-    }
-
-    private void StopAndIdle()
-    {
-        movementMotor.Stop();
-        movementMotor.RotateIdle(
-            movementConfig.PatrolLookAroundWhenIdle,
-            movementConfig.IdleTurnSpeed,
-            Time.deltaTime);
-    }
-
-    private void SetTarget(Transform newTarget)
-    {
-        target = newTarget;
-
-        if (target != null)
-        {
-            aiModel.RememberTarget(target.position, Time.time);
-        }
-    }
-
-    private void TryAttack(bool canSeeTarget)
-    {
-        if (target == null || !canSeeTarget)
-        {
-            return;
-        }
-
-        EnemyAttackResult result = attackSystem.TryAttack(
-            target,
-            attackConfig.AttackMode,
-            GetDamage(),
-            Time.time,
-            projectileConfig.ProjectileSpeed,
-            projectileConfig.ProjectileLifetime,
-            projectileConfig.ProjectileRadius,
-            projectileConfig.ProjectileSpawnPoint,
-            projectileConfig.ProjectileSpawnHeightOffset,
-            projectileConfig.ProjectileSpawnForwardOffset,
-            projectileConfig.ProjectileHitMask,
-            enableCombatDebugLogs,
-            out float cooldownRemaining);
-
-        HandleAttackResult(result, cooldownRemaining);
     }
 
     private void HandleAttackResult(EnemyAttackResult result, float cooldownRemaining)

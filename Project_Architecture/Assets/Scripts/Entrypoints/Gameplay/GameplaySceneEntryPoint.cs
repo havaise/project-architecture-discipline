@@ -6,7 +6,7 @@ public class GameplaySceneEntryPoint : MonoBehaviour
 {
     [Header("Scene Services")]
     [SerializeField] private MonoBehaviour inputServiceSource;
-    [SerializeField] private string mainMenuSceneName = "MainMenu";
+    [SerializeField] private string mainMenuSceneName = "MaInMenu";
 
     [Header("Scene Components")]
     [SerializeField] private PlayerMovement playerMovement;

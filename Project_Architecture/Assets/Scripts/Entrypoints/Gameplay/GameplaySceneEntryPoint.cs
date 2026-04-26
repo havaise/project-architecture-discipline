@@ -11,7 +11,6 @@ public class GameplaySceneEntryPoint : MonoBehaviour
     [Header("Scene Components")]
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PlayerCombatSystem playerCombatSystem;
-    [SerializeField] private PlayerController playerController;
     [SerializeField] private PlayerView playerView;
     [SerializeField] private PlayerAnimationController playerAnimationController;
     [SerializeField] private GameOverController gameOverController;
@@ -87,11 +86,6 @@ public class GameplaySceneEntryPoint : MonoBehaviour
             playerCombatSystem = FindFirstObjectByType<PlayerCombatSystem>();
         }
 
-        if (playerController == null)
-        {
-            playerController = FindFirstObjectByType<PlayerController>();
-        }
-
         if (playerView == null)
         {
             playerView = FindFirstObjectByType<PlayerView>();
@@ -159,16 +153,7 @@ public class GameplaySceneEntryPoint : MonoBehaviour
             }
         }
 
-        if (playerController == null)
-        {
-            playerController = playerTransform.GetComponent<PlayerController>();
-            if (playerController == null)
-            {
-                playerController = playerTransform.gameObject.AddComponent<PlayerController>();
-            }
-        }
-
-        playerController.Initialize(inputService);
+        playerView.Initialize(inputService);
     }
 
     private void InitializeGameSaveInteractor()
@@ -295,7 +280,6 @@ public class GameplaySceneEntryPoint : MonoBehaviour
         {
             componentsToToggle = new MonoBehaviour[]
             {
-                playerController,
                 playerMovement,
                 playerCombatSystem,
                 playerAnimationController

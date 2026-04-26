@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 
-using ServiceLocator = ProjectArchitecture.Composition.ServiceLocator;
-
 [DefaultExecutionOrder(-1000)]
 public class GameEntryPoint : MonoBehaviour
 {
@@ -31,26 +29,7 @@ public class GameEntryPoint : MonoBehaviour
             return;
         }
 
-        ISaveService saveService = new JsonFileSaveService();
-        ISettingsRepository settingsRepository = new SettingsRepository();
-        IAudioService audioService = new UnityAudioService();
-        ISceneLoader sceneLoader = new UnitySceneLoader();
-        IGameSessionState gameSessionState = new GameSessionState();
-
-        SettingsData settings = settingsRepository.Load();
-        audioService.SfxVolume = settings.SfxVolume;
-
-        ServiceLocator locator = new ServiceLocator();
-        locator.Register<ISaveService>(saveService);
-        locator.Register<ISettingsRepository>(settingsRepository);
-        locator.Register<IAudioService>(audioService);
-        locator.Register<ISaveGameRepository>(new SaveGameRepository(saveService));
-        locator.Register<ISceneLoader>(sceneLoader);
-        locator.Register<IGameSessionState>(gameSessionState);
-
-        // Keep this global access point narrow: composition code resolves interfaces here,
-        // while gameplay rules still receive dependencies explicitly through constructors.
-        Services = new GameServices(locator);
+        Services = GameServicesFactory.CreateDefault();
     }
 
     private void OnDestroy()

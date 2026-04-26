@@ -10,37 +10,16 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
     [SerializeField] private string playerTag = "Player";
 
     [Header("Vision")]
-    [SerializeField] private float viewDistance = 12f;
-    [SerializeField, Range(1f, 360f)] private float viewAngle = 120f;
-    [SerializeField] private float eyeHeight = 1.4f;
-    [SerializeField] private float visibilityMemoryDuration = 1.5f;
-    [SerializeField] private LayerMask visibilityBlockers = ~0;
-    [SerializeField] private bool patrolLookAroundWhenIdle = true;
+    [SerializeField] private EnemyVisionConfig visionConfig = default;
 
-    [Header("Chase")]
-    [SerializeField] private float moveSpeed = 3.5f;
-    [SerializeField] private float rotationSpeed = 8f;
-    [SerializeField] private float idleTurnSpeed = 45f;
+    [Header("Movement")]
+    [SerializeField] private EnemyMovementConfig movementConfig = default;
 
     [Header("Attack")]
-    [SerializeField] private EnemyAttackKind attackMode = EnemyAttackKind.Melee;
-    [SerializeField] private int damage = 10;
-    [SerializeField] private float meleeAttackRange = 1.8f;
-    [SerializeField] private float rangedAttackRange = 10f;
-    [SerializeField] private float attackCooldown = 1.2f;
+    [SerializeField] private EnemyAttackConfig attackConfig = default;
 
     [Header("Projectile")]
-    [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private Transform projectileSpawnPoint;
-    [SerializeField] private float projectileSpeed = 14f;
-    [SerializeField] private float projectileLifetime = 3f;
-    [SerializeField] private float projectileRadius = 0.2f;
-    [SerializeField] private float projectileSpawnHeightOffset = 1.2f;
-    [SerializeField] private float projectileSpawnForwardOffset = 0.4f;
-    [SerializeField] private LayerMask projectileHitMask = ~0;
-
-    [Header("Physics")]
-    [SerializeField] private bool configureRigidbodyForNavMesh = true;
+    [SerializeField] private EnemyProjectileConfig projectileConfig = default;
 
     [Header("Debug")]
     [SerializeField] private bool enableCombatDebugLogs;
@@ -62,15 +41,17 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
 
     private void Awake()
     {
+        ApplyDefaultConfigsIfNeeded();
+
         navMeshAgent = GetComponent<NavMeshAgent>();
         body = GetComponent<Rigidbody>();
-        aiModel = new EnemyAiModel(visibilityMemoryDuration, attackCooldown);
+        aiModel = new EnemyAiModel(visionConfig.VisibilityMemoryDuration, attackConfig.AttackCooldown);
         visionSensor = new EnemyVisionSensor(transform);
         movementMotor = new EnemyMovementMotor(transform, navMeshAgent, aiModel);
         attackSystem = new EnemyAttackSystem(transform, aiModel, CreateProjectile);
         enemyBrain = new EnemyBrain(aiModel, attackSystem);
 
-        movementMotor.ConfigurePhysics(body, configureRigidbodyForNavMesh);
+        movementMotor.ConfigurePhysics(body, movementConfig.ConfigureRigidbodyForNavMesh);
 
         if (autoFindPlayer)
         {
@@ -88,17 +69,17 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
 
         bool canSeeTarget = visionSensor.CanSee(
             target,
-            viewDistance,
-            viewAngle,
-            eyeHeight,
-            visibilityBlockers);
+            visionConfig.ViewDistance,
+            visionConfig.ViewAngle,
+            visionConfig.EyeHeight,
+            visionConfig.VisibilityBlockers);
         EnemyBrainDecision decision = enemyBrain.Evaluate(
             target,
             canSeeTarget,
             Time.time,
-            attackMode,
-            meleeAttackRange,
-            rangedAttackRange);
+            attackConfig.AttackMode,
+            attackConfig.MeleeAttackRange,
+            attackConfig.RangedAttackRange);
 
         if (decision.Action == EnemyBrainAction.Idle)
         {
@@ -108,7 +89,11 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
 
         if (decision.Action == EnemyBrainAction.Chase)
         {
-            movementMotor.Chase(decision.ChasePoint, moveSpeed, rotationSpeed, Time.deltaTime);
+            movementMotor.Chase(
+                decision.ChasePoint,
+                movementConfig.MoveSpeed,
+                movementConfig.RotationSpeed,
+                Time.deltaTime);
             return;
         }
 
@@ -118,7 +103,7 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
 
     public int GetDamage()
     {
-        return Mathf.Max(0, damage);
+        return Mathf.Max(0, attackConfig.Damage);
     }
 
     private bool EnsureTarget()
@@ -139,7 +124,10 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
     private void StopAndIdle()
     {
         movementMotor.Stop();
-        movementMotor.RotateIdle(patrolLookAroundWhenIdle, idleTurnSpeed, Time.deltaTime);
+        movementMotor.RotateIdle(
+            movementConfig.PatrolLookAroundWhenIdle,
+            movementConfig.IdleTurnSpeed,
+            Time.deltaTime);
     }
 
     private void TryFindPlayer()
@@ -177,16 +165,16 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
 
         EnemyAttackResult result = attackSystem.TryAttack(
             target,
-            attackMode,
+            attackConfig.AttackMode,
             GetDamage(),
             Time.time,
-            projectileSpeed,
-            projectileLifetime,
-            projectileRadius,
-            projectileSpawnPoint,
-            projectileSpawnHeightOffset,
-            projectileSpawnForwardOffset,
-            projectileHitMask,
+            projectileConfig.ProjectileSpeed,
+            projectileConfig.ProjectileLifetime,
+            projectileConfig.ProjectileRadius,
+            projectileConfig.ProjectileSpawnPoint,
+            projectileConfig.ProjectileSpawnHeightOffset,
+            projectileConfig.ProjectileSpawnForwardOffset,
+            projectileConfig.ProjectileHitMask,
             enableCombatDebugLogs,
             out float cooldownRemaining);
 
@@ -230,9 +218,9 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
 
     private EnemyProjectile CreateProjectile(string fallbackName)
     {
-        if (projectilePrefab != null)
+        if (projectileConfig.ProjectilePrefab != null)
         {
-            GameObject projectileObject = Instantiate(projectilePrefab);
+            GameObject projectileObject = Instantiate(projectileConfig.ProjectilePrefab);
             if (projectileObject.TryGetComponent(out EnemyProjectile projectile))
             {
                 return projectile;
@@ -245,6 +233,29 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         GameObject fallbackProjectileObject = new GameObject(fallbackName);
         Log("Projectile prefab is not assigned. Spawned runtime projectile.");
         return fallbackProjectileObject.AddComponent<EnemyProjectile>();
+    }
+
+    private void ApplyDefaultConfigsIfNeeded()
+    {
+        if (visionConfig.ViewDistance <= 0f)
+        {
+            visionConfig = EnemyVisionConfig.CreateDefault();
+        }
+
+        if (movementConfig.MoveSpeed <= 0f)
+        {
+            movementConfig = EnemyMovementConfig.CreateDefault();
+        }
+
+        if (attackConfig.AttackCooldown <= 0f)
+        {
+            attackConfig = EnemyAttackConfig.CreateDefault();
+        }
+
+        if (projectileConfig.ProjectileLifetime <= 0f)
+        {
+            projectileConfig = EnemyProjectileConfig.CreateDefault();
+        }
     }
 
     private void Log(string message)

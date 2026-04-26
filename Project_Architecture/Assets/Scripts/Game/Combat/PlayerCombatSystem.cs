@@ -3,13 +3,6 @@ using UnityEngine;
 
 public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCooldownProvider
 {
-    private enum MagicSpawnSource
-    {
-        AttackOrigin = 0,
-        Camera = 1,
-        CustomPoint = 2
-    }
-
     [Header("References")]
     [SerializeField] private Transform attackOrigin;
     [SerializeField] private Camera attackCamera;
@@ -52,6 +45,9 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
     public bool IsMagicReady => MagicCooldownRemaining <= 0f;
 
     private PlayerCombatModel combatModel;
+    private PlayerCombatConfig combatConfig;
+    private PhysicalAttackUseCase physicalAttackUseCase;
+    private MagicAttackUseCase magicAttackUseCase;
 
     private void Awake()
     {
@@ -65,7 +61,35 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
             attackCamera = Camera.main;
         }
 
+        combatConfig = new PlayerCombatConfig(
+            new PhysicalAttackConfig
+            {
+                Damage = physicalDamage,
+                Range = physicalRange,
+                Radius = physicalRadius,
+                Cooldown = physicalCooldown
+            },
+            new MagicAttackConfig
+            {
+                Damage = magicDamage,
+                Cooldown = magicCooldown,
+                ProjectileSpeed = magicProjectileSpeed,
+                ProjectileLifetime = magicProjectileLifetime,
+                ProjectileRadius = magicProjectileRadius,
+                ProjectileWaveAmplitude = magicProjectileWaveAmplitude,
+                ProjectileWaveFrequency = magicProjectileWaveFrequency
+            },
+            new MagicSpawnConfig
+            {
+                SpawnSource = magicSpawnSource,
+                CustomSpawnPoint = customMagicSpawnPoint,
+                SpawnHeightOffset = magicSpawnHeightOffset,
+                SpawnForwardOffset = magicSpawnForwardOffset
+            });
+
         combatModel = new PlayerCombatModel(physicalCooldown, magicCooldown);
+        physicalAttackUseCase = new PhysicalAttackUseCase();
+        magicAttackUseCase = new MagicAttackUseCase(new UnityPlayerProjectileFactory());
         Log("Combat system initialized.");
     }
 
@@ -105,48 +129,19 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
 
         Vector3 origin = attackOrigin.position + Vector3.up * 1.0f;
         Vector3 direction = GetForwardDirection();
-
-        RaycastHit[] hits = Physics.SphereCastAll(
+        physicalAttackUseCase.Execute(
+            transform,
             origin,
-            physicalRadius,
             direction,
-            physicalRange,
+            combatConfig.PhysicalAttack.Damage,
+            combatConfig.PhysicalAttack.Range,
+            combatConfig.PhysicalAttack.Radius,
             targetMask,
-            QueryTriggerInteraction.Ignore);
-
-        if (hits.Length == 0)
-        {
-            Log("Physical attack missed.");
-            return;
-        }
-
-        Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
-
-        foreach (RaycastHit hit in hits)
-        {
-            if (hit.transform == transform || hit.transform.IsChildOf(transform))
-            {
-                continue;
-            }
-
-            if (CombatDamageResolver.TryApplyDamage(hit.transform, physicalDamage, 0f))
-            {
-                Log($"Physical attack hit: {hit.transform.name}, dmg={physicalDamage:0.#}");
-                return;
-            }
-        }
-
-        Log("Physical attack hit collider, but no damage receiver found.");
+            Log);
     }
 
     private void TryMagicAttack()
     {
-        if (magicProjectilePrefab == null)
-        {
-            Log("Magic projectile prefab is not assigned.");
-            return;
-        }
-
         if (!combatModel.TryStartMagicAttack(Time.time, out float cooldownRemaining))
         {
             if (logCooldownBlocks)
@@ -159,46 +154,44 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
 
         Vector3 direction = GetForwardDirection();
         Vector3 spawnPosition = GetMagicSpawnPosition(direction);
-        Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
-
-        MagicProjectile projectile = Instantiate(magicProjectilePrefab, spawnPosition, rotation);
-        projectile.Initialize(
+        bool spawned = magicAttackUseCase.Execute(
+            magicProjectilePrefab,
             transform,
+            spawnPosition,
             direction,
-            magicDamage,
-            magicProjectileSpeed,
-            magicProjectileLifetime,
-            magicProjectileRadius,
-            magicProjectileWaveAmplitude,
-            magicProjectileWaveFrequency,
+            combatConfig.MagicAttack,
             targetMask,
-            enableDebugLogs);
+            enableDebugLogs,
+            Log);
+        if (!spawned)
+        {
+            return;
+        }
 
         MagicAttackPerformed?.Invoke();
-        Log($"Magic projectile spawned: dmg={magicDamage:0.#}, speed={magicProjectileSpeed:0.#}");
     }
 
     private Vector3 GetMagicSpawnPosition(Vector3 direction)
     {
-        switch (magicSpawnSource)
+        switch (combatConfig.MagicSpawn.SpawnSource)
         {
             case MagicSpawnSource.Camera:
                 if (attackCamera != null)
                 {
-                    return attackCamera.transform.position + direction * magicSpawnForwardOffset;
+                    return attackCamera.transform.position + direction * combatConfig.MagicSpawn.SpawnForwardOffset;
                 }
 
                 break;
             case MagicSpawnSource.CustomPoint:
-                if (customMagicSpawnPoint != null)
+                if (combatConfig.MagicSpawn.CustomSpawnPoint != null)
                 {
-                    return customMagicSpawnPoint.position;
+                    return combatConfig.MagicSpawn.CustomSpawnPoint.position;
                 }
 
                 break;
         }
 
-        return attackOrigin.position + Vector3.up * magicSpawnHeightOffset;
+        return attackOrigin.position + Vector3.up * combatConfig.MagicSpawn.SpawnHeightOffset;
     }
 
     private Vector3 GetForwardDirection()

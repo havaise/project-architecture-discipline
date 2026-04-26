@@ -39,12 +39,34 @@ public class GameplaySceneEntryPoint : MonoBehaviour
 
         RegisterSceneServices();
         ResolveSceneComponents();
-        ResolvePlayerTransform();
-        InitializePlayerMvc();
-        ConfigureHud();
-        InitializeGameSaveInteractor();
+        PlayerCompositionResult playerComposition = PlayerComposition.Compose(
+            playerTransform,
+            playerMovement,
+            playerView,
+            inputService);
+        playerTransform = playerComposition.PlayerTransform;
+        playerView = playerComposition.PlayerView;
+
+        HudComposition.Configure(hudView, playerComposition.PlayerHealth, playerCombatSystem);
+        gameSaveInteractor = SaveComposition.BuildAndRegister(
+            GameEntryPoint.Services,
+            playerTransform,
+            playerComposition.PlayerHealth,
+            playerComposition.PlayerMana,
+            playerComposition.PlayerStats,
+            this);
         gameSaveInteractor?.ApplyPendingLoadedGame();
-        InitializePauseMenu();
+        pauseMenuController = PauseMenuComposition.BuildAndInitialize(
+            pauseMenuView,
+            inputService,
+            gameSaveInteractor,
+            GameEntryPoint.Services.SceneLoader,
+            gameplayComponentsToToggle,
+            playerMovement,
+            playerCombatSystem,
+            playerAnimationController,
+            mainMenuSceneName,
+            this);
     }
 
     private void OnDestroy()
@@ -115,185 +137,5 @@ public class GameplaySceneEntryPoint : MonoBehaviour
         {
             Debug.LogWarning("GameplaySceneEntryPoint: IInputService is already registered for this scene.", this);
         }
-    }
-
-    private void ResolvePlayerTransform()
-    {
-        if (playerTransform != null)
-        {
-            return;
-        }
-
-        if (playerMovement != null)
-        {
-            playerTransform = playerMovement.transform;
-            return;
-        }
-
-        PlayerMovement movement = FindFirstObjectByType<PlayerMovement>();
-        if (movement != null)
-        {
-            playerTransform = movement.transform;
-        }
-    }
-
-    private void InitializePlayerMvc()
-    {
-        if (playerTransform == null)
-        {
-            return;
-        }
-
-        if (playerView == null)
-        {
-            playerView = playerTransform.GetComponent<PlayerView>();
-            if (playerView == null)
-            {
-                playerView = playerTransform.gameObject.AddComponent<PlayerView>();
-            }
-        }
-
-        playerView.Initialize(inputService);
-    }
-
-    private void InitializeGameSaveInteractor()
-    {
-        HealthComponent playerHealth = ResolvePlayerHealthComponent();
-        ManaComponent playerMana = ResolvePlayerManaComponent();
-        PlayerStatsComponent playerStats = ResolvePlayerStatsComponent();
-        EnemyController[] enemies = FindObjectsByType<EnemyController>(FindObjectsSortMode.None);
-
-        IPlayerStateRepository playerRepository = new PlayerStateRepository(
-            playerTransform,
-            playerHealth,
-            playerMana,
-            playerStats);
-
-        IEnemyStateRepository enemyRepository = new EnemyStateRepository(enemies);
-
-        gameSaveInteractor = new GameSaveInteractor(
-            GameEntryPoint.Services.SaveGameRepository,
-            playerRepository,
-            enemyRepository,
-            GameEntryPoint.Services.GameSessionState,
-            GameEntryPoint.Services.SceneLoader);
-
-        if (!GameEntryPoint.Services.Locator.TryRegister<IGameSaveInteractor>(gameSaveInteractor))
-        {
-            Debug.LogWarning("GameplaySceneEntryPoint: IGameSaveInteractor is already registered for this scene.", this);
-        }
-    }
-
-    private void ConfigureHud()
-    {
-        if (hudView == null)
-        {
-            return;
-        }
-
-        HealthComponent playerHealth = ResolvePlayerHealthComponent();
-        hudView.SetSources(playerHealth, playerCombatSystem);
-    }
-
-    private HealthComponent ResolvePlayerHealthComponent()
-    {
-        if (playerTransform != null)
-        {
-            HealthComponent healthFromTransform = playerTransform.GetComponentInChildren<HealthComponent>();
-            if (healthFromTransform != null)
-            {
-                return healthFromTransform;
-            }
-        }
-
-        GameObject taggedPlayer = GameObject.FindGameObjectWithTag("Player");
-        if (taggedPlayer != null)
-        {
-            HealthComponent healthFromTag = taggedPlayer.GetComponentInChildren<HealthComponent>();
-            if (healthFromTag != null)
-            {
-                return healthFromTag;
-            }
-        }
-
-        return playerMovement != null ? playerMovement.GetComponentInChildren<HealthComponent>() : null;
-    }
-
-    private ManaComponent ResolvePlayerManaComponent()
-    {
-        if (playerTransform != null)
-        {
-            ManaComponent manaFromTransform = playerTransform.GetComponentInChildren<ManaComponent>();
-            if (manaFromTransform != null)
-            {
-                return manaFromTransform;
-            }
-        }
-
-        GameObject taggedPlayer = GameObject.FindGameObjectWithTag("Player");
-        if (taggedPlayer != null)
-        {
-            ManaComponent manaFromTag = taggedPlayer.GetComponentInChildren<ManaComponent>();
-            if (manaFromTag != null)
-            {
-                return manaFromTag;
-            }
-        }
-
-        return playerMovement != null ? playerMovement.GetComponentInChildren<ManaComponent>() : null;
-    }
-
-    private PlayerStatsComponent ResolvePlayerStatsComponent()
-    {
-        if (playerTransform != null)
-        {
-            PlayerStatsComponent statsFromTransform = playerTransform.GetComponentInChildren<PlayerStatsComponent>();
-            if (statsFromTransform != null)
-            {
-                return statsFromTransform;
-            }
-        }
-
-        GameObject taggedPlayer = GameObject.FindGameObjectWithTag("Player");
-        if (taggedPlayer != null)
-        {
-            PlayerStatsComponent statsFromTag = taggedPlayer.GetComponentInChildren<PlayerStatsComponent>();
-            if (statsFromTag != null)
-            {
-                return statsFromTag;
-            }
-        }
-
-        return playerMovement != null ? playerMovement.GetComponentInChildren<PlayerStatsComponent>() : null;
-    }
-
-    private void InitializePauseMenu()
-    {
-        if (pauseMenuView == null)
-        {
-            Debug.LogError("GameplaySceneEntryPoint: PauseMenuView is not assigned.", this);
-            return;
-        }
-
-        MonoBehaviour[] componentsToToggle = gameplayComponentsToToggle;
-        if (componentsToToggle == null || componentsToToggle.Length == 0)
-        {
-            componentsToToggle = new MonoBehaviour[]
-            {
-                playerMovement,
-                playerCombatSystem,
-                playerAnimationController
-            };
-        }
-
-        pauseMenuController = new PauseMenuController(
-            pauseMenuView,
-            inputService,
-            gameSaveInteractor,
-            GameEntryPoint.Services.SceneLoader,
-            componentsToToggle,
-            mainMenuSceneName);
-
-        pauseMenuController.Initialize();
     }
 }

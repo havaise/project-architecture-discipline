@@ -4,40 +4,32 @@ using UnityEngine;
 
 public sealed class EnemyStateRepository : IEnemyStateRepository
 {
-    private readonly EnemyController[] initialEnemies;
+    private readonly IReadOnlyList<EnemyStateHandle> enemyHandles;
 
-    public EnemyStateRepository(EnemyController[] enemies)
+    public EnemyStateRepository(IReadOnlyList<EnemyStateHandle> enemyHandles)
     {
-        initialEnemies = enemies;
+        this.enemyHandles = enemyHandles ?? Array.Empty<EnemyStateHandle>();
     }
 
     public List<EnemySaveData> Capture()
     {
         List<EnemySaveData> data = new List<EnemySaveData>();
-        EnemyController[] enemies = GetEnemiesSnapshot();
-        if (enemies == null)
+        for (int i = 0; i < enemyHandles.Count; i++)
         {
-            return data;
-        }
-
-        for (int i = 0; i < enemies.Length; i++)
-        {
-            EnemyController enemy = enemies[i];
-            if (enemy == null)
+            EnemyStateHandle handle = enemyHandles[i];
+            EnemyController enemy = handle != null ? handle.Enemy : null;
+            if (enemy == null || string.IsNullOrWhiteSpace(handle.StableId))
             {
                 continue;
             }
 
-            HealthComponent health = enemy.GetComponentInChildren<HealthComponent>();
-            EnemySaveId idComponent = enemy.GetComponent<EnemySaveId>();
-
             data.Add(new EnemySaveData
             {
-                Id = idComponent != null ? idComponent.Id : enemy.name,
+                Id = handle.StableId,
                 Position = enemy.transform.position,
                 Rotation = enemy.transform.rotation,
-                CurrentHp = health != null ? health.Current : 0,
-                MaxHp = health != null ? health.Max : 0
+                CurrentHp = handle.Health != null ? handle.Health.Current : 0,
+                MaxHp = handle.Health != null ? handle.Health.Max : 0
             });
         }
 
@@ -46,8 +38,7 @@ public sealed class EnemyStateRepository : IEnemyStateRepository
 
     public void Restore(List<EnemySaveData> enemiesData)
     {
-        EnemyController[] enemies = GetEnemiesSnapshot();
-        if (enemies == null || enemiesData == null || enemiesData.Count == 0)
+        if (enemiesData == null || enemiesData.Count == 0)
         {
             return;
         }
@@ -70,16 +61,16 @@ public sealed class EnemyStateRepository : IEnemyStateRepository
             list.Add(data);
         }
 
-        for (int i = 0; i < enemies.Length; i++)
+        for (int i = 0; i < enemyHandles.Count; i++)
         {
-            EnemyController enemy = enemies[i];
-            if (enemy == null)
+            EnemyStateHandle handle = enemyHandles[i];
+            EnemyController enemy = handle != null ? handle.Enemy : null;
+            if (enemy == null || string.IsNullOrWhiteSpace(handle.StableId))
             {
                 continue;
             }
 
-            string key = ResolveEnemyKey(enemy);
-            if (string.IsNullOrWhiteSpace(key) || !byId.TryGetValue(key, out List<EnemySaveData> candidates))
+            if (!byId.TryGetValue(handle.StableId, out List<EnemySaveData> candidates))
             {
                 continue;
             }
@@ -87,10 +78,9 @@ public sealed class EnemyStateRepository : IEnemyStateRepository
             EnemySaveData data = TakeBestCandidate(candidates, enemy.transform.position);
             enemy.transform.SetPositionAndRotation(data.Position, data.Rotation);
 
-            HealthComponent health = enemy.GetComponentInChildren<HealthComponent>();
-            if (health != null)
+            if (handle.Health != null)
             {
-                health.SetCurrent(data.CurrentHp);
+                handle.Health.SetCurrent(data.CurrentHp);
             }
         }
     }
@@ -120,27 +110,5 @@ public sealed class EnemyStateRepository : IEnemyStateRepository
         EnemySaveData best = candidates[bestIndex];
         candidates.RemoveAt(bestIndex);
         return best;
-    }
-
-    private static string ResolveEnemyKey(EnemyController enemy)
-    {
-        EnemySaveId idComponent = enemy.GetComponent<EnemySaveId>();
-        if (idComponent != null && !string.IsNullOrWhiteSpace(idComponent.Id))
-        {
-            return idComponent.Id;
-        }
-
-        return enemy.name;
-    }
-
-    private EnemyController[] GetEnemiesSnapshot()
-    {
-        EnemyController[] sceneEnemies = UnityEngine.Object.FindObjectsByType<EnemyController>(FindObjectsSortMode.None);
-        if (sceneEnemies != null && sceneEnemies.Length > 0)
-        {
-            return sceneEnemies;
-        }
-
-        return initialEnemies;
     }
 }

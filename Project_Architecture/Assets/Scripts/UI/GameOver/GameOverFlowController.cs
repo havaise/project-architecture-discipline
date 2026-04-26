@@ -1,11 +1,13 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine;
 
 public sealed class GameOverFlowController
 {
     private readonly GameOverView view;
     private readonly IHealth playerHealth;
     private readonly IInputService inputService;
+    private readonly IGamePauseService gamePauseService;
+    private readonly ICursorService cursorService;
+    private readonly ISceneRestartService sceneRestartService;
     private readonly MonoBehaviour[] componentsToDisable;
     private readonly bool pauseTimeOnGameOver;
     private readonly bool unlockCursorOnGameOver;
@@ -17,6 +19,9 @@ public sealed class GameOverFlowController
         GameOverView view,
         IHealth playerHealth,
         IInputService inputService,
+        IGamePauseService gamePauseService,
+        ICursorService cursorService,
+        ISceneRestartService sceneRestartService,
         MonoBehaviour[] componentsToDisable,
         bool pauseTimeOnGameOver,
         bool unlockCursorOnGameOver)
@@ -24,6 +29,9 @@ public sealed class GameOverFlowController
         this.view = view;
         this.playerHealth = playerHealth;
         this.inputService = inputService;
+        this.gamePauseService = gamePauseService;
+        this.cursorService = cursorService;
+        this.sceneRestartService = sceneRestartService;
         this.componentsToDisable = componentsToDisable;
         this.pauseTimeOnGameOver = pauseTimeOnGameOver;
         this.unlockCursorOnGameOver = unlockCursorOnGameOver;
@@ -68,23 +76,21 @@ public sealed class GameOverFlowController
 
         if (pauseTimeOnGameOver)
         {
-            Time.timeScale = 0f;
+            gamePauseService?.Pause();
         }
 
         view.Show();
 
         if (unlockCursorOnGameOver)
         {
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
+            cursorService?.Show();
         }
     }
 
     private void OnRestartRequested()
     {
-        Time.timeScale = 1f;
-        Scene activeScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(activeScene.buildIndex);
+        gamePauseService?.Resume();
+        sceneRestartService?.RestartActiveScene();
     }
 
     private void OnQuitRequested()

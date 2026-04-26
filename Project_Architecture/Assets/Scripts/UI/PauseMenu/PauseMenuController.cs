@@ -7,6 +7,8 @@ public sealed class PauseMenuController : IDisposable
     private readonly IInputService inputService;
     private readonly IGameSaveInteractor gameSaveInteractor;
     private readonly ISceneLoader sceneLoader;
+    private readonly IGamePauseService gamePauseService;
+    private readonly ICursorService cursorService;
     private readonly MonoBehaviour[] gameplayComponentsToToggle;
     private readonly string mainMenuSceneName;
     private bool isPaused;
@@ -17,6 +19,8 @@ public sealed class PauseMenuController : IDisposable
         IInputService inputService,
         IGameSaveInteractor gameSaveInteractor,
         ISceneLoader sceneLoader,
+        IGamePauseService gamePauseService,
+        ICursorService cursorService,
         MonoBehaviour[] gameplayComponentsToToggle,
         string mainMenuSceneName)
     {
@@ -24,6 +28,8 @@ public sealed class PauseMenuController : IDisposable
         this.inputService = inputService ?? throw new ArgumentNullException(nameof(inputService));
         this.gameSaveInteractor = gameSaveInteractor ?? throw new ArgumentNullException(nameof(gameSaveInteractor));
         this.sceneLoader = sceneLoader ?? throw new ArgumentNullException(nameof(sceneLoader));
+        this.gamePauseService = gamePauseService ?? throw new ArgumentNullException(nameof(gamePauseService));
+        this.cursorService = cursorService ?? throw new ArgumentNullException(nameof(cursorService));
         this.gameplayComponentsToToggle = gameplayComponentsToToggle;
         this.mainMenuSceneName = string.IsNullOrWhiteSpace(mainMenuSceneName) ? "MainMenu" : mainMenuSceneName;
     }
@@ -80,21 +86,19 @@ public sealed class PauseMenuController : IDisposable
     private void Pause()
     {
         isPaused = true;
-        Time.timeScale = 0f;
+        gamePauseService.Pause();
         SetGameplayComponentsEnabled(false);
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        cursorService.Show();
         view.Show();
     }
 
     private void Resume()
     {
         isPaused = false;
-        Time.timeScale = 1f;
+        gamePauseService.Resume();
         SetGameplayComponentsEnabled(true);
         view.Hide();
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        cursorService.HideAndLock();
     }
 
     private void ResumeIfPaused()

@@ -36,6 +36,8 @@ public static class PauseMenuComposition
             inputService,
             gameSaveInteractor,
             sceneLoader,
+            new UnityGamePauseService(),
+            new UnityCursorService(),
             componentsToToggle,
             mainMenuSceneName);
         pauseMenuController.Initialize();

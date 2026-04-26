@@ -38,6 +38,9 @@ public class GameOverController : MonoBehaviour
             view,
             playerHealth,
             inputService,
+            new UnityGamePauseService(),
+            new UnityCursorService(),
+            new UnitySceneRestartService(),
             controlComponents,
             pauseTimeOnGameOver,
             unlockCursorOnGameOver);

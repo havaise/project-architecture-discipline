@@ -13,13 +13,14 @@ public static class SaveComposition
         Object context)
     {
         EnemyController[] enemies = Object.FindObjectsByType<EnemyController>(FindObjectsSortMode.None);
+        EnemyStateHandle[] enemyHandles = BuildEnemyHandles(enemies);
 
         IPlayerStateRepository playerRepository = new PlayerStateRepository(
             playerTransform,
             playerHealth,
             playerMana,
             playerStats);
-        IEnemyStateRepository enemyRepository = new EnemyStateRepository(enemies);
+        IEnemyStateRepository enemyRepository = new EnemyStateRepository(enemyHandles);
 
         IGameSaveInteractor gameSaveInteractor = new GameSaveInteractor(
             services.SaveGameRepository,
@@ -35,5 +36,21 @@ public static class SaveComposition
         }
 
         return gameSaveInteractor;
+    }
+
+    private static EnemyStateHandle[] BuildEnemyHandles(EnemyController[] enemies)
+    {
+        if (enemies == null || enemies.Length == 0)
+        {
+            return System.Array.Empty<EnemyStateHandle>();
+        }
+
+        EnemyStateHandle[] handles = new EnemyStateHandle[enemies.Length];
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            handles[i] = new EnemyStateHandle(enemies[i]);
+        }
+
+        return handles;
     }
 }

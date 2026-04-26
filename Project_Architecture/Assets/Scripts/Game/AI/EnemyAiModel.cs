@@ -36,7 +36,7 @@ public sealed class EnemyAiModel
         return canSeeTarget ? currentTargetPosition : lastKnownTargetPosition;
     }
 
-    public bool TryConsumeAttack(float currentTime, out float cooldownRemaining)
+    public bool TryConsumeAttack(float currentTime, out float cooldownRemaining, float attackSpeedMultiplier = 1f)
     {
         if (currentTime < nextAttackTime)
         {
@@ -44,7 +44,13 @@ public sealed class EnemyAiModel
             return false;
         }
 
-        nextAttackTime = currentTime + attackCooldown;
+        float cooldownDuration = attackCooldown;
+        if (attackSpeedMultiplier > 0.01f)
+        {
+            cooldownDuration /= attackSpeedMultiplier;
+        }
+
+        nextAttackTime = currentTime + Mathf.Max(0.01f, cooldownDuration);
         cooldownRemaining = 0f;
         return true;
     }

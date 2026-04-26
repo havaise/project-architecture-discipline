@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAttackEvents, IDamageSource
+public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttackEvents, IDamageSource
 {
     [Header("Target")]
     [SerializeField] private Transform target;
@@ -21,8 +21,9 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
     [Header("Projectile")]
     [SerializeField] private EnemyProjectileConfig projectileConfig = default;
 
-    [Header("Behaviour")]
-    [SerializeField] private EnemyBehaviourConfig behaviourConfig = default;
+    [Header("Boss")]
+    [SerializeField] private bool requireHitToAggro = true;
+    [SerializeField] private BossCombatConfig bossCombatConfig = default;
 
     [Header("Debug")]
     [SerializeField] private bool enableCombatDebugLogs;
@@ -31,14 +32,16 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
     public event Action MeleeAttackPerformed;
     public event Action RangedAttackPerformed;
 
-    public bool IsMoving => enemyAgent != null && enemyAgent.IsMoving;
-    public float MoveSpeedNormalized => enemyAgent != null ? enemyAgent.MoveSpeedNormalized : 0f;
+    public bool IsMoving => bossAgent != null && bossAgent.IsMoving;
+    public float MoveSpeedNormalized => bossAgent != null ? bossAgent.MoveSpeedNormalized : 0f;
 
     private NavMeshAgent navMeshAgent;
     private Rigidbody body;
-    private EnemyAgent enemyAgent;
+    private BossAgent bossAgent;
     private IEnemyProjectileFactory projectileFactory;
     private HealthComponent healthComponent;
+    private int lastKnownHealth = int.MaxValue;
+    private bool wasHit;
 
     private void Awake()
     {
@@ -47,16 +50,16 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         navMeshAgent = GetComponent<NavMeshAgent>();
         body = GetComponent<Rigidbody>();
         healthComponent = GetComponentInChildren<HealthComponent>();
+
         IEnemyTargetProvider targetProvider = new UnityEnemyTargetProvider(playerTag);
         projectileFactory = new UnityEnemyProjectileFactory(projectileConfig.ProjectilePrefab, Log);
         EnemyAiModel aiModel = new EnemyAiModel(visionConfig.VisibilityMemoryDuration, attackConfig.AttackCooldown);
         EnemyVisionSensor visionSensor = new EnemyVisionSensor(transform);
         EnemyMovementMotor movementMotor = new EnemyMovementMotor(transform, navMeshAgent, aiModel);
         EnemyAttackSystem attackSystem = new EnemyAttackSystem(transform, aiModel, CreateProjectile);
-
         movementMotor.ConfigurePhysics(body, movementConfig.ConfigureRigidbodyForNavMesh);
 
-        enemyAgent = new EnemyAgent(
+        bossAgent = new BossAgent(
             transform,
             target,
             aiModel,
@@ -68,25 +71,44 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
             movementConfig,
             attackConfig,
             projectileConfig,
-            behaviourConfig,
+            bossCombatConfig,
             autoFindPlayer,
             GetDamage,
             GetHealthRatio,
             HandleAttackResult,
             enableCombatDebugLogs);
-        enemyAgent.Initialize(Time.time);
-        target = enemyAgent.CurrentTarget;
+        bossAgent.Initialize(Time.time);
+        target = bossAgent.CurrentTarget;
+    }
+
+    private void Start()
+    {
+        if (healthComponent != null)
+        {
+            lastKnownHealth = healthComponent.Current;
+            healthComponent.HealthChanged += OnHealthChanged;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (healthComponent != null)
+        {
+            healthComponent.HealthChanged -= OnHealthChanged;
+        }
     }
 
     private void Update()
     {
-        if (enemyAgent == null)
+        if (bossAgent == null)
         {
             return;
         }
 
-        enemyAgent.Tick(Time.time, Time.deltaTime);
-        target = enemyAgent.CurrentTarget;
+        bool provoked = !requireHitToAggro || wasHit;
+        bossAgent.SetProvoked(provoked);
+        bossAgent.Tick(Time.time, Time.deltaTime);
+        target = bossAgent.CurrentTarget;
     }
 
     public int GetDamage()
@@ -104,6 +126,16 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         return (float)healthComponent.Current / healthComponent.Max;
     }
 
+    private void OnHealthChanged(int current, int max)
+    {
+        if (lastKnownHealth != int.MaxValue && current < lastKnownHealth)
+        {
+            wasHit = true;
+        }
+
+        lastKnownHealth = current;
+    }
+
     private void HandleAttackResult(EnemyAttackResult result, float cooldownRemaining)
     {
         switch (result)
@@ -111,30 +143,17 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
             case EnemyAttackResult.Cooldown:
                 if (logCooldownBlocks)
                 {
-                    Log($"Attack blocked by cooldown: {cooldownRemaining:0.00}s left.");
+                    Log($"Boss attack blocked by cooldown: {cooldownRemaining:0.00}s left.");
                 }
                 break;
 
             case EnemyAttackResult.MeleeHit:
-                MeleeAttackPerformed?.Invoke();
-                Log($"Attack hit player: {(target != null ? target.name : "<null>")}, dmg={GetDamage()}");
-                break;
-
             case EnemyAttackResult.MeleeMiss:
                 MeleeAttackPerformed?.Invoke();
-                Log("Attack attempted, but no damage receiver found on target.");
                 break;
 
             case EnemyAttackResult.RangedFired:
                 RangedAttackPerformed?.Invoke();
-                Log($"Ranged attack fired at: {(target != null ? target.name : "<null>")}");
-                break;
-
-            case EnemyAttackResult.RangedBlocked:
-                if (logCooldownBlocks)
-                {
-                    Log("Ranged attack blocked (missing projectile target or factory failed).");
-                }
                 break;
         }
     }
@@ -166,9 +185,9 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
             projectileConfig = EnemyProjectileConfig.CreateDefault();
         }
 
-        if (behaviourConfig.FleeDistance <= 0f)
+        if (bossCombatConfig.StrongAttackCooldown <= 0f)
         {
-            behaviourConfig = EnemyBehaviourConfig.CreateDefault();
+            bossCombatConfig = BossCombatConfig.CreateDefault();
         }
     }
 
@@ -179,6 +198,6 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
             return;
         }
 
-        Debug.Log($"[EnemyController] {message}", this);
+        Debug.Log($"[BossController] {message}", this);
     }
 }

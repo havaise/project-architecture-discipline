@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public sealed class EnemyAgent
+public sealed class BossAgent
 {
     private readonly Transform transform;
     private readonly EnemyAiModel aiModel;
@@ -13,19 +13,21 @@ public sealed class EnemyAgent
     private readonly EnemyMovementConfig movementConfig;
     private readonly EnemyAttackConfig attackConfig;
     private readonly EnemyProjectileConfig projectileConfig;
-    private readonly EnemyBehaviourConfig behaviourConfig;
+    private readonly BossCombatConfig bossCombatConfig;
     private readonly bool autoFindPlayer;
     private readonly bool enableCombatDebugLogs;
     private readonly Func<int> getDamage;
     private readonly Func<float> getHealthRatio;
     private readonly Action<EnemyAttackResult, float> handleAttackResult;
-    private readonly StateMachine<EnemyAgent> stateMachine;
-    private readonly IState<EnemyAgent> restState;
-    private readonly IState<EnemyAgent> aggressionState;
-    private readonly IState<EnemyAgent> attackState;
-    private readonly IState<EnemyAgent> fleeState;
+    private readonly StateMachine<BossAgent> stateMachine;
+    private readonly IState<BossAgent> restState;
+    private readonly IState<BossAgent> aggressionState;
+    private readonly IState<BossAgent> attackState;
+    private readonly IState<BossAgent> strongAttackState;
 
-    public EnemyAgent(
+    private float nextStrongAttackTime;
+
+    public BossAgent(
         Transform transform,
         Transform initialTarget,
         EnemyAiModel aiModel,
@@ -37,7 +39,7 @@ public sealed class EnemyAgent
         EnemyMovementConfig movementConfig,
         EnemyAttackConfig attackConfig,
         EnemyProjectileConfig projectileConfig,
-        EnemyBehaviourConfig behaviourConfig,
+        BossCombatConfig bossCombatConfig,
         bool autoFindPlayer,
         Func<int> getDamage,
         Func<float> getHealthRatio,
@@ -57,28 +59,36 @@ public sealed class EnemyAgent
         this.movementConfig = movementConfig;
         this.attackConfig = attackConfig;
         this.projectileConfig = projectileConfig;
-        this.behaviourConfig = behaviourConfig;
+        this.bossCombatConfig = bossCombatConfig;
         this.autoFindPlayer = autoFindPlayer;
         this.getDamage = getDamage;
         this.getHealthRatio = getHealthRatio;
         this.handleAttackResult = handleAttackResult;
         this.enableCombatDebugLogs = enableCombatDebugLogs;
-        stateMachine = new StateMachine<EnemyAgent>(this);
-        restState = new EnemyRestState();
-        aggressionState = new EnemyAggressionState();
-        attackState = new EnemyAttackState();
-        fleeState = new EnemyFleeState();
+
+        stateMachine = new StateMachine<BossAgent>(this);
+        restState = new BossRestState();
+        aggressionState = new BossAggressionState();
+        attackState = new BossAttackState();
+        strongAttackState = new BossStrongAttackState();
     }
 
     public Transform CurrentTarget { get; private set; }
     public bool IsMoving => aiModel.IsMoving;
     public float MoveSpeedNormalized => aiModel.MoveSpeedNormalized;
+    public bool IsProvoked { get; private set; }
     public string CurrentStateName => stateMachine.CurrentStateName;
 
     public void Initialize(float currentTime)
     {
         ResolveTarget(currentTime);
+        nextStrongAttackTime = currentTime + Mathf.Max(0.1f, bossCombatConfig.StrongAttackCooldown);
         stateMachine.SetInitialState(restState);
+    }
+
+    public void SetProvoked(bool value)
+    {
+        IsProvoked = value;
     }
 
     public void Tick(float currentTime, float deltaTime)
@@ -140,25 +150,30 @@ public sealed class EnemyAgent
         return aiModel.HasMemory(currentTime);
     }
 
-    private bool IsPeaceful()
+    private float GetAttackSpeedMultiplier()
     {
-        return behaviourConfig.BehaviourMode == EnemyBehaviourMode.Peaceful;
-    }
-
-    private bool ShouldFlee()
-    {
-        if (behaviourConfig.FleeHealthThreshold <= 0f)
+        if (!bossCombatConfig.EnrageBelowHalfHealth)
         {
-            return false;
+            return 1f;
         }
 
-        return getHealthRatio != null && getHealthRatio() <= behaviourConfig.FleeHealthThreshold;
+        float healthRatio = getHealthRatio != null ? getHealthRatio() : 1f;
+        if (healthRatio >= 0.5f)
+        {
+            return 1f;
+        }
+
+        return Mathf.Max(1f, bossCombatConfig.EnragedAttackSpeedMultiplier);
     }
 
-    private bool CanStopFlee()
+    private bool IsStrongAttackReady(float currentTime)
     {
-        float exitThreshold = Mathf.Max(behaviourConfig.FleeHealthThreshold, behaviourConfig.FleeExitHealthThreshold);
-        return getHealthRatio == null || getHealthRatio() >= exitThreshold;
+        return currentTime >= nextStrongAttackTime;
+    }
+
+    private void MarkStrongAttackUsed(float currentTime)
+    {
+        nextStrongAttackTime = currentTime + Mathf.Max(0.1f, bossCombatConfig.StrongAttackCooldown);
     }
 
     private void StopAndRotateIdle(float deltaTime)
@@ -181,30 +196,6 @@ public sealed class EnemyAgent
         Vector3 chasePoint = aiModel.GetChasePoint(CurrentTarget.position, canSeeTarget);
         movementMotor.Chase(
             chasePoint,
-            movementConfig.MoveSpeed,
-            movementConfig.RotationSpeed,
-            deltaTime);
-    }
-
-    private void FleeFromTarget(float deltaTime)
-    {
-        if (CurrentTarget == null)
-        {
-            StopAndRotateIdle(deltaTime);
-            return;
-        }
-
-        Vector3 awayDirection = transform.position - CurrentTarget.position;
-        awayDirection.y = 0f;
-        if (awayDirection.sqrMagnitude <= 0.0001f)
-        {
-            awayDirection = -transform.forward;
-        }
-
-        Vector3 fleeDestination = transform.position
-            + awayDirection.normalized * Mathf.Max(2f, behaviourConfig.FleeDistance);
-        movementMotor.Chase(
-            fleeDestination,
             movementConfig.MoveSpeed,
             movementConfig.RotationSpeed,
             deltaTime);
@@ -254,36 +245,29 @@ public sealed class EnemyAgent
         stateMachine.ChangeState(attackState);
     }
 
-    private void ChangeToFlee()
+    private void ChangeToStrongAttack()
     {
-        stateMachine.ChangeState(fleeState);
+        stateMachine.ChangeState(strongAttackState);
     }
 
-    private sealed class EnemyRestState : IState<EnemyAgent>
+    private sealed class BossRestState : IState<BossAgent>
     {
         public string Name => "Rest";
 
-        public void Enter(EnemyAgent context)
+        public void Enter(BossAgent context)
         {
             context.movementMotor.Stop();
         }
 
-        public void Tick(EnemyAgent context, float currentTime, float deltaTime)
+        public void Tick(BossAgent context, float currentTime, float deltaTime)
         {
-            bool hasTarget = context.ResolveTarget(currentTime);
-            if (!hasTarget)
+            if (!context.ResolveTarget(currentTime))
             {
                 context.StopAndRotateIdle(deltaTime);
                 return;
             }
 
-            if (context.ShouldFlee())
-            {
-                context.ChangeToFlee();
-                return;
-            }
-
-            if (context.IsPeaceful())
+            if (!context.IsProvoked)
             {
                 context.StopAndRotateIdle(deltaTime);
                 return;
@@ -299,30 +283,24 @@ public sealed class EnemyAgent
             context.StopAndRotateIdle(deltaTime);
         }
 
-        public void Exit(EnemyAgent context) { }
+        public void Exit(BossAgent context) { }
     }
 
-    private sealed class EnemyAggressionState : IState<EnemyAgent>
+    private sealed class BossAggressionState : IState<BossAgent>
     {
         public string Name => "Aggression";
 
-        public void Enter(EnemyAgent context) { }
+        public void Enter(BossAgent context) { }
 
-        public void Tick(EnemyAgent context, float currentTime, float deltaTime)
+        public void Tick(BossAgent context, float currentTime, float deltaTime)
         {
-            if (!context.ResolveTarget(currentTime))
+            if (!context.IsProvoked)
             {
                 context.ChangeToRest();
                 return;
             }
 
-            if (context.ShouldFlee())
-            {
-                context.ChangeToFlee();
-                return;
-            }
-
-            if (context.IsPeaceful())
+            if (!context.ResolveTarget(currentTime))
             {
                 context.ChangeToRest();
                 return;
@@ -337,6 +315,12 @@ public sealed class EnemyAgent
 
             if (canSeeTarget && context.IsInAttackRange())
             {
+                if (context.IsStrongAttackReady(currentTime))
+                {
+                    context.ChangeToStrongAttack();
+                    return;
+                }
+
                 context.ChangeToAttack();
                 return;
             }
@@ -344,33 +328,27 @@ public sealed class EnemyAgent
             context.ChaseCurrentTarget(canSeeTarget, deltaTime);
         }
 
-        public void Exit(EnemyAgent context) { }
+        public void Exit(BossAgent context) { }
     }
 
-    private sealed class EnemyAttackState : IState<EnemyAgent>
+    private sealed class BossAttackState : IState<BossAgent>
     {
         public string Name => "Attack";
 
-        public void Enter(EnemyAgent context)
+        public void Enter(BossAgent context)
         {
             context.movementMotor.Stop();
         }
 
-        public void Tick(EnemyAgent context, float currentTime, float deltaTime)
+        public void Tick(BossAgent context, float currentTime, float deltaTime)
         {
-            if (!context.ResolveTarget(currentTime))
+            if (!context.IsProvoked)
             {
                 context.ChangeToRest();
                 return;
             }
 
-            if (context.ShouldFlee())
-            {
-                context.ChangeToFlee();
-                return;
-            }
-
-            if (context.IsPeaceful())
+            if (!context.ResolveTarget(currentTime))
             {
                 context.ChangeToRest();
                 return;
@@ -383,36 +361,62 @@ public sealed class EnemyAgent
                 return;
             }
 
+            if (context.IsStrongAttackReady(currentTime))
+            {
+                context.ChangeToStrongAttack();
+                return;
+            }
+
             context.movementMotor.Stop();
-            context.TryAttack(currentTime, attackSpeedMultiplier: 1f, damageMultiplier: 1f);
+            context.TryAttack(currentTime, context.GetAttackSpeedMultiplier(), 1f);
         }
 
-        public void Exit(EnemyAgent context) { }
+        public void Exit(BossAgent context) { }
     }
 
-    private sealed class EnemyFleeState : IState<EnemyAgent>
+    private sealed class BossStrongAttackState : IState<BossAgent>
     {
-        public string Name => "Flee";
+        public string Name => "StrongAttack";
 
-        public void Enter(EnemyAgent context) { }
-
-        public void Tick(EnemyAgent context, float currentTime, float deltaTime)
+        public void Enter(BossAgent context)
         {
+            context.movementMotor.Stop();
+        }
+
+        public void Tick(BossAgent context, float currentTime, float deltaTime)
+        {
+            if (!context.IsProvoked)
+            {
+                context.ChangeToRest();
+                return;
+            }
+
             if (!context.ResolveTarget(currentTime))
             {
                 context.ChangeToRest();
                 return;
             }
 
-            if (context.CanStopFlee())
+            bool canSeeTarget = context.CanSeeTarget(currentTime);
+            if (!canSeeTarget || !context.IsInAttackRange())
             {
-                context.ChangeToRest();
+                context.ChangeToAggression();
                 return;
             }
 
-            context.FleeFromTarget(deltaTime);
+            EnemyAttackResult result = context.TryAttack(
+                currentTime,
+                context.GetAttackSpeedMultiplier(),
+                Mathf.Max(1f, context.bossCombatConfig.StrongAttackDamageMultiplier));
+
+            if (result != EnemyAttackResult.Cooldown && result != EnemyAttackResult.None)
+            {
+                context.MarkStrongAttackUsed(currentTime);
+            }
+
+            context.ChangeToAttack();
         }
 
-        public void Exit(EnemyAgent context) { }
+        public void Exit(BossAgent context) { }
     }
 }

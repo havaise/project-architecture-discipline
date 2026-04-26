@@ -55,6 +55,7 @@ public sealed class EnemyAttackSystem
         EnemyAttackKind attackKind,
         int damage,
         float currentTime,
+        float attackSpeedMultiplier,
         float projectileSpeed,
         float projectileLifetime,
         float projectileRadius,
@@ -72,7 +73,7 @@ public sealed class EnemyAttackSystem
             return EnemyAttackResult.None;
         }
 
-        if (!aiModel.TryConsumeAttack(currentTime, out cooldownRemaining))
+        if (!aiModel.TryConsumeAttack(currentTime, out cooldownRemaining, attackSpeedMultiplier))
         {
             return EnemyAttackResult.Cooldown;
         }

@@ -94,3 +94,49 @@ public struct EnemyProjectileConfig
         };
     }
 }
+
+public enum EnemyBehaviourMode
+{
+    Hostile = 0,
+    Peaceful = 1
+}
+
+[Serializable]
+public struct EnemyBehaviourConfig
+{
+    public EnemyBehaviourMode BehaviourMode;
+    [Range(0f, 1f)] public float FleeHealthThreshold;
+    [Range(0f, 1f)] public float FleeExitHealthThreshold;
+    public float FleeDistance;
+
+    public static EnemyBehaviourConfig CreateDefault()
+    {
+        return new EnemyBehaviourConfig
+        {
+            BehaviourMode = EnemyBehaviourMode.Hostile,
+            FleeHealthThreshold = 0.25f,
+            FleeExitHealthThreshold = 0.45f,
+            FleeDistance = 8f
+        };
+    }
+}
+
+[Serializable]
+public struct BossCombatConfig
+{
+    public float StrongAttackCooldown;
+    public float StrongAttackDamageMultiplier;
+    public bool EnrageBelowHalfHealth;
+    public float EnragedAttackSpeedMultiplier;
+
+    public static BossCombatConfig CreateDefault()
+    {
+        return new BossCombatConfig
+        {
+            StrongAttackCooldown = 5f,
+            StrongAttackDamageMultiplier = 2f,
+            EnrageBelowHalfHealth = true,
+            EnragedAttackSpeedMultiplier = 1.5f
+        };
+    }
+}

@@ -38,6 +38,8 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
     private EnemyMovementMotor movementMotor;
     private EnemyAttackSystem attackSystem;
     private EnemyBrain enemyBrain;
+    private IEnemyTargetProvider targetProvider;
+    private IEnemyProjectileFactory projectileFactory;
 
     private void Awake()
     {
@@ -45,6 +47,8 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
 
         navMeshAgent = GetComponent<NavMeshAgent>();
         body = GetComponent<Rigidbody>();
+        targetProvider = new UnityEnemyTargetProvider(playerTag);
+        projectileFactory = new UnityEnemyProjectileFactory(projectileConfig.ProjectilePrefab, Log);
         aiModel = new EnemyAiModel(visionConfig.VisibilityMemoryDuration, attackConfig.AttackCooldown);
         visionSensor = new EnemyVisionSensor(transform);
         movementMotor = new EnemyMovementMotor(transform, navMeshAgent, aiModel);
@@ -55,7 +59,11 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
 
         if (autoFindPlayer)
         {
-            TryFindPlayer();
+            Transform resolvedTarget = targetProvider.Resolve(target, true);
+            if (resolvedTarget != null)
+            {
+                SetTarget(resolvedTarget);
+            }
         }
     }
 
@@ -113,9 +121,10 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
             return true;
         }
 
-        if (autoFindPlayer)
+        Transform resolvedTarget = targetProvider.Resolve(target, autoFindPlayer);
+        if (resolvedTarget != null)
         {
-            TryFindPlayer();
+            SetTarget(resolvedTarget);
         }
 
         return target != null;
@@ -128,22 +137,6 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
             movementConfig.PatrolLookAroundWhenIdle,
             movementConfig.IdleTurnSpeed,
             Time.deltaTime);
-    }
-
-    private void TryFindPlayer()
-    {
-        GameObject taggedPlayer = GameObject.FindGameObjectWithTag(playerTag);
-        if (taggedPlayer != null)
-        {
-            SetTarget(taggedPlayer.transform);
-            return;
-        }
-
-        PlayerMovement playerMovement = FindFirstObjectByType<PlayerMovement>();
-        if (playerMovement != null)
-        {
-            SetTarget(playerMovement.transform);
-        }
     }
 
     private void SetTarget(Transform newTarget)
@@ -216,23 +209,9 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         }
     }
 
-    private EnemyProjectile CreateProjectile(string fallbackName)
+    private EnemyProjectile CreateProjectile(string _)
     {
-        if (projectileConfig.ProjectilePrefab != null)
-        {
-            GameObject projectileObject = Instantiate(projectileConfig.ProjectilePrefab);
-            if (projectileObject.TryGetComponent(out EnemyProjectile projectile))
-            {
-                return projectile;
-            }
-
-            Log("Projectile prefab has no EnemyProjectile component. Added at runtime.");
-            return projectileObject.AddComponent<EnemyProjectile>();
-        }
-
-        GameObject fallbackProjectileObject = new GameObject(fallbackName);
-        Log("Projectile prefab is not assigned. Spawned runtime projectile.");
-        return fallbackProjectileObject.AddComponent<EnemyProjectile>();
+        return projectileFactory.CreateProjectile();
     }
 
     private void ApplyDefaultConfigsIfNeeded()

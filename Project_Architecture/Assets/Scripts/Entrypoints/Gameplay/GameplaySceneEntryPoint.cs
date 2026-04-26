@@ -1,5 +1,7 @@
 using UnityEngine;
 
+using IServiceLocator = ProjectArchitecture.Composition.IServiceLocator;
+
 public class GameplaySceneEntryPoint : MonoBehaviour
 {
     [Header("Scene Services")]
@@ -36,6 +38,7 @@ public class GameplaySceneEntryPoint : MonoBehaviour
             return;
         }
 
+        RegisterSceneServices();
         ResolveSceneComponents();
         ResolvePlayerTransform();
         InitializePlayerMvc();
@@ -48,6 +51,23 @@ public class GameplaySceneEntryPoint : MonoBehaviour
     private void OnDestroy()
     {
         pauseMenuController?.Dispose();
+
+        if (GameEntryPoint.Services != null)
+        {
+            IServiceLocator services = GameEntryPoint.Services.Locator;
+
+            if (services.TryGet<IInputService>(out IInputService registeredInputService)
+                && ReferenceEquals(registeredInputService, inputService))
+            {
+                services.Remove<IInputService>();
+            }
+
+            if (services.TryGet<IGameSaveInteractor>(out IGameSaveInteractor registeredGameSaveInteractor)
+                && ReferenceEquals(registeredGameSaveInteractor, gameSaveInteractor))
+            {
+                services.Remove<IGameSaveInteractor>();
+            }
+        }
     }
 
     private void Update()
@@ -90,6 +110,16 @@ public class GameplaySceneEntryPoint : MonoBehaviour
         if (hudView == null)
         {
             hudView = FindFirstObjectByType<HudView>();
+        }
+    }
+
+    private void RegisterSceneServices()
+    {
+        IServiceLocator services = GameEntryPoint.Services.Locator;
+
+        if (!services.TryRegister<IInputService>(inputService))
+        {
+            Debug.LogWarning("GameplaySceneEntryPoint: IInputService is already registered for this scene.", this);
         }
     }
 
@@ -162,6 +192,11 @@ public class GameplaySceneEntryPoint : MonoBehaviour
             enemyRepository,
             GameEntryPoint.Services.GameSessionState,
             GameEntryPoint.Services.SceneLoader);
+
+        if (!GameEntryPoint.Services.Locator.TryRegister<IGameSaveInteractor>(gameSaveInteractor))
+        {
+            Debug.LogWarning("GameplaySceneEntryPoint: IGameSaveInteractor is already registered for this scene.", this);
+        }
     }
 
     private void ConfigureHud()

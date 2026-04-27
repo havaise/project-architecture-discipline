@@ -1,0 +1,2661 @@
+fileFormatVersion: 2
+guid: 9212ccd314c5c344d8a217f26b3e7ec5
+ModelImporter:
+  serializedVersion: 20200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: entUV:body
+  - first:
+      1: 100002
+    second: entUV:chest
+  - first:
+      1: 100004
+    second: entUV:entUV:right_ankle
+  - first:
+      1: 100006
+    second: entUV:entUV:right_clavicle
+  - first:
+      1: 100008
+    second: entUV:entUV:right_finger1a
+  - first:
+      1: 100010
+    second: entUV:entUV:right_finger1b
+  - first:
+      1: 100012
+    second: entUV:entUV:right_finger2a
+  - first:
+      1: 100014
+    second: entUV:entUV:right_finger2b
+  - first:
+      1: 100016
+    second: entUV:entUV:right_finger3b
+  - first:
+      1: 100018
+    second: entUV:entUV:right_finger_3a
+  - first:
+      1: 100020
+    second: entUV:entUV:right_forearm
+  - first:
+      1: 100022
+    second: entUV:entUV:right_hip
+  - first:
+      1: 100024
+    second: entUV:entUV:right_knee
+  - first:
+      1: 100026
+    second: entUV:entUV:right_thumb1
+  - first:
+      1: 100028
+    second: entUV:entUV:right_thumb2
+  - first:
+      1: 100030
+    second: entUV:entUV:right_toe1a
+  - first:
+      1: 100032
+    second: entUV:entUV:right_toe1b
+  - first:
+      1: 100034
+    second: entUV:entUV:right_toe2a
+  - first:
+      1: 100036
+    second: entUV:entUV:right_toe2b
+  - first:
+      1: 100038
+    second: entUV:entUV:right_upper_arm
+  - first:
+      1: 100040
+    second: entUV:entUV:right_wrist
+  - first:
+      1: 100042
+    second: entUV:head
+  - first:
+      1: 100044
+    second: entUV:jaw
+  - first:
+      1: 100046
+    second: entUV:joint1
+  - first:
+      1: 100048
+    second: entUV:leaves
+  - first:
+      1: 100050
+    second: entUV:left_ankle
+  - first:
+      1: 100052
+    second: entUV:left_clavicle
+  - first:
+      1: 100054
+    second: entUV:left_finger1a
+  - first:
+      1: 100056
+    second: entUV:left_finger1b
+  - first:
+      1: 100058
+    second: entUV:left_finger2a
+  - first:
+      1: 100060
+    second: entUV:left_finger2b
+  - first:
+      1: 100062
+    second: entUV:left_finger3b
+  - first:
+      1: 100064
+    second: entUV:left_finger_3a
+  - first:
+      1: 100066
+    second: entUV:left_forearm
+  - first:
+      1: 100068
+    second: entUV:left_hip
+  - first:
+      1: 100070
+    second: entUV:left_knee
+  - first:
+      1: 100072
+    second: entUV:left_thumb1
+  - first:
+      1: 100074
+    second: entUV:left_thumb2
+  - first:
+      1: 100076
+    second: entUV:left_toe1a
+  - first:
+      1: 100078
+    second: entUV:left_toe1b
+  - first:
+      1: 100080
+    second: entUV:left_toe2a
+  - first:
+      1: 100082
+    second: entUV:left_toe2b
+  - first:
+      1: 100084
+    second: entUV:left_upper_arm
+  - first:
+      1: 100086
+    second: entUV:left_wrist
+  - first:
+      1: 100088
+    second: entUV:neck
+  - first:
+      1: 100090
+    second: entUV:pelvis
+  - first:
+      1: 100092
+    second: entUV:root
+  - first:
+      1: 100094
+    second: entUV:waist
+  - first:
+      1: 100096
+    second: left
+  - first:
+      1: 100098
+    second: //RootNode
+  - first:
+      4: 400000
+    second: entUV:body
+  - first:
+      4: 400002
+    second: entUV:chest
+  - first:
+      4: 400004
+    second: entUV:entUV:right_ankle
+  - first:
+      4: 400006
+    second: entUV:entUV:right_clavicle
+  - first:
+      4: 400008
+    second: entUV:entUV:right_finger1a
+  - first:
+      4: 400010
+    second: entUV:entUV:right_finger1b
+  - first:
+      4: 400012
+    second: entUV:entUV:right_finger2a
+  - first:
+      4: 400014
+    second: entUV:entUV:right_finger2b
+  - first:
+      4: 400016
+    second: entUV:entUV:right_finger3b
+  - first:
+      4: 400018
+    second: entUV:entUV:right_finger_3a
+  - first:
+      4: 400020
+    second: entUV:entUV:right_forearm
+  - first:
+      4: 400022
+    second: entUV:entUV:right_hip
+  - first:
+      4: 400024
+    second: entUV:entUV:right_knee
+  - first:
+      4: 400026
+    second: entUV:entUV:right_thumb1
+  - first:
+      4: 400028
+    second: entUV:entUV:right_thumb2
+  - first:
+      4: 400030
+    second: entUV:entUV:right_toe1a
+  - first:
+      4: 400032
+    second: entUV:entUV:right_toe1b
+  - first:
+      4: 400034
+    second: entUV:entUV:right_toe2a
+  - first:
+      4: 400036
+    second: entUV:entUV:right_toe2b
+  - first:
+      4: 400038
+    second: entUV:entUV:right_upper_arm
+  - first:
+      4: 400040
+    second: entUV:entUV:right_wrist
+  - first:
+      4: 400042
+    second: entUV:head
+  - first:
+      4: 400044
+    second: entUV:jaw
+  - first:
+      4: 400046
+    second: entUV:joint1
+  - first:
+      4: 400048
+    second: entUV:leaves
+  - first:
+      4: 400050
+    second: entUV:left_ankle
+  - first:
+      4: 400052
+    second: entUV:left_clavicle
+  - first:
+      4: 400054
+    second: entUV:left_finger1a
+  - first:
+      4: 400056
+    second: entUV:left_finger1b
+  - first:
+      4: 400058
+    second: entUV:left_finger2a
+  - first:
+      4: 400060
+    second: entUV:left_finger2b
+  - first:
+      4: 400062
+    second: entUV:left_finger3b
+  - first:
+      4: 400064
+    second: entUV:left_finger_3a
+  - first:
+      4: 400066
+    second: entUV:left_forearm
+  - first:
+      4: 400068
+    second: entUV:left_hip
+  - first:
+      4: 400070
+    second: entUV:left_knee
+  - first:
+      4: 400072
+    second: entUV:left_thumb1
+  - first:
+      4: 400074
+    second: entUV:left_thumb2
+  - first:
+      4: 400076
+    second: entUV:left_toe1a
+  - first:
+      4: 400078
+    second: entUV:left_toe1b
+  - first:
+      4: 400080
+    second: entUV:left_toe2a
+  - first:
+      4: 400082
+    second: entUV:left_toe2b
+  - first:
+      4: 400084
+    second: entUV:left_upper_arm
+  - first:
+      4: 400086
+    second: entUV:left_wrist
+  - first:
+      4: 400088
+    second: entUV:neck
+  - first:
+      4: 400090
+    second: entUV:pelvis
+  - first:
+      4: 400092
+    second: entUV:root
+  - first:
+      4: 400094
+    second: entUV:waist
+  - first:
+      4: 400096
+    second: left
+  - first:
+      4: 400098
+    second: //RootNode
+  - first:
+      43: 4300000
+    second: entUV:body
+  - first:
+      43: 4300002
+    second: entUV:leaves
+  - first:
+      74: 7400000
+    second: ALL ANIMS
+  - first:
+      74: 7400002
+    second: NE_Idle
+  - first:
+      74: 7400004
+    second: NE_Walk
+  - first:
+      74: 7400006
+    second: NE_Big Attack
+  - first:
+      74: 7400008
+    second: NE_Summon
+  - first:
+      74: 7400010
+    second: NE_Get Hit 01
+  - first:
+      74: 7400012
+    second: NE_Roar
+  - first:
+      74: 7400014
+    second: NE_Strafe Right
+  - first:
+      74: 7400016
+    second: NE_Strafe Left
+  - first:
+      74: 7400018
+    second: NE_Jump
+  - first:
+      74: 7400020
+    second: NE_Land
+  - first:
+      74: 7400022
+    second: NE_Death 01
+  - first:
+      74: 7400024
+    second: NE_Death 02
+  - first:
+      74: 7400026
+    second: NE_Forward Attack
+  - first:
+      74: 7400028
+    second: NE_Big Smash
+  - first:
+      74: 7400030
+    second: NE_Cast Spell
+  - first:
+      74: 7400032
+    second: NE_Get Hit 02
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: entUV:body
+  - first:
+      137: 13700002
+    second: entUV:leaves
+  externalObjects: {}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: ALL ANIMS
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 1
+      lastFrame: 1850
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: entUV:body
+        weight: 1
+      - path: entUV:body/entUV:leaves
+        weight: 1
+      - path: entUV:root
+        weight: 1
+      - path: entUV:root/entUV:pelvis
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a/entUV:entUV:right_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a/entUV:entUV:right_toe2b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a/entUV:left_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a/entUV:left_toe2b
+        weight: 1
+      - path: entUV:root/entUV:waist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a/entUV:entUV:right_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a/entUV:entUV:right_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a/entUV:entUV:right_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1/entUV:entUV:right_thumb2
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head/entUV:jaw
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:joint1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a/entUV:left_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a/entUV:left_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a/entUV:left_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1/entUV:left_thumb2
+        weight: 1
+      - path: left
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: NE_Idle
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 30
+      lastFrame: 120
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: entUV:body
+        weight: 1
+      - path: entUV:body/entUV:leaves
+        weight: 1
+      - path: entUV:root
+        weight: 1
+      - path: entUV:root/entUV:pelvis
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a/entUV:entUV:right_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a/entUV:entUV:right_toe2b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a/entUV:left_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a/entUV:left_toe2b
+        weight: 1
+      - path: entUV:root/entUV:waist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a/entUV:entUV:right_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a/entUV:entUV:right_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a/entUV:entUV:right_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1/entUV:entUV:right_thumb2
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head/entUV:jaw
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:joint1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a/entUV:left_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a/entUV:left_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a/entUV:left_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1/entUV:left_thumb2
+        weight: 1
+      - path: left
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: NE_Walk
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 150
+      lastFrame: 260
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: entUV:body
+        weight: 1
+      - path: entUV:body/entUV:leaves
+        weight: 1
+      - path: entUV:root
+        weight: 1
+      - path: entUV:root/entUV:pelvis
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a/entUV:entUV:right_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a/entUV:entUV:right_toe2b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a/entUV:left_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a/entUV:left_toe2b
+        weight: 1
+      - path: entUV:root/entUV:waist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a/entUV:entUV:right_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a/entUV:entUV:right_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a/entUV:entUV:right_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1/entUV:entUV:right_thumb2
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head/entUV:jaw
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:joint1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a/entUV:left_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a/entUV:left_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a/entUV:left_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1/entUV:left_thumb2
+        weight: 1
+      - path: left
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: NE_Big Attack
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 290
+      lastFrame: 440
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: entUV:body
+        weight: 1
+      - path: entUV:body/entUV:leaves
+        weight: 1
+      - path: entUV:root
+        weight: 1
+      - path: entUV:root/entUV:pelvis
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a/entUV:entUV:right_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a/entUV:entUV:right_toe2b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a/entUV:left_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a/entUV:left_toe2b
+        weight: 1
+      - path: entUV:root/entUV:waist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a/entUV:entUV:right_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a/entUV:entUV:right_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a/entUV:entUV:right_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1/entUV:entUV:right_thumb2
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head/entUV:jaw
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:joint1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a/entUV:left_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a/entUV:left_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a/entUV:left_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1/entUV:left_thumb2
+        weight: 1
+      - path: left
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: NE_Summon
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 490
+      lastFrame: 650
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: entUV:body
+        weight: 1
+      - path: entUV:body/entUV:leaves
+        weight: 1
+      - path: entUV:root
+        weight: 1
+      - path: entUV:root/entUV:pelvis
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a/entUV:entUV:right_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a/entUV:entUV:right_toe2b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a/entUV:left_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a/entUV:left_toe2b
+        weight: 1
+      - path: entUV:root/entUV:waist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a/entUV:entUV:right_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a/entUV:entUV:right_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a/entUV:entUV:right_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1/entUV:entUV:right_thumb2
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head/entUV:jaw
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:joint1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a/entUV:left_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a/entUV:left_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a/entUV:left_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1/entUV:left_thumb2
+        weight: 1
+      - path: left
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: NE_Get Hit 01
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 680
+      lastFrame: 730
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: entUV:body
+        weight: 1
+      - path: entUV:body/entUV:leaves
+        weight: 1
+      - path: entUV:root
+        weight: 1
+      - path: entUV:root/entUV:pelvis
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a/entUV:entUV:right_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a/entUV:entUV:right_toe2b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a/entUV:left_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a/entUV:left_toe2b
+        weight: 1
+      - path: entUV:root/entUV:waist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a/entUV:entUV:right_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a/entUV:entUV:right_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a/entUV:entUV:right_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1/entUV:entUV:right_thumb2
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head/entUV:jaw
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:joint1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a/entUV:left_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a/entUV:left_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a/entUV:left_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1/entUV:left_thumb2
+        weight: 1
+      - path: left
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: NE_Roar
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 800
+      lastFrame: 1000
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: entUV:body
+        weight: 1
+      - path: entUV:body/entUV:leaves
+        weight: 1
+      - path: entUV:root
+        weight: 1
+      - path: entUV:root/entUV:pelvis
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a/entUV:entUV:right_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a/entUV:entUV:right_toe2b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a/entUV:left_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a/entUV:left_toe2b
+        weight: 1
+      - path: entUV:root/entUV:waist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a/entUV:entUV:right_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a/entUV:entUV:right_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a/entUV:entUV:right_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1/entUV:entUV:right_thumb2
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head/entUV:jaw
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:joint1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a/entUV:left_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a/entUV:left_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a/entUV:left_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1/entUV:left_thumb2
+        weight: 1
+      - path: left
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: NE_Strafe Right
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 1000
+      lastFrame: 1080
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: entUV:body
+        weight: 1
+      - path: entUV:body/entUV:leaves
+        weight: 1
+      - path: entUV:root
+        weight: 1
+      - path: entUV:root/entUV:pelvis
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a/entUV:entUV:right_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a/entUV:entUV:right_toe2b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a/entUV:left_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a/entUV:left_toe2b
+        weight: 1
+      - path: entUV:root/entUV:waist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a/entUV:entUV:right_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a/entUV:entUV:right_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a/entUV:entUV:right_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1/entUV:entUV:right_thumb2
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head/entUV:jaw
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:joint1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a/entUV:left_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a/entUV:left_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a/entUV:left_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1/entUV:left_thumb2
+        weight: 1
+      - path: left
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: NE_Strafe Left
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 1110
+      lastFrame: 1190
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: entUV:body
+        weight: 1
+      - path: entUV:body/entUV:leaves
+        weight: 1
+      - path: entUV:root
+        weight: 1
+      - path: entUV:root/entUV:pelvis
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a/entUV:entUV:right_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a/entUV:entUV:right_toe2b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a/entUV:left_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a/entUV:left_toe2b
+        weight: 1
+      - path: entUV:root/entUV:waist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a/entUV:entUV:right_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a/entUV:entUV:right_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a/entUV:entUV:right_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1/entUV:entUV:right_thumb2
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head/entUV:jaw
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:joint1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a/entUV:left_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a/entUV:left_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a/entUV:left_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1/entUV:left_thumb2
+        weight: 1
+      - path: left
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: NE_Jump
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 1240
+      lastFrame: 1270
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: entUV:body
+        weight: 1
+      - path: entUV:body/entUV:leaves
+        weight: 1
+      - path: entUV:root
+        weight: 1
+      - path: entUV:root/entUV:pelvis
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a/entUV:entUV:right_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a/entUV:entUV:right_toe2b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a/entUV:left_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a/entUV:left_toe2b
+        weight: 1
+      - path: entUV:root/entUV:waist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a/entUV:entUV:right_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a/entUV:entUV:right_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a/entUV:entUV:right_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1/entUV:entUV:right_thumb2
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head/entUV:jaw
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:joint1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a/entUV:left_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a/entUV:left_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a/entUV:left_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1/entUV:left_thumb2
+        weight: 1
+      - path: left
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: NE_Land
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 1270
+      lastFrame: 1300
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: entUV:body
+        weight: 1
+      - path: entUV:body/entUV:leaves
+        weight: 1
+      - path: entUV:root
+        weight: 1
+      - path: entUV:root/entUV:pelvis
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a/entUV:entUV:right_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a/entUV:entUV:right_toe2b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a/entUV:left_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a/entUV:left_toe2b
+        weight: 1
+      - path: entUV:root/entUV:waist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a/entUV:entUV:right_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a/entUV:entUV:right_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a/entUV:entUV:right_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1/entUV:entUV:right_thumb2
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head/entUV:jaw
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:joint1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a/entUV:left_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a/entUV:left_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a/entUV:left_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1/entUV:left_thumb2
+        weight: 1
+      - path: left
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: NE_Death 01
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 1330
+      lastFrame: 1390
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: entUV:body
+        weight: 1
+      - path: entUV:body/entUV:leaves
+        weight: 1
+      - path: entUV:root
+        weight: 1
+      - path: entUV:root/entUV:pelvis
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a/entUV:entUV:right_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a/entUV:entUV:right_toe2b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a/entUV:left_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a/entUV:left_toe2b
+        weight: 1
+      - path: entUV:root/entUV:waist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a/entUV:entUV:right_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a/entUV:entUV:right_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a/entUV:entUV:right_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1/entUV:entUV:right_thumb2
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head/entUV:jaw
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:joint1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a/entUV:left_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a/entUV:left_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a/entUV:left_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1/entUV:left_thumb2
+        weight: 1
+      - path: left
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: NE_Death 02
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 1420
+      lastFrame: 1480
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: entUV:body
+        weight: 1
+      - path: entUV:body/entUV:leaves
+        weight: 1
+      - path: entUV:root
+        weight: 1
+      - path: entUV:root/entUV:pelvis
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a/entUV:entUV:right_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a/entUV:entUV:right_toe2b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a/entUV:left_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a/entUV:left_toe2b
+        weight: 1
+      - path: entUV:root/entUV:waist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a/entUV:entUV:right_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a/entUV:entUV:right_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a/entUV:entUV:right_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1/entUV:entUV:right_thumb2
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head/entUV:jaw
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:joint1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a/entUV:left_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a/entUV:left_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a/entUV:left_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1/entUV:left_thumb2
+        weight: 1
+      - path: left
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: NE_Forward Attack
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 1500
+      lastFrame: 1560
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: entUV:body
+        weight: 1
+      - path: entUV:body/entUV:leaves
+        weight: 1
+      - path: entUV:root
+        weight: 1
+      - path: entUV:root/entUV:pelvis
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a/entUV:entUV:right_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a/entUV:entUV:right_toe2b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a/entUV:left_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a/entUV:left_toe2b
+        weight: 1
+      - path: entUV:root/entUV:waist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a/entUV:entUV:right_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a/entUV:entUV:right_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a/entUV:entUV:right_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1/entUV:entUV:right_thumb2
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head/entUV:jaw
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:joint1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a/entUV:left_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a/entUV:left_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a/entUV:left_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1/entUV:left_thumb2
+        weight: 1
+      - path: left
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: NE_Cast Spell
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 1590
+      lastFrame: 1670
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: entUV:body
+        weight: 1
+      - path: entUV:body/entUV:leaves
+        weight: 1
+      - path: entUV:root
+        weight: 1
+      - path: entUV:root/entUV:pelvis
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a/entUV:entUV:right_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a/entUV:entUV:right_toe2b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a/entUV:left_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a/entUV:left_toe2b
+        weight: 1
+      - path: entUV:root/entUV:waist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a/entUV:entUV:right_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a/entUV:entUV:right_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a/entUV:entUV:right_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1/entUV:entUV:right_thumb2
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head/entUV:jaw
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:joint1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a/entUV:left_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a/entUV:left_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a/entUV:left_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1/entUV:left_thumb2
+        weight: 1
+      - path: left
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: NE_Big Smash
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 1670
+      lastFrame: 1770
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: entUV:body
+        weight: 1
+      - path: entUV:body/entUV:leaves
+        weight: 1
+      - path: entUV:root
+        weight: 1
+      - path: entUV:root/entUV:pelvis
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a/entUV:entUV:right_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a/entUV:entUV:right_toe2b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a/entUV:left_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a/entUV:left_toe2b
+        weight: 1
+      - path: entUV:root/entUV:waist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a/entUV:entUV:right_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a/entUV:entUV:right_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a/entUV:entUV:right_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1/entUV:entUV:right_thumb2
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head/entUV:jaw
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:joint1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a/entUV:left_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a/entUV:left_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a/entUV:left_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1/entUV:left_thumb2
+        weight: 1
+      - path: left
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: NE_Get Hit 02
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 1800
+      lastFrame: 1840
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: entUV:body
+        weight: 1
+      - path: entUV:body/entUV:leaves
+        weight: 1
+      - path: entUV:root
+        weight: 1
+      - path: entUV:root/entUV:pelvis
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe1a/entUV:entUV:right_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:entUV:right_hip/entUV:entUV:right_knee/entUV:entUV:right_ankle/entUV:entUV:right_toe2a/entUV:entUV:right_toe2b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe1a/entUV:left_toe1b
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a
+        weight: 1
+      - path: entUV:root/entUV:pelvis/entUV:left_hip/entUV:left_knee/entUV:left_ankle/entUV:left_toe2a/entUV:left_toe2b
+        weight: 1
+      - path: entUV:root/entUV:waist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger1a/entUV:entUV:right_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger2a/entUV:entUV:right_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_finger_3a/entUV:entUV:right_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:entUV:right_clavicle/entUV:entUV:right_upper_arm/entUV:entUV:right_forearm/entUV:entUV:right_wrist/entUV:entUV:right_thumb1/entUV:entUV:right_thumb2
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:head/entUV:jaw
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:joint1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger1a/entUV:left_finger1b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger2a/entUV:left_finger2b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_finger_3a/entUV:left_finger3b
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1
+        weight: 1
+      - path: entUV:root/entUV:waist/entUV:chest/entUV:neck/entUV:left_clavicle/entUV:left_upper_arm/entUV:left_forearm/entUV:left_wrist/entUV:left_thumb1/entUV:left_thumb2
+        weight: 1
+      - path: left
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    fileIdsGeneration: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 4
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  additionalBone: 0
+  userData: ClipVersion=1,
+  assetBundleName: 
+  assetBundleVariant: 

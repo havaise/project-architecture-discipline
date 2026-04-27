@@ -343,12 +343,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f074cc99a22aeb24eb03ab1893204bbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HudView
-  healthSource: {fileID: 3113195049516612055}
-  cooldownSource: {fileID: 0}
   healthSlider: {fileID: 4817798273325908474}
   cooldownText: {fileID: 0}
-  autoFindInParent: 1
-  autoFindInScene: 1
 --- !u!1 &7332740488128563574
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,14 +562,14 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 3
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: -0.25
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 1
 --- !u!136 &4053905793999121645
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -655,33 +651,43 @@ MonoBehaviour:
   target: {fileID: 0}
   autoFindPlayer: 1
   playerTag: Player
-  viewDistance: 20
-  viewAngle: 180
-  eyeHeight: 1.4
-  visibilityMemoryDuration: 1.5
-  visibilityBlockers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  patrolLookAroundWhenIdle: 1
-  moveSpeed: 5
-  rotationSpeed: 10
-  idleTurnSpeed: 60
-  attackMode: 1
-  damage: 10
-  meleeAttackRange: 1.8
-  rangedAttackRange: 10
-  attackCooldown: 1.2
-  projectilePrefab: {fileID: 5928039675039283857, guid: 4a96115c349dee5409ce76d85252939f, type: 3}
-  projectileSpawnPoint: {fileID: 5939371211265761693}
-  projectileSpeed: 14
-  projectileLifetime: 3
-  projectileRadius: 0.2
-  projectileSpawnHeightOffset: 1.2
-  projectileSpawnForwardOffset: 0.4
-  projectileHitMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  configureRigidbodyForNavMesh: 1
+  visionConfig:
+    ViewDistance: 10
+    ViewAngle: 75
+    EyeHeight: 2
+    VisibilityMemoryDuration: 0.5
+    VisibilityBlockers:
+      serializedVersion: 2
+      m_Bits: 0
+  movementConfig:
+    PatrolLookAroundWhenIdle: 0
+    MoveSpeed: 3
+    RotationSpeed: 10
+    IdleTurnSpeed: 0.5
+    ConfigureRigidbodyForNavMesh: 0
+  attackConfig:
+    AttackMode: 1
+    Damage: 15
+    MeleeAttackRange: 0
+    RangedAttackRange: 6
+    AttackCooldown: 0.8
+  projectileConfig:
+    ProjectilePrefab: {fileID: 5928039675039283857, guid: 4a96115c349dee5409ce76d85252939f, type: 3}
+    ProjectileSpawnPoint: {fileID: 5939371211265761693}
+    ProjectileSpeed: 10
+    ProjectileLifetime: 10
+    ProjectileRadius: 1.5
+    ProjectileSpawnHeightOffset: 1
+    ProjectileSpawnForwardOffset: 0.5
+    ProjectileHitMask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+  behaviourConfig:
+    BehaviourMode: 0
+    FleeHealthThreshold: 0
+    FleeExitHealthThreshold: 0
+    FleeDistance: 0
+  worldHudView: {fileID: 7858503700303615482}
   enableCombatDebugLogs: 0
   logCooldownBlocks: 0
 --- !u!1001 &6311779049805133469
@@ -778,6 +784,7 @@ MonoBehaviour:
   speedDampTime: 0.08
   meleeAttackTriggerParam: MeleeAttackTrigger
   rangedAttackTriggerParam: RangedAttackTrigger
+  bossStateParam: BossState
   enableDebugLogs: 0
 --- !u!4 &5999564427878234376 stripped
 Transform:

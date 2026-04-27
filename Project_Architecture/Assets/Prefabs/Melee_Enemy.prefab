@@ -1256,13 +1256,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationController
   enemyStateSource: {fileID: 5298783200442843815}
-  enemyAttackEventsSource: {fileID: 0}
+  enemyAttackEventsSource: {fileID: 5298783200442843815}
   animator: {fileID: 4103029190647617822}
   isMovingParam: IsMoving
   moveSpeedParam: MoveSpeed
   speedDampTime: 0.08
   meleeAttackTriggerParam: MeleeAttackTrigger
   rangedAttackTriggerParam: RangedAttackTrigger
+  bossStateParam: BossState
   enableDebugLogs: 0
 --- !u!1 &4501673394970418723
 GameObject:
@@ -2049,12 +2050,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f074cc99a22aeb24eb03ab1893204bbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HudView
-  healthSource: {fileID: 3113195049516612055}
-  cooldownSource: {fileID: 0}
   healthSlider: {fileID: 4817798273325908474}
   cooldownText: {fileID: 0}
-  autoFindInParent: 1
-  autoFindInScene: 1
 --- !u!1 &7332740488128563574
 GameObject:
   m_ObjectHideFlags: 0
@@ -2261,8 +2258,8 @@ GameObject:
   - component: {fileID: 4522544625985934105}
   - component: {fileID: 1021707589157216459}
   - component: {fileID: 3771600883835423356}
-  - component: {fileID: 3113195049516612055}
   - component: {fileID: 5298783200442843815}
+  - component: {fileID: 3113195049516612055}
   - component: {fileID: 2032673920814925774}
   m_Layer: 6
   m_Name: Melee_Enemy
@@ -2302,14 +2299,14 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1.4
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: -0.25
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 1
 --- !u!54 &3771600883835423356
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2337,6 +2334,60 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5298783200442843815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8551323782694836763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e602518e4f44bdb988c27865f8875b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  target: {fileID: 0}
+  autoFindPlayer: 1
+  playerTag: Player
+  visionConfig:
+    ViewDistance: 10
+    ViewAngle: 75
+    EyeHeight: 1.4
+    VisibilityMemoryDuration: 0.5
+    VisibilityBlockers:
+      serializedVersion: 2
+      m_Bits: 0
+  movementConfig:
+    PatrolLookAroundWhenIdle: 0
+    MoveSpeed: 3.5
+    RotationSpeed: 12
+    IdleTurnSpeed: 45
+    ConfigureRigidbodyForNavMesh: 0
+  attackConfig:
+    AttackMode: 0
+    Damage: 12
+    MeleeAttackRange: 2
+    RangedAttackRange: 0
+    AttackCooldown: 1.1
+  projectileConfig:
+    ProjectilePrefab: {fileID: 0}
+    ProjectileSpawnPoint: {fileID: 0}
+    ProjectileSpeed: 0
+    ProjectileLifetime: 0
+    ProjectileRadius: 0
+    ProjectileSpawnHeightOffset: 0
+    ProjectileSpawnForwardOffset: 0
+    ProjectileHitMask:
+      serializedVersion: 2
+      m_Bits: 0
+  behaviourConfig:
+    BehaviourMode: 0
+    FleeHealthThreshold: 0.00042426406
+    FleeExitHealthThreshold: 0
+    FleeDistance: 0
+  worldHudView: {fileID: 2145528990443915504}
+  enableCombatDebugLogs: 0
+  logCooldownBlocks: 0
 --- !u!114 &3113195049516612055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2353,50 +2404,6 @@ MonoBehaviour:
   currentHealth: 100
   resetToMaxOnAwake: 1
   destroyOnDeath: 1
---- !u!114 &5298783200442843815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8551323782694836763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e602518e4f44bdb988c27865f8875b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  target: {fileID: 0}
-  autoFindPlayer: 1
-  playerTag: Player
-  viewDistance: 20
-  viewAngle: 180
-  eyeHeight: 1.4
-  visibilityMemoryDuration: 1.5
-  visibilityBlockers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  patrolLookAroundWhenIdle: 1
-  moveSpeed: 5
-  rotationSpeed: 10
-  idleTurnSpeed: 60
-  attackMode: 0
-  damage: 10
-  meleeAttackRange: 1.8
-  rangedAttackRange: 10
-  attackCooldown: 1.2
-  projectilePrefab: {fileID: 0}
-  projectileSpawnPoint: {fileID: 0}
-  projectileSpeed: 14
-  projectileLifetime: 3
-  projectileRadius: 0.2
-  projectileSpawnHeightOffset: 1.2
-  projectileSpawnForwardOffset: 0.4
-  projectileHitMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  configureRigidbodyForNavMesh: 1
-  enableCombatDebugLogs: 0
-  logCooldownBlocks: 0
 --- !u!136 &2032673920814925774
 CapsuleCollider:
   m_ObjectHideFlags: 0

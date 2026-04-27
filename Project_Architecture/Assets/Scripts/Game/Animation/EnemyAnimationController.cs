@@ -16,6 +16,7 @@ public class EnemyAnimationController : MonoBehaviour
     [Header("Attack Params")]
     [SerializeField] private string meleeAttackTriggerParam = "MeleeAttackTrigger";
     [SerializeField] private string rangedAttackTriggerParam = "RangedAttackTrigger";
+    [SerializeField] private string bossStateParam = "BossState";
 
     [Header("Debug")]
     [SerializeField] private bool enableDebugLogs;
@@ -24,8 +25,10 @@ public class EnemyAnimationController : MonoBehaviour
     private int moveSpeedHash;
     private int meleeAttackTriggerHash;
     private int rangedAttackTriggerHash;
+    private int bossStateHash;
 
     private IMovementStateProvider enemyStateProvider;
+    private IStateNameProvider stateNameProvider;
     private IEnemyAttackEvents enemyAttackEvents;
     private bool callbacksBound;
 
@@ -65,6 +68,11 @@ public class EnemyAnimationController : MonoBehaviour
 
         animator.SetBool(isMovingHash, enemyStateProvider.IsMoving);
         animator.SetFloat(moveSpeedHash, enemyStateProvider.MoveSpeedNormalized, speedDampTime, Time.deltaTime);
+
+        if (stateNameProvider != null && bossStateHash != 0)
+        {
+            animator.SetInteger(bossStateHash, MapStateNameToBossState(stateNameProvider.CurrentStateName));
+        }
     }
 
     private void BindCallbacks()
@@ -106,6 +114,21 @@ public class EnemyAnimationController : MonoBehaviour
         if (enemyStateProvider == null)
         {
             enemyStateProvider = GetComponent<IMovementStateProvider>();
+        }
+
+        if (stateNameProvider == null)
+        {
+            stateNameProvider = enemyStateSource as IStateNameProvider;
+        }
+
+        if (stateNameProvider == null && enemyAttackEventsSource != null)
+        {
+            stateNameProvider = enemyAttackEventsSource as IStateNameProvider;
+        }
+
+        if (stateNameProvider == null)
+        {
+            stateNameProvider = GetComponent<IStateNameProvider>();
         }
 
         if (enemyAttackEvents == null)
@@ -157,6 +180,32 @@ public class EnemyAnimationController : MonoBehaviour
         moveSpeedHash = Animator.StringToHash(moveSpeedParam);
         meleeAttackTriggerHash = Animator.StringToHash(meleeAttackTriggerParam);
         rangedAttackTriggerHash = Animator.StringToHash(rangedAttackTriggerParam);
+        bossStateHash = string.IsNullOrWhiteSpace(bossStateParam)
+            ? 0
+            : Animator.StringToHash(bossStateParam);
+    }
+
+    private static int MapStateNameToBossState(string stateName)
+    {
+        switch (stateName)
+        {
+            case "Aggression":
+                return 1;
+            case "Search":
+                return 2;
+            case "Attack":
+                return 3;
+            case "StrongAttack":
+                return 4;
+            case "Dodge":
+                return 5;
+            case "Recover":
+            case "Flee":
+                return 6;
+            case "Rest":
+            default:
+                return 0;
+        }
     }
 
     private void Log(string message)

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAttackEvents, IDamageSource
+public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAttackEvents, IDamageSource, IStateNameProvider
 {
     [Header("Target")]
     [SerializeField] private Transform target;
@@ -24,6 +24,9 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
     [Header("Behaviour")]
     [SerializeField] private EnemyBehaviourConfig behaviourConfig = default;
 
+    [Header("UI")]
+    [SerializeField] private HudView worldHudView;
+
     [Header("Debug")]
     [SerializeField] private bool enableCombatDebugLogs;
     [SerializeField] private bool logCooldownBlocks;
@@ -33,6 +36,7 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
 
     public bool IsMoving => enemyAgent != null && enemyAgent.IsMoving;
     public float MoveSpeedNormalized => enemyAgent != null ? enemyAgent.MoveSpeedNormalized : 0f;
+    public string CurrentStateName => enemyAgent != null ? enemyAgent.CurrentStateName : string.Empty;
 
     private NavMeshAgent navMeshAgent;
     private Rigidbody body;
@@ -47,6 +51,16 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         navMeshAgent = GetComponent<NavMeshAgent>();
         body = GetComponent<Rigidbody>();
         healthComponent = GetComponentInChildren<HealthComponent>();
+        if (worldHudView == null)
+        {
+            worldHudView = GetComponentInChildren<HudView>(true);
+        }
+
+        if (worldHudView != null)
+        {
+            worldHudView.Initialize(healthComponent, null);
+        }
+
         IEnemyTargetProvider targetProvider = new UnityEnemyTargetProvider(playerTag);
         projectileFactory = new UnityEnemyProjectileFactory(projectileConfig.ProjectilePrefab, Log);
         EnemyAiModel aiModel = new EnemyAiModel(visionConfig.VisibilityMemoryDuration, attackConfig.AttackCooldown);

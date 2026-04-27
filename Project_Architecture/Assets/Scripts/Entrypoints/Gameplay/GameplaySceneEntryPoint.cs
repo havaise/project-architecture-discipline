@@ -22,6 +22,7 @@ public class GameplaySceneEntryPoint : MonoBehaviour
     private IInputService inputService;
     private PauseMenuController pauseMenuController;
     private IGameSaveInteractor gameSaveInteractor;
+    private bool pendingLoadApplied;
 
     private void Awake()
     {
@@ -55,7 +56,6 @@ public class GameplaySceneEntryPoint : MonoBehaviour
             playerComposition.PlayerMana,
             playerComposition.PlayerStats,
             this);
-        gameSaveInteractor?.ApplyPendingLoadedGame();
         pauseMenuController = PauseMenuComposition.BuildAndInitialize(
             pauseMenuView,
             inputService,
@@ -67,6 +67,11 @@ public class GameplaySceneEntryPoint : MonoBehaviour
             playerAnimationController,
             mainMenuSceneName,
             this);
+    }
+
+    private void Start()
+    {
+        pendingLoadApplied = gameSaveInteractor == null || gameSaveInteractor.ApplyPendingLoadedGame();
     }
 
     private void OnDestroy()
@@ -93,6 +98,11 @@ public class GameplaySceneEntryPoint : MonoBehaviour
 
     private void Update()
     {
+        if (!pendingLoadApplied && gameSaveInteractor != null)
+        {
+            pendingLoadApplied = gameSaveInteractor.ApplyPendingLoadedGame();
+        }
+
         pauseMenuController?.Tick();
     }
 

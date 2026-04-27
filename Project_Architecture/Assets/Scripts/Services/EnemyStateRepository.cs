@@ -17,8 +17,8 @@ public sealed class EnemyStateRepository : IEnemyStateRepository
         for (int i = 0; i < enemyHandles.Count; i++)
         {
             EnemyStateHandle handle = enemyHandles[i];
-            EnemyController enemy = handle != null ? handle.Enemy : null;
-            if (enemy == null || string.IsNullOrWhiteSpace(handle.StableId))
+            Transform actorTransform = handle != null ? handle.Transform : null;
+            if (actorTransform == null || string.IsNullOrWhiteSpace(handle.StableId))
             {
                 continue;
             }
@@ -26,8 +26,8 @@ public sealed class EnemyStateRepository : IEnemyStateRepository
             data.Add(new EnemySaveData
             {
                 Id = handle.StableId,
-                Position = enemy.transform.position,
-                Rotation = enemy.transform.rotation,
+                Position = actorTransform.position,
+                Rotation = actorTransform.rotation,
                 CurrentHp = handle.Health != null ? handle.Health.Current : 0,
                 MaxHp = handle.Health != null ? handle.Health.Max : 0
             });
@@ -64,8 +64,8 @@ public sealed class EnemyStateRepository : IEnemyStateRepository
         for (int i = 0; i < enemyHandles.Count; i++)
         {
             EnemyStateHandle handle = enemyHandles[i];
-            EnemyController enemy = handle != null ? handle.Enemy : null;
-            if (enemy == null || string.IsNullOrWhiteSpace(handle.StableId))
+            Transform actorTransform = handle != null ? handle.Transform : null;
+            if (actorTransform == null || string.IsNullOrWhiteSpace(handle.StableId))
             {
                 continue;
             }
@@ -75,8 +75,8 @@ public sealed class EnemyStateRepository : IEnemyStateRepository
                 continue;
             }
 
-            EnemySaveData data = TakeBestCandidate(candidates, enemy.transform.position);
-            enemy.transform.SetPositionAndRotation(data.Position, data.Rotation);
+            EnemySaveData data = TakeBestCandidate(candidates, actorTransform.position);
+            actorTransform.SetPositionAndRotation(data.Position, data.Rotation);
 
             if (handle.Health != null)
             {

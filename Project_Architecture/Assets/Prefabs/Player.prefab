@@ -1401,7 +1401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29e076ae344c0b24b938c8aa446d54dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationController
-  inputServiceSource: {fileID: 523815513221285209}
+  inputServiceSource: {fileID: 0}
   combatEventsSource: {fileID: 3572463364378633702}
   animator: {fileID: 8047600474782730236}
   isMovingParam: IsMoving
@@ -1811,7 +1811,6 @@ GameObject:
   - component: {fileID: 685873044775537730}
   - component: {fileID: 2332260262428312153}
   - component: {fileID: 3572463364378633702}
-  - component: {fileID: 523815513221285209}
   - component: {fileID: 1271427639521004644}
   m_Layer: 0
   m_Name: Player
@@ -1890,7 +1889,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b9309896ac04fab852f4c0d5f3cd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatSystem
-  inputServiceSource: {fileID: 523815513221285209}
   attackOrigin: {fileID: 1513189405617008229}
   attackCamera: {fileID: 0}
   physicalDamage: 20
@@ -1914,29 +1912,6 @@ MonoBehaviour:
     m_Bits: 4294967295
   enableDebugLogs: 1
   logCooldownBlocks: 0
---- !u!114 &523815513221285209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7337900913638976391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e2cedc1513387a40921b774ad4323c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InputService
-  inputActions: {fileID: -944628639613478452, guid: c46858dcb84f4147a0d7f57107f5f388, type: 3}
-  gameplayMapName: Gameplay
-  moveActionName: Move
-  lookActionName: Look
-  sprintActionName: Sprint
-  physicalAttackActionName: PhysicalAttack
-  magicAttackActionName: MagicAttack
-  jumpActionName: Jump
-  interactActionName: Interact
-  pauseActionName: Pause
-  lockAndHideCursorOnEnable: 1
 --- !u!114 &1271427639521004644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1949,7 +1924,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21f3b537de9f48799fbbfe98f30d3d63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  inputServiceSource: {fileID: 523815513221285209}
   cameraTransform: {fileID: 0}
   moveSpeed: 6
   sprintMultiplier: 1.5

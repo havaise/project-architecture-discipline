@@ -4,9 +4,14 @@ using UnityEngine.AI;
 
 public sealed class EnemyMovementMotor
 {
+    private const float DestinationUpdateThreshold = 0.35f;
+    private const float RotationEpsilon = 0.0004f;
+
     private readonly Transform transform;
     private readonly NavMeshAgent navMeshAgent;
     private readonly EnemyAiModel aiModel;
+    private Vector3 lastDestination;
+    private bool hasDestination;
 
     public EnemyMovementMotor(Transform transform, NavMeshAgent navMeshAgent, EnemyAiModel aiModel)
     {
@@ -17,6 +22,11 @@ public sealed class EnemyMovementMotor
         this.aiModel = aiModel != null
             ? aiModel
             : throw new ArgumentNullException(nameof(aiModel));
+
+        if (this.navMeshAgent != null)
+        {
+            this.navMeshAgent.updateRotation = false;
+        }
     }
 
     public void ConfigurePhysics(Rigidbody body, bool configureRigidbodyForNavMesh)
@@ -45,7 +55,7 @@ public sealed class EnemyMovementMotor
     {
         if (UseNavMeshAgent())
         {
-            ChaseWithNavMesh(destination);
+            ChaseWithNavMesh(destination, moveSpeed, rotationSpeed, deltaTime);
             return;
         }
 
@@ -63,12 +73,28 @@ public sealed class EnemyMovementMotor
 
         navMeshAgent.isStopped = true;
         navMeshAgent.ResetPath();
+        hasDestination = false;
     }
 
-    private void ChaseWithNavMesh(Vector3 destination)
+    private void ChaseWithNavMesh(Vector3 destination, float moveSpeed, float rotationSpeed, float deltaTime)
     {
+        navMeshAgent.speed = Mathf.Max(0.01f, moveSpeed);
         navMeshAgent.isStopped = false;
-        navMeshAgent.SetDestination(destination);
+
+        if (!hasDestination || (destination - lastDestination).sqrMagnitude >= DestinationUpdateThreshold * DestinationUpdateThreshold)
+        {
+            navMeshAgent.SetDestination(destination);
+            lastDestination = destination;
+            hasDestination = true;
+        }
+
+        Vector3 desiredVelocity = navMeshAgent.desiredVelocity;
+        desiredVelocity.y = 0f;
+        if (desiredVelocity.sqrMagnitude > RotationEpsilon)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(desiredVelocity.normalized, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * deltaTime);
+        }
 
         float effectiveSpeed = Mathf.Max(navMeshAgent.velocity.magnitude, navMeshAgent.desiredVelocity.magnitude);
         float speed01 = navMeshAgent.speed > 0.01f

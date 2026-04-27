@@ -37,7 +37,7 @@ public class EnemyProjectile : MonoBehaviour
         speed = Mathf.Max(0f, moveSpeed);
         lifeTime = Mathf.Max(0.01f, lifetime);
         hitRadius = Mathf.Max(0.01f, radius);
-        targetMask = mask;
+        targetMask = mask.value == 0 ? ~0 : mask;
         debugLogs = enableDebug;
 
         previousPosition = transform.position;

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttackEvents, IDamageSource
+public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttackEvents, IDamageSource, IStateNameProvider
 {
     [Header("Target")]
     [SerializeField] private Transform target;
@@ -24,6 +24,12 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
     [Header("Boss")]
     [SerializeField] private bool requireHitToAggro = true;
     [SerializeField] private BossCombatConfig bossCombatConfig = default;
+    [SerializeField] private bool allowDeaggro = true;
+    [SerializeField] private float deaggroDistance = 28f;
+    [SerializeField] private float deaggroDelay = 3f;
+
+    [Header("UI")]
+    [SerializeField] private HudView worldHudView;
 
     [Header("Debug")]
     [SerializeField] private bool enableCombatDebugLogs;
@@ -34,6 +40,7 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
 
     public bool IsMoving => bossAgent != null && bossAgent.IsMoving;
     public float MoveSpeedNormalized => bossAgent != null ? bossAgent.MoveSpeedNormalized : 0f;
+    public string CurrentStateName => bossAgent != null ? bossAgent.CurrentStateName : string.Empty;
 
     private NavMeshAgent navMeshAgent;
     private Rigidbody body;
@@ -42,6 +49,7 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
     private HealthComponent healthComponent;
     private int lastKnownHealth = int.MaxValue;
     private bool wasHit;
+    private float outOfRangeTime;
 
     private void Awake()
     {
@@ -50,6 +58,15 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
         navMeshAgent = GetComponent<NavMeshAgent>();
         body = GetComponent<Rigidbody>();
         healthComponent = GetComponentInChildren<HealthComponent>();
+        if (worldHudView == null)
+        {
+            worldHudView = GetComponentInChildren<HudView>(true);
+        }
+
+        if (worldHudView != null)
+        {
+            worldHudView.Initialize(healthComponent, null);
+        }
 
         IEnemyTargetProvider targetProvider = new UnityEnemyTargetProvider(playerTag);
         projectileFactory = new UnityEnemyProjectileFactory(projectileConfig.ProjectilePrefab, Log);
@@ -109,6 +126,7 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
         bossAgent.SetProvoked(provoked);
         bossAgent.Tick(Time.time, Time.deltaTime);
         target = bossAgent.CurrentTarget;
+        UpdateDeaggro(Time.deltaTime);
     }
 
     public int GetDamage()
@@ -131,9 +149,41 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
         if (lastKnownHealth != int.MaxValue && current < lastKnownHealth)
         {
             wasHit = true;
+            outOfRangeTime = 0f;
         }
 
         lastKnownHealth = current;
+    }
+
+    private void UpdateDeaggro(float deltaTime)
+    {
+        if (!allowDeaggro || !requireHitToAggro || !wasHit)
+        {
+            outOfRangeTime = 0f;
+            return;
+        }
+
+        float safeDistance = Mathf.Max(1f, deaggroDistance);
+        bool outOfRange = target == null || Vector3.Distance(transform.position, target.position) > safeDistance;
+        if (!outOfRange)
+        {
+            outOfRangeTime = 0f;
+            return;
+        }
+
+        outOfRangeTime += Mathf.Max(0f, deltaTime);
+        if (outOfRangeTime < Mathf.Max(0.1f, deaggroDelay))
+        {
+            return;
+        }
+
+        wasHit = false;
+        outOfRangeTime = 0f;
+
+        if (enableCombatDebugLogs)
+        {
+            Debug.Log("[BossController] De-aggro activated: target is out of range for too long.", this);
+        }
     }
 
     private void HandleAttackResult(EnemyAttackResult result, float cooldownRemaining)
@@ -189,6 +239,9 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
         {
             bossCombatConfig = BossCombatConfig.CreateDefault();
         }
+
+        deaggroDistance = Mathf.Max(1f, deaggroDistance);
+        deaggroDelay = Mathf.Max(0.1f, deaggroDelay);
     }
 
     private void Log(string message)

@@ -72,7 +72,7 @@ public sealed class GameSaveInteractor : IGameSaveInteractor
             return false;
         }
 
-        SaveGameData pending = sessionState.ConsumePendingLoadedGame();
+        SaveGameData pending = sessionState.PeekPendingLoadedGame();
         if (pending == null || pending.Player == null)
         {
             return false;
@@ -81,12 +81,12 @@ public sealed class GameSaveInteractor : IGameSaveInteractor
         string activeSceneName = SceneManager.GetActiveScene().name;
         if (!string.Equals(activeSceneName, pending.SceneName, System.StringComparison.Ordinal))
         {
-            sessionState.SetPendingLoadedGame(pending);
             return false;
         }
 
         playerRepository.Restore(pending.Player);
         enemyRepository?.Restore(pending.Enemies);
+        sessionState.ClearPendingLoadedGame();
         return true;
     }
 }

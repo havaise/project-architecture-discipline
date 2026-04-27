@@ -2,22 +2,24 @@ using UnityEngine;
 
 public sealed class EnemyStateHandle
 {
-    public EnemyStateHandle(EnemyController enemy)
+    public EnemyStateHandle(Component actor)
     {
-        Enemy = enemy;
-        if (enemy == null)
+        Actor = actor;
+        if (actor == null)
         {
             return;
         }
 
-        Health = enemy.GetComponentInChildren<HealthComponent>();
-        EnemySaveId idComponent = enemy.GetComponent<EnemySaveId>();
+        Transform actorTransform = actor.transform;
+        Health = actorTransform.GetComponentInChildren<HealthComponent>();
+        EnemySaveId idComponent = actorTransform.GetComponent<EnemySaveId>();
         StableId = idComponent != null && !string.IsNullOrWhiteSpace(idComponent.Id)
             ? idComponent.Id
-            : enemy.name;
+            : actorTransform.name;
     }
 
-    public EnemyController Enemy { get; }
+    public Component Actor { get; }
+    public Transform Transform => Actor != null ? Actor.transform : null;
     public HealthComponent Health { get; }
     public string StableId { get; }
 }

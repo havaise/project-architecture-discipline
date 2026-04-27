@@ -53,7 +53,7 @@ public class MagicProjectile : MonoBehaviour
         hitRadius = radius;
         waveAmplitude = amplitude;
         waveFrequency = frequency;
-        targetMask = mask;
+        targetMask = mask.value == 0 ? ~0 : mask;
         debugLogs = enableDebug;
 
         startPosition = transform.position;

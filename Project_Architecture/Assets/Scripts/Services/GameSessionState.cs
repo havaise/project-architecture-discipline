@@ -1,16 +1,20 @@
-﻿public sealed class GameSessionState : IGameSessionState
+public sealed class GameSessionState : IGameSessionState
 {
-    private SaveGameData pendingLoadedGame;
+    // Static storage keeps pending load data even if services are recreated during scene switch.
+    private static SaveGameData pendingLoadedGame;
 
     public void SetPendingLoadedGame(SaveGameData data)
     {
         pendingLoadedGame = data;
     }
 
-    public SaveGameData ConsumePendingLoadedGame()
+    public SaveGameData PeekPendingLoadedGame()
     {
-        SaveGameData value = pendingLoadedGame;
+        return pendingLoadedGame;
+    }
+
+    public void ClearPendingLoadedGame()
+    {
         pendingLoadedGame = null;
-        return value;
     }
 }

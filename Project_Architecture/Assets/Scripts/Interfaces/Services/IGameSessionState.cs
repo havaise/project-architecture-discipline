@@ -1,5 +1,6 @@
-﻿public interface IGameSessionState
+public interface IGameSessionState
 {
     void SetPendingLoadedGame(SaveGameData data);
-    SaveGameData ConsumePendingLoadedGame();
+    SaveGameData PeekPendingLoadedGame();
+    void ClearPendingLoadedGame();
 }

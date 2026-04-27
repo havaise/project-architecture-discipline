@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 using IServiceLocator = ProjectArchitecture.Composition.IServiceLocator;
 
@@ -12,8 +13,7 @@ public static class SaveComposition
         PlayerStatsComponent playerStats,
         Object context)
     {
-        EnemyController[] enemies = Object.FindObjectsByType<EnemyController>(FindObjectsSortMode.None);
-        EnemyStateHandle[] enemyHandles = BuildEnemyHandles(enemies);
+        EnemyStateHandle[] enemyHandles = BuildEnemyHandles();
 
         IPlayerStateRepository playerRepository = new PlayerStateRepository(
             playerTransform,
@@ -38,19 +38,41 @@ public static class SaveComposition
         return gameSaveInteractor;
     }
 
-    private static EnemyStateHandle[] BuildEnemyHandles(EnemyController[] enemies)
+    private static EnemyStateHandle[] BuildEnemyHandles()
     {
-        if (enemies == null || enemies.Length == 0)
+        EnemyController[] enemies = Object.FindObjectsByType<EnemyController>(FindObjectsSortMode.None);
+        BossController[] bosses = Object.FindObjectsByType<BossController>(FindObjectsSortMode.None);
+
+        int total = (enemies != null ? enemies.Length : 0) + (bosses != null ? bosses.Length : 0);
+        if (total == 0)
         {
             return System.Array.Empty<EnemyStateHandle>();
         }
 
-        EnemyStateHandle[] handles = new EnemyStateHandle[enemies.Length];
-        for (int i = 0; i < enemies.Length; i++)
+        List<EnemyStateHandle> handles = new List<EnemyStateHandle>(total);
+
+        if (enemies != null)
         {
-            handles[i] = new EnemyStateHandle(enemies[i]);
+            for (int i = 0; i < enemies.Length; i++)
+            {
+                if (enemies[i] != null)
+                {
+                    handles.Add(new EnemyStateHandle(enemies[i]));
+                }
+            }
         }
 
-        return handles;
+        if (bosses != null)
+        {
+            for (int i = 0; i < bosses.Length; i++)
+            {
+                if (bosses[i] != null)
+                {
+                    handles.Add(new EnemyStateHandle(bosses[i]));
+                }
+            }
+        }
+
+        return handles.ToArray();
     }
 }

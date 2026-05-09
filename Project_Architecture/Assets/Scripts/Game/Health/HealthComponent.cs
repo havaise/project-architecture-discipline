@@ -53,6 +53,13 @@ public class HealthComponent : MonoBehaviour, IHealth, IDamageable
         model.SetCurrent(value);
     }
 
+    public void SetMaxAndCurrent(int maxValue, int currentValue)
+    {
+        maxHealth = Mathf.Max(1, maxValue);
+        currentHealth = Mathf.Clamp(currentValue, 0, maxHealth);
+        model.Initialize(maxHealth, currentHealth, false);
+    }
+
     public bool IsDead()
     {
         return model.IsDead();

@@ -21,6 +21,12 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
     [Header("Projectile")]
     [SerializeField] private EnemyProjectileConfig projectileConfig = default;
 
+    [Header("Weapons")]
+    [SerializeField] private MobWeaponConfig defaultWeapon;
+    [SerializeField] private MobWeaponConfig[] availableWeapons;
+    [SerializeField] private bool randomizeWeaponOnSpawn = true;
+    [SerializeField] private AudioSource audioSource;
+
     [Header("Behaviour")]
     [SerializeField] private EnemyBehaviourConfig behaviourConfig = default;
 
@@ -43,6 +49,8 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
     private EnemyAgent enemyAgent;
     private IEnemyProjectileFactory projectileFactory;
     private HealthComponent healthComponent;
+    private MobWeaponConfig runtimeWeapon;
+    private float damageMultiplier = 1f;
 
     private void Awake()
     {
@@ -60,6 +68,11 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         {
             worldHudView.Initialize(healthComponent, null);
         }
+    }
+
+    private void Start()
+    {
+        ApplyWeaponConfig(ResolveWeaponConfig());
 
         IEnemyTargetProvider targetProvider = new UnityEnemyTargetProvider(playerTag);
         projectileFactory = new UnityEnemyProjectileFactory(projectileConfig.ProjectilePrefab, Log);
@@ -105,7 +118,27 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
 
     public int GetDamage()
     {
-        return Mathf.Max(0, attackConfig.Damage);
+        return Mathf.Max(0, Mathf.RoundToInt(attackConfig.Damage * Mathf.Max(0.1f, damageMultiplier)));
+    }
+
+    public void SetSpawnWeaponOptions(MobWeaponConfig[] spawnWeaponOptions, bool randomize)
+    {
+        availableWeapons = spawnWeaponOptions;
+        randomizeWeaponOnSpawn = randomize;
+    }
+
+    public void ApplySpawnMultipliers(float healthMultiplier, float damageMul, float speedMultiplier)
+    {
+        damageMultiplier = Mathf.Max(0.1f, damageMul);
+        attackConfig.AttackCooldown = speedMultiplier > 0.01f
+            ? Mathf.Max(0.05f, attackConfig.AttackCooldown / speedMultiplier)
+            : attackConfig.AttackCooldown;
+
+        if (healthComponent != null)
+        {
+            int boostedHealth = Mathf.Max(1, Mathf.RoundToInt(healthComponent.Max * Mathf.Max(0.1f, healthMultiplier)));
+            healthComponent.SetMaxAndCurrent(boostedHealth, boostedHealth);
+        }
     }
 
     private float GetHealthRatio()
@@ -131,16 +164,19 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
 
             case EnemyAttackResult.MeleeHit:
                 MeleeAttackPerformed?.Invoke();
+                PlayAttackPresentation();
                 Log($"Attack hit player: {(target != null ? target.name : "<null>")}, dmg={GetDamage()}");
                 break;
 
             case EnemyAttackResult.MeleeMiss:
                 MeleeAttackPerformed?.Invoke();
+                PlayAttackPresentation();
                 Log("Attack attempted, but no damage receiver found on target.");
                 break;
 
             case EnemyAttackResult.RangedFired:
                 RangedAttackPerformed?.Invoke();
+                PlayAttackPresentation();
                 Log($"Ranged attack fired at: {(target != null ? target.name : "<null>")}");
                 break;
 
@@ -194,5 +230,73 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         }
 
         Debug.Log($"[EnemyController] {message}", this);
+    }
+
+    private MobWeaponConfig ResolveWeaponConfig()
+    {
+        if (availableWeapons != null && availableWeapons.Length > 0)
+        {
+            if (!randomizeWeaponOnSpawn)
+            {
+                return availableWeapons[0];
+            }
+
+            return availableWeapons[UnityEngine.Random.Range(0, availableWeapons.Length)];
+        }
+
+        return defaultWeapon;
+    }
+
+    private void ApplyWeaponConfig(MobWeaponConfig weaponConfig)
+    {
+        runtimeWeapon = weaponConfig;
+        if (runtimeWeapon == null)
+        {
+            return;
+        }
+
+        attackConfig.AttackMode = runtimeWeapon.AttackKind;
+        attackConfig.Damage = Mathf.Max(0, runtimeWeapon.Damage);
+        attackConfig.AttackCooldown = Mathf.Max(0.05f, runtimeWeapon.AttackCooldown);
+        if (runtimeWeapon.AttackKind == EnemyAttackKind.Melee)
+        {
+            attackConfig.MeleeAttackRange = Mathf.Max(0.1f, runtimeWeapon.AttackRange);
+        }
+        else
+        {
+            attackConfig.RangedAttackRange = Mathf.Max(0.1f, runtimeWeapon.AttackRange);
+            projectileConfig.ProjectilePrefab = runtimeWeapon.ProjectilePrefab != null
+                ? runtimeWeapon.ProjectilePrefab
+                : projectileConfig.ProjectilePrefab;
+            projectileConfig.ProjectileSpeed = Mathf.Max(0.01f, runtimeWeapon.ProjectileSpeed);
+            projectileConfig.ProjectileLifetime = Mathf.Max(0.05f, runtimeWeapon.ProjectileLifetime);
+            projectileConfig.ProjectileRadius = Mathf.Max(0.01f, runtimeWeapon.ProjectileRadius);
+        }
+    }
+
+    private void PlayAttackPresentation()
+    {
+        if (runtimeWeapon == null)
+        {
+            return;
+        }
+
+        if (runtimeWeapon.AttackVfxPrefab != null)
+        {
+            Instantiate(runtimeWeapon.AttackVfxPrefab, transform.position + Vector3.up, Quaternion.identity);
+        }
+
+        if (runtimeWeapon.AttackSfx == null)
+        {
+            return;
+        }
+
+        if (audioSource != null)
+        {
+            audioSource.PlayOneShot(runtimeWeapon.AttackSfx);
+            return;
+        }
+
+        AudioSource.PlayClipAtPoint(runtimeWeapon.AttackSfx, transform.position);
     }
 }

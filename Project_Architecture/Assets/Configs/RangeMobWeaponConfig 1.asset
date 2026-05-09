@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: RangeMobWeaponConfig 1
   m_EditorClassIdentifier: Assembly-CSharp::MobWeaponConfig
   WeaponName: Weapon
-  AttackKind: 0
+  AttackKind: 1
   Damage: 10
-  AttackRange: 2
+  AttackRange: 9
   DamageDelay: 0
   AttackCooldown: 1.2
   ProjectilePrefab: {fileID: 5928039675039283857, guid: 4a96115c349dee5409ce76d85252939f, type: 3}
@@ -23,6 +23,6 @@ MonoBehaviour:
   ProjectileLifetime: 3
   ProjectileRadius: 0.2
   AttackVfxPrefab: {fileID: 0}
-  HitVfxPrefab: {fileID: 0}
-  AttackSfx: {fileID: 0}
+  HitVfxPrefab: {fileID: 1120835270511274, guid: 33cfc2755a55b7e4c86c9d7018efbaaa, type: 3}
+  AttackSfx: {fileID: 8300000, guid: 8d9ce352667979b41aded2b22f21a4b8, type: 3}
   ProjectileTint: {r: 1, g: 1, b: 1, a: 1}

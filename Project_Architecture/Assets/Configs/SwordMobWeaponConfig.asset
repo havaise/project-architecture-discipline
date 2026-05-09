@@ -24,5 +24,5 @@ MonoBehaviour:
   ProjectileRadius: 0.2
   AttackVfxPrefab: {fileID: 0}
   HitVfxPrefab: {fileID: 0}
-  AttackSfx: {fileID: 0}
+  AttackSfx: {fileID: 8300000, guid: 207c6595ee318174793d87bb9ba2ee6c, type: 3}
   ProjectileTint: {r: 1, g: 1, b: 1, a: 1}

@@ -162,7 +162,7 @@ public sealed class EnemyAgent
             deltaTime);
     }
 
-    private void ChaseCurrentTarget(bool canSeeTarget, float deltaTime)
+    private void ChaseCurrentTarget(bool canSeeTarget, float currentTime, float deltaTime)
     {
         if (CurrentTarget == null)
         {
@@ -171,14 +171,21 @@ public sealed class EnemyAgent
         }
 
         Vector3 chasePoint = aiModel.GetChasePoint(CurrentTarget.position, canSeeTarget);
+        float stoppingDistance = attackConfig.AttackMode == EnemyAttackKind.Ranged
+            ? attackConfig.RangedAttackRange
+            : attackConfig.MeleeAttackRange;
+
         movementMotor.Chase(
             chasePoint,
             movementConfig.MoveSpeed,
-            movementConfig.RotationSpeed,
-            deltaTime);
+            movementConfig.NavAcceleration,
+            movementConfig.NavAngularSpeed,
+            Mathf.Max(movementConfig.NavStoppingDistance, stoppingDistance * 0.9f),
+            movementConfig.NavPathRepathInterval,
+            currentTime);
     }
 
-    private void FleeFromTarget(float deltaTime)
+    private void FleeFromTarget(float currentTime, float deltaTime)
     {
         if (CurrentTarget == null)
         {
@@ -198,8 +205,11 @@ public sealed class EnemyAgent
         movementMotor.Chase(
             fleeDestination,
             movementConfig.MoveSpeed,
-            movementConfig.RotationSpeed,
-            deltaTime);
+            movementConfig.NavAcceleration,
+            movementConfig.NavAngularSpeed,
+            movementConfig.NavStoppingDistance,
+            movementConfig.NavPathRepathInterval,
+            currentTime);
     }
 
     private EnemyAttackResult TryAttack(float currentTime, float attackSpeedMultiplier, float damageMultiplier)
@@ -335,7 +345,7 @@ public sealed class EnemyAgent
                 return;
             }
 
-            context.ChaseCurrentTarget(canSeeTarget, deltaTime);
+            context.ChaseCurrentTarget(canSeeTarget, currentTime, deltaTime);
         }
 
         public void Exit(EnemyAgent context) { }
@@ -404,7 +414,7 @@ public sealed class EnemyAgent
                 return;
             }
 
-            context.FleeFromTarget(deltaTime);
+            context.FleeFromTarget(currentTime, deltaTime);
         }
 
         public void Exit(EnemyAgent context) { }

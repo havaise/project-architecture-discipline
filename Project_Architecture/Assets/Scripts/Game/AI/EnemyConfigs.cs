@@ -31,6 +31,10 @@ public struct EnemyMovementConfig
     public float RotationSpeed;
     public float IdleTurnSpeed;
     public bool ConfigureRigidbodyForNavMesh;
+    public float NavAcceleration;
+    public float NavAngularSpeed;
+    public float NavStoppingDistance;
+    public float NavPathRepathInterval;
 
     public static EnemyMovementConfig CreateDefault()
     {
@@ -40,7 +44,11 @@ public struct EnemyMovementConfig
             MoveSpeed = 3.5f,
             RotationSpeed = 8f,
             IdleTurnSpeed = 45f,
-            ConfigureRigidbodyForNavMesh = true
+            ConfigureRigidbodyForNavMesh = true,
+            NavAcceleration = 16f,
+            NavAngularSpeed = 540f,
+            NavStoppingDistance = 0.8f,
+            NavPathRepathInterval = 0.2f
         };
     }
 }

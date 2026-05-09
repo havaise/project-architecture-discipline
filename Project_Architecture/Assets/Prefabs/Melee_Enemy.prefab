@@ -2278,8 +2278,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.36, y: -1.25, z: -0.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5339834201227303932}
   - {fileID: 4744800880320853584}
@@ -2363,6 +2363,10 @@ MonoBehaviour:
     RotationSpeed: 12
     IdleTurnSpeed: 45
     ConfigureRigidbodyForNavMesh: 0
+    NavAcceleration: 0
+    NavAngularSpeed: 0
+    NavStoppingDistance: 0
+    NavPathRepathInterval: 0
   attackConfig:
     AttackMode: 0
     Damage: 12

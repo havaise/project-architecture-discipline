@@ -227,7 +227,7 @@ public sealed class BossAgent
             deltaTime);
     }
 
-    private void ChaseCurrentTarget(bool canSeeTarget, float deltaTime)
+    private void ChaseCurrentTarget(bool canSeeTarget, float currentTime, float deltaTime)
     {
         if (CurrentTarget == null)
         {
@@ -236,11 +236,17 @@ public sealed class BossAgent
         }
 
         Vector3 chasePoint = aiModel.GetChasePoint(CurrentTarget.position, canSeeTarget);
+        float stoppingDistance = attackConfig.AttackMode == EnemyAttackKind.Ranged
+            ? attackConfig.RangedAttackRange
+            : attackConfig.MeleeAttackRange;
         movementMotor.Chase(
             chasePoint,
             movementConfig.MoveSpeed,
-            movementConfig.RotationSpeed,
-            deltaTime);
+            movementConfig.NavAcceleration,
+            movementConfig.NavAngularSpeed,
+            Mathf.Max(movementConfig.NavStoppingDistance, stoppingDistance * 0.9f),
+            movementConfig.NavPathRepathInterval,
+            currentTime);
     }
 
     private EnemyAttackResult TryAttack(float currentTime, float attackSpeedMultiplier, float damageMultiplier)
@@ -274,7 +280,7 @@ public sealed class BossAgent
         return result;
     }
 
-    private void PerformDodge(float deltaTime)
+    private void PerformDodge(float currentTime, float deltaTime)
     {
         if (CurrentTarget == null)
         {
@@ -299,8 +305,11 @@ public sealed class BossAgent
         movementMotor.Chase(
             dodgePoint,
             movementConfig.MoveSpeed * DodgeSpeedMultiplier,
-            movementConfig.RotationSpeed * DodgeTurnMultiplier,
-            deltaTime);
+            movementConfig.NavAcceleration * DodgeSpeedMultiplier,
+            movementConfig.NavAngularSpeed * DodgeTurnMultiplier,
+            movementConfig.NavStoppingDistance,
+            movementConfig.NavPathRepathInterval,
+            currentTime);
     }
 
     private void BeginSearch(float currentTime)
@@ -473,7 +482,7 @@ public sealed class BossAgent
                 return;
             }
 
-            context.ChaseCurrentTarget(canSeeTarget, deltaTime);
+            context.ChaseCurrentTarget(canSeeTarget, currentTime, deltaTime);
         }
 
         public void Exit(BossAgent context) { }
@@ -518,7 +527,7 @@ public sealed class BossAgent
             }
 
             context.UpdateChaseTimer(deltaTime);
-            context.ChaseCurrentTarget(canSeeTarget: false, deltaTime);
+            context.ChaseCurrentTarget(canSeeTarget: false, currentTime, deltaTime);
         }
 
         public void Exit(BossAgent context) { }
@@ -656,7 +665,7 @@ public sealed class BossAgent
                 return;
             }
 
-            context.PerformDodge(deltaTime);
+            context.PerformDodge(currentTime, deltaTime);
         }
 
         public void Exit(BossAgent context)

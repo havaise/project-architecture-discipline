@@ -540,7 +540,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.36, y: -1.25, z: -0.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5999564427878234376}
@@ -665,6 +665,10 @@ MonoBehaviour:
     RotationSpeed: 10
     IdleTurnSpeed: 0.5
     ConfigureRigidbodyForNavMesh: 0
+    NavAcceleration: 0
+    NavAngularSpeed: 0
+    NavStoppingDistance: 0
+    NavPathRepathInterval: 0
   attackConfig:
     AttackMode: 1
     Damage: 15
@@ -682,6 +686,10 @@ MonoBehaviour:
     ProjectileHitMask:
       serializedVersion: 2
       m_Bits: 4294967295
+  defaultWeapon: {fileID: 0}
+  availableWeapons: []
+  randomizeWeaponOnSpawn: 1
+  audioSource: {fileID: 0}
   behaviourConfig:
     BehaviourMode: 0
     FleeHealthThreshold: 0

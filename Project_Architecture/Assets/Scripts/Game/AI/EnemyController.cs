@@ -205,6 +205,28 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         {
             movementConfig = EnemyMovementConfig.CreateDefault();
         }
+        else
+        {
+            if (movementConfig.NavAcceleration <= 0f)
+            {
+                movementConfig.NavAcceleration = 16f;
+            }
+
+            if (movementConfig.NavAngularSpeed <= 0f)
+            {
+                movementConfig.NavAngularSpeed = 540f;
+            }
+
+            if (movementConfig.NavStoppingDistance < 0f)
+            {
+                movementConfig.NavStoppingDistance = 0.8f;
+            }
+
+            if (movementConfig.NavPathRepathInterval <= 0f)
+            {
+                movementConfig.NavPathRepathInterval = 0.2f;
+            }
+        }
 
         if (attackConfig.AttackCooldown <= 0f)
         {

@@ -20,6 +20,7 @@ public class EnemyProjectile : MonoBehaviour
     private float aliveTime;
     private Vector3 previousPosition;
     private bool initialized;
+    private GameObject hitVfxPrefab;
 
     public void Initialize(
         Transform ownerTransform,
@@ -31,6 +32,31 @@ public class EnemyProjectile : MonoBehaviour
         LayerMask mask,
         bool enableDebug)
     {
+        Initialize(
+            ownerTransform,
+            direction,
+            projectileDamage,
+            moveSpeed,
+            lifetime,
+            radius,
+            mask,
+            enableDebug,
+            Color.clear,
+            null);
+    }
+
+    public void Initialize(
+        Transform ownerTransform,
+        Vector3 direction,
+        int projectileDamage,
+        float moveSpeed,
+        float lifetime,
+        float radius,
+        LayerMask mask,
+        bool enableDebug,
+        Color tintColor,
+        GameObject hitVfx)
+    {
         owner = ownerTransform;
         moveDirection = direction.sqrMagnitude > 0.0001f ? direction.normalized : transform.forward;
         damage = Mathf.Max(0, projectileDamage);
@@ -39,10 +65,16 @@ public class EnemyProjectile : MonoBehaviour
         hitRadius = Mathf.Max(0.01f, radius);
         targetMask = mask.value == 0 ? ~0 : mask;
         debugLogs = enableDebug;
+        hitVfxPrefab = hitVfx;
 
         previousPosition = transform.position;
         aliveTime = 0f;
         initialized = true;
+
+        if (tintColor.a > 0f && TryGetComponent(out Renderer renderer))
+        {
+            renderer.material.color = tintColor;
+        }
     }
 
     private void Awake()
@@ -86,6 +118,10 @@ public class EnemyProjectile : MonoBehaviour
                 out RaycastHit hit))
         {
             Log($"Projectile hit: {hit.transform.name}, dmg={damage}");
+            if (hitVfxPrefab != null)
+            {
+                Object.Instantiate(hitVfxPrefab, hit.point, Quaternion.identity);
+            }
             Destroy(gameObject);
             return;
         }

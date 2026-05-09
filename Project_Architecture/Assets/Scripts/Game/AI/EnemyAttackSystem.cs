@@ -64,6 +64,8 @@ public sealed class EnemyAttackSystem
         float projectileSpawnForwardOffset,
         LayerMask projectileHitMask,
         bool enableCombatDebugLogs,
+        Color projectileTint,
+        GameObject projectileHitVfx,
         out float cooldownRemaining)
     {
         cooldownRemaining = 0f;
@@ -90,7 +92,9 @@ public sealed class EnemyAttackSystem
                 projectileSpawnHeightOffset,
                 projectileSpawnForwardOffset,
                 projectileHitMask,
-                enableCombatDebugLogs)
+                enableCombatDebugLogs,
+                projectileTint,
+                projectileHitVfx)
                 ? EnemyAttackResult.RangedFired
                 : EnemyAttackResult.RangedBlocked;
         }
@@ -110,7 +114,9 @@ public sealed class EnemyAttackSystem
         float projectileSpawnHeightOffset,
         float projectileSpawnForwardOffset,
         LayerMask projectileHitMask,
-        bool enableCombatDebugLogs)
+        bool enableCombatDebugLogs,
+        Color projectileTint,
+        GameObject projectileHitVfx)
     {
         Vector3 spawnPosition = GetProjectileSpawnPosition(
             projectileSpawnPoint,
@@ -141,7 +147,9 @@ public sealed class EnemyAttackSystem
             projectileLifetime,
             projectileRadius,
             projectileHitMask,
-            enableCombatDebugLogs);
+            enableCombatDebugLogs,
+            projectileTint,
+            projectileHitVfx);
 
         return true;
     }

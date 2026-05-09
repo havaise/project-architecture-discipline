@@ -20,10 +20,6 @@ public sealed class EnemyAgent
     private readonly Func<float> getHealthRatio;
     private readonly Action<EnemyAttackResult, float> handleAttackResult;
     private readonly StateMachine<EnemyAgent> stateMachine;
-    private readonly IState<EnemyAgent> restState;
-    private readonly IState<EnemyAgent> aggressionState;
-    private readonly IState<EnemyAgent> attackState;
-    private readonly IState<EnemyAgent> fleeState;
 
     public EnemyAgent(
         Transform transform,
@@ -64,10 +60,6 @@ public sealed class EnemyAgent
         this.handleAttackResult = handleAttackResult;
         this.enableCombatDebugLogs = enableCombatDebugLogs;
         stateMachine = new StateMachine<EnemyAgent>(this);
-        restState = new EnemyRestState();
-        aggressionState = new EnemyAggressionState();
-        attackState = new EnemyAttackState();
-        fleeState = new EnemyFleeState();
     }
 
     public Transform CurrentTarget { get; private set; }
@@ -78,7 +70,7 @@ public sealed class EnemyAgent
     public void Initialize(float currentTime)
     {
         ResolveTarget(currentTime);
-        stateMachine.SetInitialState(restState);
+        stateMachine.SetInitialState(new EnemyRestState());
     }
 
     public void Tick(float currentTime, float deltaTime)
@@ -233,6 +225,8 @@ public sealed class EnemyAgent
             projectileConfig.ProjectileSpawnForwardOffset,
             projectileConfig.ProjectileHitMask,
             enableCombatDebugLogs,
+            Color.white,
+            null,
             out float cooldownRemaining);
 
         handleAttackResult?.Invoke(result, cooldownRemaining);
@@ -241,22 +235,22 @@ public sealed class EnemyAgent
 
     private void ChangeToRest()
     {
-        stateMachine.ChangeState(restState);
+        stateMachine.ChangeState(new EnemyRestState());
     }
 
     private void ChangeToAggression()
     {
-        stateMachine.ChangeState(aggressionState);
+        stateMachine.ChangeState(new EnemyAggressionState());
     }
 
     private void ChangeToAttack()
     {
-        stateMachine.ChangeState(attackState);
+        stateMachine.ChangeState(new EnemyAttackState());
     }
 
     private void ChangeToFlee()
     {
-        stateMachine.ChangeState(fleeState);
+        stateMachine.ChangeState(new EnemyFleeState());
     }
 
     private sealed class EnemyRestState : IState<EnemyAgent>

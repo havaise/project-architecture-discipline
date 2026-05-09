@@ -71,12 +71,12 @@ public sealed class InputActionInputService : IInputService, IDisposable
 
     public bool IsPhysicalAttackPressed()
     {
-        return physicalAttackAction != null && physicalAttackAction.WasPressedThisFrame();
+        return physicalAttackAction != null && physicalAttackAction.IsPressed();
     }
 
     public bool IsMagicAttackPressed()
     {
-        return magicAttackAction != null && magicAttackAction.WasPressedThisFrame();
+        return magicAttackAction != null && magicAttackAction.IsPressed();
     }
 
     public bool IsJumpPressed()

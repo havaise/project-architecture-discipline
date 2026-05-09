@@ -212,6 +212,25 @@ public sealed class EnemyAgent
             currentTime);
     }
 
+    private void FaceCurrentTarget(float deltaTime)
+    {
+        if (CurrentTarget == null)
+        {
+            return;
+        }
+
+        Vector3 toTarget = CurrentTarget.position - transform.position;
+        toTarget.y = 0f;
+        if (toTarget.sqrMagnitude <= 0.0001f)
+        {
+            return;
+        }
+
+        Quaternion targetRotation = Quaternion.LookRotation(toTarget.normalized, Vector3.up);
+        float turnLerp = Mathf.Max(1f, movementConfig.RotationSpeed) * deltaTime;
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnLerp);
+    }
+
     private EnemyAttackResult TryAttack(float currentTime, float attackSpeedMultiplier, float damageMultiplier)
     {
         if (CurrentTarget == null)
@@ -341,6 +360,11 @@ public sealed class EnemyAgent
 
             if (canSeeTarget && context.IsInAttackRange())
             {
+                if (context.attackConfig.AttackMode == EnemyAttackKind.Ranged)
+                {
+                    context.FaceCurrentTarget(deltaTime);
+                }
+
                 context.ChangeToAttack();
                 return;
             }
@@ -388,6 +412,12 @@ public sealed class EnemyAgent
             }
 
             context.movementMotor.Stop();
+            if (context.attackConfig.AttackMode == EnemyAttackKind.Ranged)
+            {
+                // Keep target in front while in ranged combat state to avoid sideways shots.
+                context.FaceCurrentTarget(deltaTime);
+            }
+
             context.TryAttack(currentTime, attackSpeedMultiplier: 1f, damageMultiplier: 1f);
         }
 

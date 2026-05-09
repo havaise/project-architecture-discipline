@@ -22,6 +22,9 @@ public class MagicProjectile : MonoBehaviour
     private float waveFrequency;
     private LayerMask targetMask;
     private bool debugLogs;
+    private GameObject hitImpactVfxPrefab;
+    private float homingAcquireRadius;
+    private float homingTurnSpeed;
 
     private float aliveTime;
     private Vector3 previousPosition;
@@ -39,6 +42,64 @@ public class MagicProjectile : MonoBehaviour
         LayerMask mask,
         bool enableDebug)
     {
+        Initialize(
+            ownerTransform,
+            direction,
+            magicDamage,
+            moveSpeed,
+            lifetime,
+            radius,
+            amplitude,
+            frequency,
+            mask,
+            enableDebug,
+            null);
+    }
+
+    public void Initialize(
+        Transform ownerTransform,
+        Vector3 direction,
+        float magicDamage,
+        float moveSpeed,
+        float lifetime,
+        float radius,
+        float amplitude,
+        float frequency,
+        LayerMask mask,
+        bool enableDebug,
+        GameObject hitImpactVfx)
+    {
+        Initialize(
+            ownerTransform,
+            direction,
+            magicDamage,
+            moveSpeed,
+            lifetime,
+            radius,
+            amplitude,
+            frequency,
+            mask,
+            enableDebug,
+            hitImpactVfx,
+            0f,
+            0f);
+    }
+
+    public void Initialize(
+        Transform ownerTransform,
+        Vector3 direction,
+        float magicDamage,
+        float moveSpeed,
+        float lifetime,
+        float radius,
+        float amplitude,
+        float frequency,
+        LayerMask mask,
+        bool enableDebug,
+        GameObject hitImpactVfx,
+        float autoAimRadius,
+        float autoAimTurnSpeed)
+    {
         owner = ownerTransform;
         forwardDirection = direction.sqrMagnitude > 0.0001f ? direction.normalized : transform.forward;
         rightDirection = Vector3.Cross(Vector3.up, forwardDirection).normalized;
@@ -55,6 +116,9 @@ public class MagicProjectile : MonoBehaviour
         waveFrequency = frequency;
         targetMask = mask.value == 0 ? ~0 : mask;
         debugLogs = enableDebug;
+        hitImpactVfxPrefab = hitImpactVfx;
+        homingAcquireRadius = Mathf.Max(0f, autoAimRadius);
+        homingTurnSpeed = Mathf.Max(0f, autoAimTurnSpeed);
 
         startPosition = transform.position;
         previousPosition = startPosition;
@@ -82,6 +146,9 @@ public class MagicProjectile : MonoBehaviour
         waveFrequency = fallbackWaveFrequency;
         targetMask = ~0;
         debugLogs = false;
+        hitImpactVfxPrefab = null;
+        homingAcquireRadius = 0f;
+        homingTurnSpeed = 0f;
         initialized = true;
     }
 
@@ -93,6 +160,8 @@ public class MagicProjectile : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
+        ApplyHoming(Time.deltaTime);
 
         Vector3 position = startPosition
             + forwardDirection * (speed * aliveTime)
@@ -109,6 +178,10 @@ public class MagicProjectile : MonoBehaviour
                 out RaycastHit hit))
         {
             Log($"Magic projectile hit: {hit.transform.name}, dmg={damage:0.#}");
+            if (hitImpactVfxPrefab != null)
+            {
+                Object.Instantiate(hitImpactVfxPrefab, hit.point, Quaternion.identity);
+            }
             Destroy(gameObject);
             return;
         }
@@ -116,6 +189,68 @@ public class MagicProjectile : MonoBehaviour
         transform.position = position;
         transform.forward = forwardDirection;
         previousPosition = position;
+    }
+
+    private void ApplyHoming(float deltaTime)
+    {
+        if (homingAcquireRadius <= 0f || homingTurnSpeed <= 0f)
+        {
+            return;
+        }
+
+        Collider[] candidates = Physics.OverlapSphere(transform.position, homingAcquireRadius, targetMask, QueryTriggerInteraction.Ignore);
+        if (candidates == null || candidates.Length == 0)
+        {
+            return;
+        }
+
+        Transform closestTarget = null;
+        float closestDistanceSqr = float.MaxValue;
+        for (int i = 0; i < candidates.Length; i++)
+        {
+            Collider candidate = candidates[i];
+            if (candidate == null)
+            {
+                continue;
+            }
+
+            Transform candidateRoot = candidate.transform.root;
+            if (owner != null && (candidateRoot == owner || candidate.transform == owner))
+            {
+                continue;
+            }
+
+            if (!candidate.TryGetComponent(out IDamageable _) && candidate.GetComponentInParent<IDamageable>() == null)
+            {
+                continue;
+            }
+
+            float sqrDistance = (candidate.bounds.center - transform.position).sqrMagnitude;
+            if (sqrDistance < closestDistanceSqr)
+            {
+                closestDistanceSqr = sqrDistance;
+                closestTarget = candidate.transform;
+            }
+        }
+
+        if (closestTarget == null)
+        {
+            return;
+        }
+
+        Vector3 targetDirection = closestTarget.position - transform.position;
+        if (targetDirection.sqrMagnitude <= 0.0001f)
+        {
+            return;
+        }
+
+        float turnStep = homingTurnSpeed * Mathf.Deg2Rad * deltaTime;
+        forwardDirection = Vector3.RotateTowards(forwardDirection, targetDirection.normalized, turnStep, 0f).normalized;
+        rightDirection = Vector3.Cross(Vector3.up, forwardDirection).normalized;
+        if (rightDirection.sqrMagnitude <= 0.0001f)
+        {
+            rightDirection = Vector3.Cross(Vector3.right, forwardDirection).normalized;
+        }
     }
 
     private void Log(string message)

@@ -18,6 +18,9 @@ public sealed class MagicAttackUseCase
         MagicAttackConfig config,
         LayerMask targetMask,
         bool enableDebugLogs,
+        GameObject hitImpactVfxPrefab,
+        float autoAimRadius,
+        float autoAimTurnSpeed,
         Action<string> log)
     {
         if (projectilePrefab == null)
@@ -44,7 +47,10 @@ public sealed class MagicAttackUseCase
             config.ProjectileWaveAmplitude,
             config.ProjectileWaveFrequency,
             targetMask,
-            enableDebugLogs);
+            enableDebugLogs,
+            hitImpactVfxPrefab,
+            autoAimRadius,
+            autoAimTurnSpeed);
 
         log?.Invoke($"Magic projectile spawned: dmg={config.Damage:0.#}, speed={config.ProjectileSpeed:0.#}");
         return true;

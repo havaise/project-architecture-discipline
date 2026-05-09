@@ -32,6 +32,18 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
     [Header("Targeting")]
     [SerializeField] private LayerMask targetMask = ~0;
 
+    [Header("Presentation")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private GameObject physicalAttackVfxPrefab;
+    [SerializeField] private AudioClip physicalAttackSfx;
+    [SerializeField] private GameObject magicShotVfxPrefab;
+    [SerializeField] private AudioClip magicShotSfx;
+    [SerializeField] private GameObject magicHitImpactVfxPrefab;
+
+    [Header("Magic Auto-Aim")]
+    [SerializeField] private float magicAutoAimRadius = 1.75f;
+    [SerializeField] private float magicAutoAimTurnSpeed = 360f;
+
     [Header("Debug")]
     [SerializeField] private bool enableDebugLogs = true;
     [SerializeField] private bool logCooldownBlocks;
@@ -138,6 +150,7 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
             combatConfig.PhysicalAttack.Radius,
             targetMask,
             Log);
+        PlayAttackPresentation(physicalAttackVfxPrefab, physicalAttackSfx, origin);
     }
 
     private void TryMagicAttack()
@@ -162,6 +175,9 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
             combatConfig.MagicAttack,
             targetMask,
             enableDebugLogs,
+            magicHitImpactVfxPrefab,
+            magicAutoAimRadius,
+            magicAutoAimTurnSpeed,
             Log);
         if (!spawned)
         {
@@ -169,6 +185,7 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
         }
 
         MagicAttackPerformed?.Invoke();
+        PlayAttackPresentation(magicShotVfxPrefab, magicShotSfx, spawnPosition);
     }
 
     private Vector3 GetMagicSpawnPosition(Vector3 direction)
@@ -217,5 +234,26 @@ public class PlayerCombatSystem : MonoBehaviour, IPlayerCombatEvents, IMagicCool
         }
 
         Debug.Log($"[PlayerCombatSystem] {message}", this);
+    }
+
+    private void PlayAttackPresentation(GameObject vfxPrefab, AudioClip sfx, Vector3 position)
+    {
+        if (vfxPrefab != null)
+        {
+            Instantiate(vfxPrefab, position, Quaternion.identity);
+        }
+
+        if (sfx == null)
+        {
+            return;
+        }
+
+        if (audioSource != null)
+        {
+            audioSource.PlayOneShot(sfx);
+            return;
+        }
+
+        AudioSource.PlayClipAtPoint(sfx, position);
     }
 }

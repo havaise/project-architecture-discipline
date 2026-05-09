@@ -1255,13 +1255,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5fbd75552af6654bbe08209306cb26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationController
-  enemyAI: {fileID: 5298783200442843815}
+  enemyStateSource: {fileID: 5298783200442843815}
+  enemyAttackEventsSource: {fileID: 5298783200442843815}
   animator: {fileID: 4103029190647617822}
   isMovingParam: IsMoving
   moveSpeedParam: MoveSpeed
   speedDampTime: 0.08
   meleeAttackTriggerParam: MeleeAttackTrigger
   rangedAttackTriggerParam: RangedAttackTrigger
+  bossStateParam: BossState
+  hitTriggerParam: HitTrigger
+  deathTriggerParam: DeathTrigger
   enableDebugLogs: 0
 --- !u!1 &4501673394970418723
 GameObject:
@@ -2012,6 +2016,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4744800880320853584}
+  - component: {fileID: 2145528990443915504}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -2035,6 +2040,20 @@ Transform:
   - {fileID: 8976876248381603205}
   m_Father: {fileID: 4522544625985934105}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2145528990443915504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7227207153048562302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f074cc99a22aeb24eb03ab1893204bbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HudView
+  healthSlider: {fileID: 4817798273325908474}
+  cooldownText: {fileID: 0}
 --- !u!1 &7332740488128563574
 GameObject:
   m_ObjectHideFlags: 0
@@ -2151,7 +2170,6 @@ GameObject:
   m_Component:
   - component: {fileID: 900862296854065315}
   - component: {fileID: 4817798273325908474}
-  - component: {fileID: 4524752431586709458}
   m_Layer: 5
   m_Name: Health
   m_TagString: Untagged
@@ -2231,21 +2249,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4524752431586709458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7888645254719749558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dc5c28d69734ea2b9e370e2f5f79956, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthSliderView
-  targetHealth: {fileID: 0}
-  slider: {fileID: 0}
-  autoFindHealthInParent: 1
 --- !u!1 &8551323782694836763
 GameObject:
   m_ObjectHideFlags: 0
@@ -2259,8 +2262,8 @@ GameObject:
   - component: {fileID: 3771600883835423356}
   - component: {fileID: 5298783200442843815}
   - component: {fileID: 3113195049516612055}
-  - component: {fileID: 3711027945702503852}
   - component: {fileID: 2032673920814925774}
+  - component: {fileID: 6767024089037020616}
   m_Layer: 6
   m_Name: Melee_Enemy
   m_TagString: Untagged
@@ -2278,8 +2281,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.36, y: -1.25, z: -0.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5339834201227303932}
   - {fileID: 4744800880320853584}
@@ -2299,14 +2302,14 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1.4
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: -0.25
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 1
 --- !u!54 &3771600883835423356
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2349,21 +2352,53 @@ MonoBehaviour:
   target: {fileID: 0}
   autoFindPlayer: 1
   playerTag: Player
-  viewDistance: 20
-  viewAngle: 180
-  eyeHeight: 1.4
-  visibilityMemoryDuration: 1.5
-  visibilityBlockers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  patrolLookAroundWhenIdle: 1
-  moveSpeed: 5
-  rotationSpeed: 10
-  idleTurnSpeed: 60
-  attackRange: 2.2
-  attackCooldown: 1.2
-  fallbackDamage: 10
-  configureRigidbodyForNavMesh: 1
+  visionConfig:
+    ViewDistance: 10
+    ViewAngle: 140
+    EyeHeight: 1.4
+    VisibilityMemoryDuration: 1.2
+    VisibilityBlockers:
+      serializedVersion: 2
+      m_Bits: 0
+  movementConfig:
+    PatrolLookAroundWhenIdle: 0
+    MoveSpeed: 3.5
+    RotationSpeed: 12
+    IdleTurnSpeed: 45
+    ConfigureRigidbodyForNavMesh: 0
+    NavAcceleration: 0
+    NavAngularSpeed: 0
+    NavStoppingDistance: 0
+    NavPathRepathInterval: 0
+  attackConfig:
+    AttackMode: 0
+    Damage: 12
+    MeleeAttackRange: 2
+    RangedAttackRange: 0
+    AttackCooldown: 1.1
+  projectileConfig:
+    ProjectilePrefab: {fileID: 0}
+    ProjectileSpawnPoint: {fileID: 0}
+    ProjectileSpeed: 0
+    ProjectileLifetime: 0
+    ProjectileRadius: 0
+    ProjectileSpawnHeightOffset: 0
+    ProjectileSpawnForwardOffset: 0
+    ProjectileHitMask:
+      serializedVersion: 2
+      m_Bits: 0
+  defaultWeapon: {fileID: 11400000, guid: 00893ec492071e4449c2e833db10221a, type: 2}
+  availableWeapons:
+  - {fileID: 11400000, guid: 00893ec492071e4449c2e833db10221a, type: 2}
+  - {fileID: 11400000, guid: b3c4a2c16a984cf4898b797275079947, type: 2}
+  randomizeWeaponOnSpawn: 1
+  audioSource: {fileID: 0}
+  behaviourConfig:
+    BehaviourMode: 0
+    FleeHealthThreshold: 0.00042426406
+    FleeExitHealthThreshold: 0
+    FleeDistance: 0
+  worldHudView: {fileID: 2145528990443915504}
   enableCombatDebugLogs: 0
   logCooldownBlocks: 0
 --- !u!114 &3113195049516612055
@@ -2382,20 +2417,6 @@ MonoBehaviour:
   currentHealth: 100
   resetToMaxOnAwake: 1
   destroyOnDeath: 1
---- !u!114 &3711027945702503852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8551323782694836763}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a1f1862516e87140b754af816115e4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MeleeMob
-  damage: 10
-  attackRange: 2
 --- !u!136 &2032673920814925774
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2419,6 +2440,103 @@ CapsuleCollider:
   m_Height: 2.33
   m_Direction: 1
   m_Center: {x: 0, y: 1.03, z: 0}
+--- !u!82 &6767024089037020616
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8551323782694836763}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8808980122136051859
 GameObject:
   m_ObjectHideFlags: 0

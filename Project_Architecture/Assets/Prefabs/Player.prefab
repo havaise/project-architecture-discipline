@@ -1401,8 +1401,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29e076ae344c0b24b938c8aa446d54dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationController
-  inputService: {fileID: 523815513221285209}
-  combatSystem: {fileID: 0}
+  inputServiceSource: {fileID: 0}
+  combatEventsSource: {fileID: 3572463364378633702}
   animator: {fileID: 8047600474782730236}
   isMovingParam: IsMoving
   moveSpeedParam: MoveSpeed
@@ -1809,10 +1809,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1513189405617008229}
   - component: {fileID: 685873044775537730}
-  - component: {fileID: 1271427639521004644}
-  - component: {fileID: 523815513221285209}
   - component: {fileID: 2332260262428312153}
   - component: {fileID: 3572463364378633702}
+  - component: {fileID: 1271427639521004644}
+  - component: {fileID: 4243809644662186885}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1862,50 +1862,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1271427639521004644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7337900913638976391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21f3b537de9f48799fbbfe98f30d3d63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  inputService: {fileID: 523815513221285209}
-  cameraTransform: {fileID: 0}
-  moveSpeed: 6
-  sprintMultiplier: 1.5
-  rotateToMovement: 1
-  rotationSpeed: 12
-  jumpHeight: 1.5
-  gravity: -9.81
-  enableDebugLogs: 1
---- !u!114 &523815513221285209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7337900913638976391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5837af6e5c7f470fb2c7bc15764ac899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InputService
-  inputActions: {fileID: -944628639613478452, guid: c46858dcb84f4147a0d7f57107f5f388, type: 3}
-  gameplayMapName: Gameplay
-  moveActionName: Move
-  lookActionName: Look
-  sprintActionName: Sprint
-  physicalAttackActionName: PhysicalAttack
-  magicAttackActionName: MagicAttack
-  jumpActionName: Jump
-  interactActionName: Interact
-  pauseActionName: Pause
-  lockAndHideCursorOnEnable: 1
 --- !u!114 &2332260262428312153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1934,7 +1890,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b9309896ac04fab852f4c0d5f3cd976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombatSystem
-  inputService: {fileID: 523815513221285209}
   attackOrigin: {fileID: 1513189405617008229}
   attackCamera: {fileID: 0}
   physicalDamage: 20
@@ -1942,7 +1897,7 @@ MonoBehaviour:
   physicalRadius: 0.8
   physicalCooldown: 1.16
   magicDamage: 30
-  magicCooldown: 1.5
+  magicCooldown: 0.3
   magicProjectilePrefab: {fileID: 7762972343197144611, guid: 39160d4c166b6f24eadfe53a31d1766e, type: 3}
   magicProjectileSpeed: 12
   magicProjectileLifetime: 2.5
@@ -1956,8 +1911,133 @@ MonoBehaviour:
   targetMask:
     serializedVersion: 2
     m_Bits: 4294967295
+  audioSource: {fileID: 4243809644662186885}
+  physicalAttackVfxPrefab: {fileID: 0}
+  physicalAttackSfx: {fileID: 8300000, guid: 207c6595ee318174793d87bb9ba2ee6c, type: 3}
+  magicShotVfxPrefab: {fileID: 1059172723860074, guid: 058c6c6f7bee2fc45a91fbdb528a9035, type: 3}
+  magicShotSfx: {fileID: 8300000, guid: 66677a20a6e896848b1b3c508cd5645e, type: 3}
+  magicHitImpactVfxPrefab: {fileID: 1231636063597364, guid: 3aa0fab185f378240b831342bde74b26, type: 3}
+  magicAutoAimRadius: 2.3
+  magicAutoAimTurnSpeed: 180
   enableDebugLogs: 1
   logCooldownBlocks: 0
+--- !u!114 &1271427639521004644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7337900913638976391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21f3b537de9f48799fbbfe98f30d3d63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
+  cameraTransform: {fileID: 0}
+  moveSpeed: 6
+  sprintMultiplier: 1.5
+  rotateToMovement: 1
+  rotationSpeed: 12
+  jumpHeight: 1.5
+  gravity: -9.81
+  enableDebugLogs: 1
+--- !u!82 &4243809644662186885
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7337900913638976391}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7585824943166451250
 GameObject:
   m_ObjectHideFlags: 0

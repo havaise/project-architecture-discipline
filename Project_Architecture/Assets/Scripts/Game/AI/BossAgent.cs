@@ -30,13 +30,8 @@ public sealed class BossAgent
     private readonly Func<float> getHealthRatio;
     private readonly Action<EnemyAttackResult, float> handleAttackResult;
     private readonly StateMachine<BossAgent> stateMachine;
-    private readonly IState<BossAgent> restState;
-    private readonly IState<BossAgent> aggressionState;
-    private readonly IState<BossAgent> searchState;
-    private readonly IState<BossAgent> attackState;
-    private readonly IState<BossAgent> strongAttackState;
-    private readonly IState<BossAgent> dodgeState;
-    private readonly IState<BossAgent> recoverState;
+    private readonly Color projectileTint;
+    private readonly GameObject projectileHitVfx;
 
     private float nextStrongAttackTime;
     private float nextDodgeTime;
@@ -63,6 +58,8 @@ public sealed class BossAgent
         Func<int> getDamage,
         Func<float> getHealthRatio,
         Action<EnemyAttackResult, float> handleAttackResult,
+        Color projectileTint,
+        GameObject projectileHitVfx,
         bool enableCombatDebugLogs)
     {
         this.transform = transform != null
@@ -83,16 +80,11 @@ public sealed class BossAgent
         this.getDamage = getDamage;
         this.getHealthRatio = getHealthRatio;
         this.handleAttackResult = handleAttackResult;
+        this.projectileTint = projectileTint;
+        this.projectileHitVfx = projectileHitVfx;
         this.enableCombatDebugLogs = enableCombatDebugLogs;
 
         stateMachine = new StateMachine<BossAgent>(this);
-        restState = new BossRestState();
-        aggressionState = new BossAggressionState();
-        searchState = new BossSearchState();
-        attackState = new BossAttackState();
-        strongAttackState = new BossStrongAttackState();
-        dodgeState = new BossDodgeState();
-        recoverState = new BossRecoverState();
     }
 
     public Transform CurrentTarget { get; private set; }
@@ -106,7 +98,7 @@ public sealed class BossAgent
         ResolveTarget(currentTime);
         nextStrongAttackTime = currentTime + Mathf.Max(0.1f, bossCombatConfig.StrongAttackCooldown);
         nextDodgeTime = currentTime;
-        stateMachine.SetInitialState(restState);
+        stateMachine.SetInitialState(new BossRestState());
     }
 
     public void SetProvoked(bool value)
@@ -274,6 +266,8 @@ public sealed class BossAgent
             projectileConfig.ProjectileSpawnForwardOffset,
             projectileConfig.ProjectileHitMask,
             enableCombatDebugLogs,
+            projectileTint,
+            projectileHitVfx,
             out float cooldownRemaining);
 
         handleAttackResult?.Invoke(result, cooldownRemaining);
@@ -312,7 +306,7 @@ public sealed class BossAgent
     private void BeginSearch(float currentTime)
     {
         searchUntilTime = currentTime + DefaultSearchDuration;
-        stateMachine.ChangeState(searchState);
+        stateMachine.ChangeState(new BossSearchState());
     }
 
     private bool IsSearchExpired(float currentTime)
@@ -323,7 +317,7 @@ public sealed class BossAgent
     private void BeginRecover(float currentTime, float duration)
     {
         recoverUntilTime = currentTime + Mathf.Max(0.05f, duration);
-        stateMachine.ChangeState(recoverState);
+        stateMachine.ChangeState(new BossRecoverState());
     }
 
     private bool IsRecoverDone(float currentTime)
@@ -337,7 +331,7 @@ public sealed class BossAgent
         dodgeLeft = !dodgeLeft;
         MarkDodgeUsed(currentTime);
         ResetChaseTimer();
-        stateMachine.ChangeState(dodgeState);
+        stateMachine.ChangeState(new BossDodgeState());
     }
 
     private bool IsDodgeDone(float currentTime)
@@ -357,22 +351,22 @@ public sealed class BossAgent
 
     private void ChangeToRest()
     {
-        stateMachine.ChangeState(restState);
+        stateMachine.ChangeState(new BossRestState());
     }
 
     private void ChangeToAggression()
     {
-        stateMachine.ChangeState(aggressionState);
+        stateMachine.ChangeState(new BossAggressionState());
     }
 
     private void ChangeToAttack()
     {
-        stateMachine.ChangeState(attackState);
+        stateMachine.ChangeState(new BossAttackState());
     }
 
     private void ChangeToStrongAttack()
     {
-        stateMachine.ChangeState(strongAttackState);
+        stateMachine.ChangeState(new BossStrongAttackState());
     }
 
     private sealed class BossRestState : IState<BossAgent>

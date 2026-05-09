@@ -21,12 +21,23 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
     [Header("Projectile")]
     [SerializeField] private EnemyProjectileConfig projectileConfig = default;
 
+    [Header("Boss Loadout")]
+    [SerializeField] private bool randomizeOnSpawn = true;
+    [SerializeField] private BossAttackType currentAttackType = BossAttackType.Melee;
+    [SerializeField] private BossElement currentElement = BossElement.Fire;
+    [SerializeField] private BossElementAttackProfile[] elementProfiles;
+    [SerializeField] private AudioSource audioSource;
+
     [Header("Boss")]
     [SerializeField] private bool requireHitToAggro = true;
     [SerializeField] private BossCombatConfig bossCombatConfig = default;
     [SerializeField] private bool allowDeaggro = true;
     [SerializeField] private float deaggroDistance = 28f;
     [SerializeField] private float deaggroDelay = 3f;
+    [SerializeField] private bool canChangeElementDuringFight;
+    [SerializeField] private float elementChangeInterval = 20f;
+    [SerializeField] private bool canChangeAttackTypeDuringFight;
+    [SerializeField] private float attackTypeChangeInterval = 30f;
 
     [Header("UI")]
     [SerializeField] private HudView worldHudView;
@@ -50,10 +61,22 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
     private int lastKnownHealth = int.MaxValue;
     private bool wasHit;
     private float outOfRangeTime;
+    private float nextElementChangeTime;
+    private float nextAttackTypeChangeTime;
+    private float damageMultiplier = 1f;
+    private Color projectileTint = Color.white;
+    private GameObject projectileHitVfx;
+    private GameObject attackVfx;
+    private AudioClip attackSfx;
+    private EnemyAttackConfig baseAttackConfig;
+    private EnemyProjectileConfig baseProjectileConfig;
 
     private void Awake()
     {
         ApplyDefaultConfigsIfNeeded();
+        baseAttackConfig = attackConfig;
+        baseProjectileConfig = projectileConfig;
+        RandomizeBossLoadout();
 
         navMeshAgent = GetComponent<NavMeshAgent>();
         body = GetComponent<Rigidbody>();
@@ -93,9 +116,13 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
             GetDamage,
             GetHealthRatio,
             HandleAttackResult,
+            projectileTint,
+            projectileHitVfx,
             enableCombatDebugLogs);
         bossAgent.Initialize(Time.time);
         target = bossAgent.CurrentTarget;
+        nextElementChangeTime = Time.time + Mathf.Max(1f, elementChangeInterval);
+        nextAttackTypeChangeTime = Time.time + Mathf.Max(1f, attackTypeChangeInterval);
     }
 
     private void Start()
@@ -124,6 +151,7 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
 
         bool provoked = !requireHitToAggro || wasHit;
         bossAgent.SetProvoked(provoked);
+        UpdateDynamicLoadout(Time.time);
         bossAgent.Tick(Time.time, Time.deltaTime);
         target = bossAgent.CurrentTarget;
         UpdateDeaggro(Time.deltaTime);
@@ -131,7 +159,19 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
 
     public int GetDamage()
     {
-        return Mathf.Max(0, attackConfig.Damage);
+        return Mathf.Max(0, Mathf.RoundToInt(attackConfig.Damage * Mathf.Max(0.1f, damageMultiplier)));
+    }
+
+    [ContextMenu("Randomize Boss Loadout")]
+    public void RandomizeBossLoadout()
+    {
+        if (randomizeOnSpawn)
+        {
+            currentAttackType = UnityEngine.Random.value < 0.5f ? BossAttackType.Melee : BossAttackType.Ranged;
+            currentElement = (BossElement)UnityEngine.Random.Range(0, 4);
+        }
+
+        ApplyBossLoadout();
     }
 
     private float GetHealthRatio()
@@ -200,10 +240,12 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
             case EnemyAttackResult.MeleeHit:
             case EnemyAttackResult.MeleeMiss:
                 MeleeAttackPerformed?.Invoke();
+                PlayPresentation();
                 break;
 
             case EnemyAttackResult.RangedFired:
                 RangedAttackPerformed?.Invoke();
+                PlayPresentation();
                 break;
         }
     }
@@ -252,5 +294,83 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
         }
 
         Debug.Log($"[BossController] {message}", this);
+    }
+
+    private void ApplyBossLoadout()
+    {
+        attackConfig = baseAttackConfig;
+        projectileConfig = baseProjectileConfig;
+        attackConfig.AttackMode = currentAttackType == BossAttackType.Melee ? EnemyAttackKind.Melee : EnemyAttackKind.Ranged;
+        BossElementAttackProfile profile = FindProfile(currentAttackType, currentElement);
+        damageMultiplier = profile.DamageMultiplier <= 0f ? 1f : profile.DamageMultiplier;
+        float cooldownMul = profile.CooldownMultiplier <= 0f ? 1f : profile.CooldownMultiplier;
+        attackConfig.AttackCooldown = Mathf.Max(0.05f, attackConfig.AttackCooldown * cooldownMul);
+        projectileConfig.ProjectileSpeed = Mathf.Max(0.01f, projectileConfig.ProjectileSpeed * Mathf.Max(0.05f, profile.ProjectileSpeedMultiplier));
+        projectileTint = profile.Color.a <= 0f ? Color.white : profile.Color;
+        projectileHitVfx = profile.HitVfxPrefab;
+        attackVfx = profile.AttackVfxPrefab;
+        attackSfx = profile.Sound;
+    }
+
+    private BossElementAttackProfile FindProfile(BossAttackType attackType, BossElement element)
+    {
+        if (elementProfiles != null)
+        {
+            for (int i = 0; i < elementProfiles.Length; i++)
+            {
+                if (elementProfiles[i].AttackType == attackType && elementProfiles[i].Element == element)
+                {
+                    return elementProfiles[i];
+                }
+            }
+        }
+
+        return new BossElementAttackProfile
+        {
+            AttackType = attackType,
+            Element = element,
+            DamageMultiplier = 1f,
+            CooldownMultiplier = 1f,
+            ProjectileSpeedMultiplier = 1f,
+            Color = Color.white
+        };
+    }
+
+    private void UpdateDynamicLoadout(float currentTime)
+    {
+        if (canChangeElementDuringFight && currentTime >= nextElementChangeTime)
+        {
+            currentElement = (BossElement)UnityEngine.Random.Range(0, 4);
+            ApplyBossLoadout();
+            nextElementChangeTime = currentTime + Mathf.Max(1f, elementChangeInterval);
+        }
+
+        if (canChangeAttackTypeDuringFight && currentTime >= nextAttackTypeChangeTime)
+        {
+            currentAttackType = currentAttackType == BossAttackType.Melee ? BossAttackType.Ranged : BossAttackType.Melee;
+            ApplyBossLoadout();
+            nextAttackTypeChangeTime = currentTime + Mathf.Max(1f, attackTypeChangeInterval);
+        }
+    }
+
+    private void PlayPresentation()
+    {
+        if (attackVfx != null)
+        {
+            Instantiate(attackVfx, transform.position + Vector3.up, Quaternion.identity);
+        }
+
+        if (attackSfx == null)
+        {
+            return;
+        }
+
+        if (audioSource != null)
+        {
+            audioSource.PlayOneShot(attackSfx);
+            return;
+        }
+
+        AudioSource.PlayClipAtPoint(attackSfx, transform.position);
     }
 }

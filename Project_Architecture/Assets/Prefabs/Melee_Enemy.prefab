@@ -2380,6 +2380,12 @@ MonoBehaviour:
     ProjectileHitMask:
       serializedVersion: 2
       m_Bits: 0
+  defaultWeapon: {fileID: 11400000, guid: 00893ec492071e4449c2e833db10221a, type: 2}
+  availableWeapons:
+  - {fileID: 11400000, guid: 00893ec492071e4449c2e833db10221a, type: 2}
+  - {fileID: 11400000, guid: b3c4a2c16a984cf4898b797275079947, type: 2}
+  randomizeWeaponOnSpawn: 1
+  audioSource: {fileID: 0}
   behaviourConfig:
     BehaviourMode: 0
     FleeHealthThreshold: 0.00042426406

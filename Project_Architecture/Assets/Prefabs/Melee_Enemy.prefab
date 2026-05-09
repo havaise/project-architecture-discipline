@@ -1264,6 +1264,8 @@ MonoBehaviour:
   meleeAttackTriggerParam: MeleeAttackTrigger
   rangedAttackTriggerParam: RangedAttackTrigger
   bossStateParam: BossState
+  hitTriggerParam: HitTrigger
+  deathTriggerParam: DeathTrigger
   enableDebugLogs: 0
 --- !u!1 &4501673394970418723
 GameObject:
@@ -2351,9 +2353,9 @@ MonoBehaviour:
   playerTag: Player
   visionConfig:
     ViewDistance: 10
-    ViewAngle: 75
+    ViewAngle: 140
     EyeHeight: 1.4
-    VisibilityMemoryDuration: 0.5
+    VisibilityMemoryDuration: 1.2
     VisibilityBlockers:
       serializedVersion: 2
       m_Bits: 0

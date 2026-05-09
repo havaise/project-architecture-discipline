@@ -3,6 +3,8 @@
 [RequireComponent(typeof(Animator))]
 public class EnemyAnimationController : MonoBehaviour
 {
+    private static readonly int UnknownBossState = -1;
+
     [Header("References")]
     [SerializeField] private MonoBehaviour enemyStateSource;
     [SerializeField] private MonoBehaviour enemyAttackEventsSource;
@@ -17,6 +19,8 @@ public class EnemyAnimationController : MonoBehaviour
     [SerializeField] private string meleeAttackTriggerParam = "MeleeAttackTrigger";
     [SerializeField] private string rangedAttackTriggerParam = "RangedAttackTrigger";
     [SerializeField] private string bossStateParam = "BossState";
+    [SerializeField] private string hitTriggerParam = "HitTrigger";
+    [SerializeField] private string deathTriggerParam = "DeathTrigger";
 
     [Header("Debug")]
     [SerializeField] private bool enableDebugLogs;
@@ -26,11 +30,17 @@ public class EnemyAnimationController : MonoBehaviour
     private int meleeAttackTriggerHash;
     private int rangedAttackTriggerHash;
     private int bossStateHash;
+    private int hitTriggerHash;
+    private int deathTriggerHash;
 
     private IMovementStateProvider enemyStateProvider;
     private IStateNameProvider stateNameProvider;
     private IEnemyAttackEvents enemyAttackEvents;
+    private IHealth health;
     private bool callbacksBound;
+    private int lastBossState = UnknownBossState;
+    private bool wasDead;
+    private int lastKnownHealth = int.MaxValue;
 
     private void Awake()
     {
@@ -47,11 +57,13 @@ public class EnemyAnimationController : MonoBehaviour
     private void OnEnable()
     {
         BindCallbacks();
+        BindHealthCallbacks();
     }
 
     private void OnDisable()
     {
         UnbindCallbacks();
+        UnbindHealthCallbacks();
     }
 
     private void Update()
@@ -66,12 +78,20 @@ public class EnemyAnimationController : MonoBehaviour
             return;
         }
 
-        animator.SetBool(isMovingHash, enemyStateProvider.IsMoving);
-        animator.SetFloat(moveSpeedHash, enemyStateProvider.MoveSpeedNormalized, speedDampTime, Time.deltaTime);
+        if (!wasDead)
+        {
+            animator.SetBool(isMovingHash, enemyStateProvider.IsMoving);
+            animator.SetFloat(moveSpeedHash, enemyStateProvider.MoveSpeedNormalized, speedDampTime, Time.deltaTime);
+        }
 
         if (stateNameProvider != null && bossStateHash != 0)
         {
-            animator.SetInteger(bossStateHash, MapStateNameToBossState(stateNameProvider.CurrentStateName));
+            int mappedState = MapStateNameToBossState(stateNameProvider.CurrentStateName);
+            if (mappedState != lastBossState)
+            {
+                animator.SetInteger(bossStateHash, mappedState);
+                lastBossState = mappedState;
+            }
         }
     }
 
@@ -146,7 +166,18 @@ public class EnemyAnimationController : MonoBehaviour
             enemyAttackEvents = GetComponent<IEnemyAttackEvents>();
         }
 
+        if (health == null)
+        {
+            health = GetComponentInChildren<IHealth>();
+            if (health != null && lastKnownHealth == int.MaxValue)
+            {
+                lastKnownHealth = health.Current;
+                wasDead = health.IsDead();
+            }
+        }
+
         BindCallbacks();
+        BindHealthCallbacks();
         return enemyStateProvider != null && enemyAttackEvents != null;
     }
 
@@ -180,6 +211,8 @@ public class EnemyAnimationController : MonoBehaviour
         moveSpeedHash = Animator.StringToHash(moveSpeedParam);
         meleeAttackTriggerHash = Animator.StringToHash(meleeAttackTriggerParam);
         rangedAttackTriggerHash = Animator.StringToHash(rangedAttackTriggerParam);
+        hitTriggerHash = string.IsNullOrWhiteSpace(hitTriggerParam) ? 0 : Animator.StringToHash(hitTriggerParam);
+        deathTriggerHash = string.IsNullOrWhiteSpace(deathTriggerParam) ? 0 : Animator.StringToHash(deathTriggerParam);
         bossStateHash = string.IsNullOrWhiteSpace(bossStateParam)
             ? 0
             : Animator.StringToHash(bossStateParam);
@@ -206,6 +239,58 @@ public class EnemyAnimationController : MonoBehaviour
             default:
                 return 0;
         }
+    }
+
+    private void BindHealthCallbacks()
+    {
+        if (health == null)
+        {
+            return;
+        }
+
+        health.HealthChanged -= OnHealthChanged;
+        health.Died -= OnDied;
+        health.HealthChanged += OnHealthChanged;
+        health.Died += OnDied;
+    }
+
+    private void UnbindHealthCallbacks()
+    {
+        if (health == null)
+        {
+            return;
+        }
+
+        health.HealthChanged -= OnHealthChanged;
+        health.Died -= OnDied;
+    }
+
+    private void OnHealthChanged(int current, int max)
+    {
+        if (wasDead || hitTriggerHash == 0)
+        {
+            lastKnownHealth = current;
+            return;
+        }
+
+        if (lastKnownHealth != int.MaxValue && current < lastKnownHealth)
+        {
+            animator.SetTrigger(hitTriggerHash);
+        }
+
+        lastKnownHealth = current;
+    }
+
+    private void OnDied()
+    {
+        wasDead = true;
+        if (deathTriggerHash != 0)
+        {
+            animator.SetTrigger(deathTriggerHash);
+        }
+
+        animator.SetBool(isMovingHash, false);
+        animator.SetFloat(moveSpeedHash, 0f);
     }
 
     private void Log(string message)

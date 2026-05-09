@@ -3,7 +3,6 @@ using UnityEngine;
 
 public sealed class BossAgent
 {
-    private const float DefaultSearchDuration = 2.5f;
     private const float DefaultRecoverDuration = 0.45f;
     private const float DefaultStrongRecoverDuration = 0.8f;
     private const float DefaultDodgeDuration = 0.4f;
@@ -35,7 +34,6 @@ public sealed class BossAgent
 
     private float nextStrongAttackTime;
     private float nextDodgeTime;
-    private float searchUntilTime;
     private float recoverUntilTime;
     private float dodgeUntilTime;
     private float continuousChaseTime;
@@ -314,13 +312,7 @@ public sealed class BossAgent
 
     private void BeginSearch(float currentTime)
     {
-        searchUntilTime = currentTime + DefaultSearchDuration;
         stateMachine.ChangeState(new BossSearchState());
-    }
-
-    private bool IsSearchExpired(float currentTime)
-    {
-        return currentTime >= searchUntilTime;
     }
 
     private void BeginRecover(float currentTime, float duration)
@@ -519,7 +511,7 @@ public sealed class BossAgent
                 return;
             }
 
-            if (!context.HasTargetMemory(currentTime) || context.IsSearchExpired(currentTime))
+            if (!context.HasTargetMemory(currentTime))
             {
                 context.ResetChaseTimer();
                 context.ChangeToRest();

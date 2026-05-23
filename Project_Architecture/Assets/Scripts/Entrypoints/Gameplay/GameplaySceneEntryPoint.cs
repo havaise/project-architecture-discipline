@@ -15,12 +15,15 @@ public class GameplaySceneEntryPoint : MonoBehaviour
     [SerializeField] private PlayerAnimationController playerAnimationController;
     [SerializeField] private GameOverController gameOverController;
     [SerializeField] private HudView hudView;
+    [SerializeField] private VictoryView victoryView;
+    [SerializeField] private GameplayEventDirector gameplayEventDirector;
     [SerializeField] private Transform playerTransform;
     [SerializeField] private PauseMenuView pauseMenuView;
     [SerializeField] private MonoBehaviour[] gameplayComponentsToToggle;
 
     private IInputService inputService;
     private PauseMenuController pauseMenuController;
+    private VictoryFlowController victoryFlowController;
     private IGameSaveInteractor gameSaveInteractor;
     private bool pendingLoadApplied;
 
@@ -67,6 +70,15 @@ public class GameplaySceneEntryPoint : MonoBehaviour
             playerAnimationController,
             mainMenuSceneName,
             this);
+        victoryFlowController = VictoryComposition.BuildAndInitialize(
+            victoryView,
+            gameplayEventDirector,
+            inputService,
+            gameplayComponentsToToggle,
+            playerMovement,
+            playerCombatSystem,
+            playerAnimationController,
+            this);
     }
 
     private void Start()
@@ -77,6 +89,7 @@ public class GameplaySceneEntryPoint : MonoBehaviour
     private void OnDestroy()
     {
         pauseMenuController?.Dispose();
+        victoryFlowController?.Dispose();
 
         if (GameEntryPoint.Services != null)
         {
@@ -136,6 +149,16 @@ public class GameplaySceneEntryPoint : MonoBehaviour
         if (hudView == null)
         {
             hudView = FindFirstObjectByType<HudView>();
+        }
+
+        if (victoryView == null)
+        {
+            victoryView = FindFirstObjectByType<VictoryView>();
+        }
+
+        if (gameplayEventDirector == null)
+        {
+            gameplayEventDirector = FindFirstObjectByType<GameplayEventDirector>();
         }
     }
 

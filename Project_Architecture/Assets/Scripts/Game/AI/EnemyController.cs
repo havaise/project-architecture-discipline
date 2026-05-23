@@ -4,6 +4,8 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAttackEvents, IDamageSource, IStateNameProvider
 {
+    public static event Action<EnemyController> EnemyDied;
+
     [Header("Target")]
     [SerializeField] private Transform target;
     [SerializeField] private bool autoFindPlayer = true;
@@ -52,6 +54,7 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
     private HealthComponent healthComponent;
     private MobWeaponConfig runtimeWeapon;
     private float damageMultiplier = 1f;
+    private bool deathReported;
 
     private void Awake()
     {
@@ -68,6 +71,19 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         if (worldHudView != null)
         {
             worldHudView.Initialize(healthComponent, null);
+        }
+
+        if (healthComponent != null)
+        {
+            healthComponent.Died += OnDied;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (healthComponent != null)
+        {
+            healthComponent.Died -= OnDied;
         }
     }
 
@@ -327,5 +343,16 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         }
 
         AudioSource.PlayClipAtPoint(runtimeWeapon.AttackSfx, transform.position);
+    }
+
+    private void OnDied()
+    {
+        if (deathReported)
+        {
+            return;
+        }
+
+        deathReported = true;
+        EnemyDied?.Invoke(this);
     }
 }

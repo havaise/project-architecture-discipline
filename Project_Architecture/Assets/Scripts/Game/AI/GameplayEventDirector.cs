@@ -10,6 +10,10 @@ public class GameplayEventDirector : MonoBehaviour
     [SerializeField] private int victoryMusicKillThreshold = 5;
     [SerializeField] private int scorePerKill = 100;
 
+    [Header("Boss Reward")]
+    [SerializeField] private int bossKillScore = 500;
+    [SerializeField] private int bossKillCount = 1;
+
     [Header("Boss Spawn")]
     [SerializeField] private GameObject bossObjectToActivate;
     [SerializeField] private BossController bossPrefab;
@@ -43,18 +47,30 @@ public class GameplayEventDirector : MonoBehaviour
     private void OnEnable()
     {
         EnemyController.EnemyDied += OnEnemyDied;
+        BossController.BossDied += OnBossDied;
         RefreshUi();
     }
 
     private void OnDisable()
     {
         EnemyController.EnemyDied -= OnEnemyDied;
+        BossController.BossDied -= OnBossDied;
     }
 
     private void OnEnemyDied(EnemyController enemy)
     {
-        Kills++;
-        Score += Mathf.Max(0, scorePerKill);
+        AddProgress(1, scorePerKill);
+    }
+
+    private void OnBossDied(BossController boss)
+    {
+        AddProgress(Mathf.Max(0, bossKillCount), Mathf.Max(0, bossKillScore));
+    }
+
+    private void AddProgress(int killDelta, int scoreDelta)
+    {
+        Kills += Mathf.Max(0, killDelta);
+        Score += Mathf.Max(0, scoreDelta);
         RefreshUi();
 
         if (!bossSpawned && Kills >= Mathf.Max(1, bossSpawnKillThreshold))

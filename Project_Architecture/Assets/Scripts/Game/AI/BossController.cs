@@ -4,6 +4,8 @@ using UnityEngine.AI;
 
 public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttackEvents, IDamageSource, IStateNameProvider
 {
+    public static event Action<BossController> BossDied;
+
     [Header("Target")]
     [SerializeField] private Transform target;
     [SerializeField] private bool autoFindPlayer = true;
@@ -71,6 +73,7 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
     private AudioClip attackSfx;
     private EnemyAttackConfig baseAttackConfig;
     private EnemyProjectileConfig baseProjectileConfig;
+    private bool deathReported;
 
     private void Awake()
     {
@@ -133,6 +136,7 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
         {
             lastKnownHealth = healthComponent.Current;
             healthComponent.HealthChanged += OnHealthChanged;
+            healthComponent.Died += OnDied;
         }
     }
 
@@ -141,6 +145,7 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
         if (healthComponent != null)
         {
             healthComponent.HealthChanged -= OnHealthChanged;
+            healthComponent.Died -= OnDied;
         }
     }
 
@@ -418,5 +423,16 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
     private GameObject GetCurrentProjectileHitVfx()
     {
         return projectileHitVfx;
+    }
+
+    private void OnDied()
+    {
+        if (deathReported)
+        {
+            return;
+        }
+
+        deathReported = true;
+        BossDied?.Invoke(this);
     }
 }

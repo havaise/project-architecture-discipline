@@ -27,6 +27,7 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
     [SerializeField] private BossElement currentElement = BossElement.Fire;
     [SerializeField] private BossElementAttackProfile[] elementProfiles;
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private Transform meleeVfxSpawnPoint;
 
     [Header("Boss")]
     [SerializeField] private bool requireHitToAggro = true;
@@ -116,9 +117,10 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
             GetDamage,
             GetHealthRatio,
             HandleAttackResult,
-            projectileTint,
-            projectileHitVfx,
+            GetCurrentProjectileTint,
+            GetCurrentProjectileHitVfx,
             enableCombatDebugLogs);
+        bossAgent.ApplyRuntimeCombatConfig(attackConfig, projectileConfig);
         bossAgent.Initialize(Time.time);
         target = bossAgent.CurrentTarget;
         nextElementChangeTime = Time.time + Mathf.Max(1f, elementChangeInterval);
@@ -332,6 +334,12 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
         projectileHitVfx = profile.HitVfxPrefab;
         attackVfx = profile.AttackVfxPrefab;
         attackSfx = profile.Sound;
+
+        if (bossAgent != null)
+        {
+            // Keep agent runtime combat behavior synchronized with loadout changes.
+            bossAgent.ApplyRuntimeCombatConfig(attackConfig, projectileConfig);
+        }
     }
 
     private BossElementAttackProfile FindProfile(BossAttackType attackType, BossElement element)
@@ -379,7 +387,13 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
     {
         if (attackVfx != null)
         {
-            Instantiate(attackVfx, transform.position + Vector3.up, Quaternion.identity);
+            Vector3 vfxPosition = transform.position + Vector3.up;
+            if (currentAttackType == BossAttackType.Melee && meleeVfxSpawnPoint != null)
+            {
+                vfxPosition = meleeVfxSpawnPoint.position;
+            }
+
+            Instantiate(attackVfx, vfxPosition, Quaternion.identity);
         }
 
         if (attackSfx == null)
@@ -394,5 +408,15 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
         }
 
         AudioSource.PlayClipAtPoint(attackSfx, transform.position);
+    }
+
+    private Color GetCurrentProjectileTint()
+    {
+        return projectileTint;
+    }
+
+    private GameObject GetCurrentProjectileHitVfx()
+    {
+        return projectileHitVfx;
     }
 }

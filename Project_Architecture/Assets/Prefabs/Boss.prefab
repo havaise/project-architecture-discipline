@@ -461,6 +461,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 704117343532577332}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1683978084260920353
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2894388999441554711}
+  m_Layer: 0
+  m_Name: MeleeVFXPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2894388999441554711
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683978084260920353}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.171, z: 0.734}
+  m_LocalScale: {x: 2, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7093230224922888749}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1941059653550068390
 GameObject:
   m_ObjectHideFlags: 0
@@ -1471,7 +1502,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4919710853748379955}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 39.3, y: 4.68, z: 87.81}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1479,6 +1510,7 @@ Transform:
   - {fileID: 2984244472658999756}
   - {fileID: 4915604586622954069}
   - {fileID: 4734484161879433966}
+  - {fileID: 2894388999441554711}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3184311540021913861
@@ -1517,7 +1549,7 @@ MonoBehaviour:
   attackConfig:
     AttackMode: 1
     Damage: 25
-    MeleeAttackRange: 4
+    MeleeAttackRange: 2
     RangedAttackRange: 12
     AttackCooldown: 1.8
   projectileConfig:
@@ -1532,7 +1564,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 4294967295
   randomizeOnSpawn: 0
-  currentAttackType: 1
+  currentAttackType: 0
   currentElement: 3
   elementProfiles:
   - AttackType: 1
@@ -1575,7 +1607,48 @@ MonoBehaviour:
     HitVfxPrefab: {fileID: 1089465354904564, guid: f0855940e22dbcd4aad5ca152a089348, type: 3}
     Sound: {fileID: 8300000, guid: 66677a20a6e896848b1b3c508cd5645e, type: 3}
     Description: 
+  - AttackType: 0
+    Element: 1
+    DamageMultiplier: 1.2
+    CooldownMultiplier: 0.8
+    ProjectileSpeedMultiplier: 0
+    Color: {r: 1, g: 0.3372549, b: 0, a: 0}
+    AttackVfxPrefab: {fileID: 1367524815892938, guid: 40f5e004d2504a04db181f5453658776, type: 3}
+    HitVfxPrefab: {fileID: 1089465354904564, guid: f0855940e22dbcd4aad5ca152a089348, type: 3}
+    Sound: {fileID: 8300000, guid: 217ed1bb96653684f94c4311b3190918, type: 3}
+    Description: 
+  - AttackType: 0
+    Element: 3
+    DamageMultiplier: 1.3
+    CooldownMultiplier: 0.9
+    ProjectileSpeedMultiplier: 1.35
+    Color: {r: 0.6688323, g: 0.84231925, b: 0.8490566, a: 0}
+    AttackVfxPrefab: {fileID: 1673707391571236, guid: f326479f7cef0794d95f29731f4bbdb3, type: 3}
+    HitVfxPrefab: {fileID: 1373873258365392, guid: cd5def2bb4f6b4e4ab15ba0b6f35b29d, type: 3}
+    Sound: {fileID: 8300000, guid: 8277972829ae080409c4275e01674af9, type: 3}
+    Description: 
+  - AttackType: 0
+    Element: 2
+    DamageMultiplier: 1.3
+    CooldownMultiplier: 0.9
+    ProjectileSpeedMultiplier: 1.35
+    Color: {r: 0.58431375, g: 0.3529412, b: 0.09803922, a: 0}
+    AttackVfxPrefab: {fileID: 1889697189104820, guid: 918bed4b1a6905d4aaa25af94c2caa31, type: 3}
+    HitVfxPrefab: {fileID: 1327231448029640, guid: b0035d79b41032446a5de0e41abe9823, type: 3}
+    Sound: {fileID: 8300000, guid: 48dce82ddbeac5e4898b753074149026, type: 3}
+    Description: 
+  - AttackType: 0
+    Element: 0
+    DamageMultiplier: 1.3
+    CooldownMultiplier: 0.9
+    ProjectileSpeedMultiplier: 1.35
+    Color: {r: 0.015686275, g: 0.87058824, b: 1, a: 0}
+    AttackVfxPrefab: {fileID: 1960835308829046, guid: adca1c5f787b050449984aedac0cbdc5, type: 3}
+    HitVfxPrefab: {fileID: 1998750652454270, guid: 8a1ac1dbe39224143972fa1a908b0abf, type: 3}
+    Sound: {fileID: 8300000, guid: 55e330e405c341a478d4312bf4e8f361, type: 3}
+    Description: 
   audioSource: {fileID: 5737323470858685709}
+  meleeVfxSpawnPoint: {fileID: 2894388999441554711}
   requireHitToAggro: 0
   bossCombatConfig:
     StrongAttackCooldown: 4.5
@@ -1583,12 +1656,12 @@ MonoBehaviour:
     EnrageBelowHalfHealth: 1
     EnragedAttackSpeedMultiplier: 1.5
   allowDeaggro: 0
-  deaggroDistance: 28
+  deaggroDistance: 25
   deaggroDelay: 1.5
-  canChangeElementDuringFight: 0
-  elementChangeInterval: 20
+  canChangeElementDuringFight: 1
+  elementChangeInterval: 2
   canChangeAttackTypeDuringFight: 0
-  attackTypeChangeInterval: 30
+  attackTypeChangeInterval: 2
   worldHudView: {fileID: 3417207833837690830}
   enableCombatDebugLogs: 0
   logCooldownBlocks: 0

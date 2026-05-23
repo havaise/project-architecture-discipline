@@ -20,17 +20,17 @@ public sealed class BossAgent
     private readonly IEnemyTargetProvider targetProvider;
     private readonly EnemyVisionConfig visionConfig;
     private readonly EnemyMovementConfig movementConfig;
-    private readonly EnemyAttackConfig attackConfig;
-    private readonly EnemyProjectileConfig projectileConfig;
+    private EnemyAttackConfig attackConfig;
+    private EnemyProjectileConfig projectileConfig;
     private readonly BossCombatConfig bossCombatConfig;
     private readonly bool autoFindPlayer;
     private readonly bool enableCombatDebugLogs;
     private readonly Func<int> getDamage;
     private readonly Func<float> getHealthRatio;
     private readonly Action<EnemyAttackResult, float> handleAttackResult;
+    private readonly Func<Color> getProjectileTint;
+    private readonly Func<GameObject> getProjectileHitVfx;
     private readonly StateMachine<BossAgent> stateMachine;
-    private readonly Color projectileTint;
-    private readonly GameObject projectileHitVfx;
 
     private float nextStrongAttackTime;
     private float nextDodgeTime;
@@ -56,8 +56,8 @@ public sealed class BossAgent
         Func<int> getDamage,
         Func<float> getHealthRatio,
         Action<EnemyAttackResult, float> handleAttackResult,
-        Color projectileTint,
-        GameObject projectileHitVfx,
+        Func<Color> getProjectileTint,
+        Func<GameObject> getProjectileHitVfx,
         bool enableCombatDebugLogs)
     {
         this.transform = transform != null
@@ -78,8 +78,8 @@ public sealed class BossAgent
         this.getDamage = getDamage;
         this.getHealthRatio = getHealthRatio;
         this.handleAttackResult = handleAttackResult;
-        this.projectileTint = projectileTint;
-        this.projectileHitVfx = projectileHitVfx;
+        this.getProjectileTint = getProjectileTint;
+        this.getProjectileHitVfx = getProjectileHitVfx;
         this.enableCombatDebugLogs = enableCombatDebugLogs;
 
         stateMachine = new StateMachine<BossAgent>(this);
@@ -107,6 +107,12 @@ public sealed class BossAgent
     public void Tick(float currentTime, float deltaTime)
     {
         stateMachine.Tick(currentTime, deltaTime);
+    }
+
+    public void ApplyRuntimeCombatConfig(EnemyAttackConfig runtimeAttackConfig, EnemyProjectileConfig runtimeProjectileConfig)
+    {
+        attackConfig = runtimeAttackConfig;
+        projectileConfig = runtimeProjectileConfig;
     }
 
     private bool ResolveTarget(float currentTime)
@@ -256,6 +262,8 @@ public sealed class BossAgent
 
         int baseDamage = getDamage != null ? getDamage() : attackConfig.Damage;
         int damage = Mathf.Max(0, Mathf.RoundToInt(baseDamage * Mathf.Max(0.1f, damageMultiplier)));
+        Color projectileColor = getProjectileTint != null ? getProjectileTint() : Color.white;
+        GameObject hitVfx = getProjectileHitVfx != null ? getProjectileHitVfx() : null;
         EnemyAttackResult result = attackSystem.TryAttack(
             CurrentTarget,
             attackConfig.AttackMode,
@@ -270,8 +278,8 @@ public sealed class BossAgent
             projectileConfig.ProjectileSpawnForwardOffset,
             projectileConfig.ProjectileHitMask,
             enableCombatDebugLogs,
-            projectileTint,
-            projectileHitVfx,
+            projectileColor,
+            hitVfx,
             out float cooldownRemaining);
 
         handleAttackResult?.Invoke(result, cooldownRemaining);

@@ -26,6 +26,7 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
     [SerializeField] private MobWeaponConfig[] availableWeapons;
     [SerializeField] private bool randomizeWeaponOnSpawn = true;
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private Transform meleeVfxSpawnPoint;
 
     [Header("Behaviour")]
     [SerializeField] private EnemyBehaviourConfig behaviourConfig = default;
@@ -305,7 +306,13 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
 
         if (runtimeWeapon.AttackVfxPrefab != null)
         {
-            Instantiate(runtimeWeapon.AttackVfxPrefab, transform.position + Vector3.up, Quaternion.identity);
+            Vector3 vfxPosition = transform.position + Vector3.up;
+            if (runtimeWeapon.AttackKind == EnemyAttackKind.Melee && meleeVfxSpawnPoint != null)
+            {
+                vfxPosition = meleeVfxSpawnPoint.position;
+            }
+
+            Instantiate(runtimeWeapon.AttackVfxPrefab, vfxPosition, Quaternion.identity);
         }
 
         if (runtimeWeapon.AttackSfx == null)

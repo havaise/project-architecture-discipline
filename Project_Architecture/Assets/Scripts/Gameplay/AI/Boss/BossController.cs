@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -59,7 +59,8 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
     private NavMeshAgent navMeshAgent;
     private Rigidbody body;
     private BossAgent bossAgent;
-    private IEnemyProjectileFactory projectileFactory;
+    private BossAgentFactory agentFactory;
+    private BossConfigInitializer configInitializer;
     private HealthComponent healthComponent;
     private int lastKnownHealth = int.MaxValue;
     private bool wasHit;
@@ -77,7 +78,15 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
 
     private void Awake()
     {
-        ApplyDefaultConfigsIfNeeded();
+        configInitializer = new BossConfigInitializer();
+        configInitializer.ApplyDefaults(
+            ref visionConfig,
+            ref movementConfig,
+            ref attackConfig,
+            ref projectileConfig,
+            ref bossCombatConfig,
+            ref deaggroDistance,
+            ref deaggroDelay);
         baseAttackConfig = attackConfig;
         baseProjectileConfig = projectileConfig;
         RandomizeBossLoadout();
@@ -94,35 +103,28 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
         {
             worldHudView.Initialize(healthComponent, null);
         }
-
-        IEnemyTargetProvider targetProvider = new UnityEnemyTargetProvider(playerTag);
-        projectileFactory = new UnityEnemyProjectileFactory(projectileConfig.ProjectilePrefab, Log);
-        EnemyAiModel aiModel = new EnemyAiModel(visionConfig.VisibilityMemoryDuration, attackConfig.AttackCooldown);
-        EnemyVisionSensor visionSensor = new EnemyVisionSensor(transform);
-        EnemyMovementMotor movementMotor = new EnemyMovementMotor(transform, navMeshAgent, aiModel);
-        EnemyAttackSystem attackSystem = new EnemyAttackSystem(transform, aiModel, CreateProjectile);
-        movementMotor.ConfigurePhysics(body, movementConfig.ConfigureRigidbodyForNavMesh);
-
-        bossAgent = new BossAgent(
-            transform,
-            target,
-            aiModel,
-            visionSensor,
-            movementMotor,
-            attackSystem,
-            targetProvider,
-            visionConfig,
-            movementConfig,
-            attackConfig,
-            projectileConfig,
-            bossCombatConfig,
-            autoFindPlayer,
-            GetDamage,
-            GetHealthRatio,
-            HandleAttackResult,
-            GetCurrentProjectileTint,
-            GetCurrentProjectileHitVfx,
-            enableCombatDebugLogs);
+        agentFactory = new BossAgentFactory();
+        bossAgent = agentFactory.Create(new BossAgentFactoryContext
+        {
+            Owner = transform,
+            InitialTarget = target,
+            NavMeshAgent = navMeshAgent,
+            Body = body,
+            PlayerTag = playerTag,
+            AutoFindPlayer = autoFindPlayer,
+            VisionConfig = visionConfig,
+            MovementConfig = movementConfig,
+            AttackConfig = attackConfig,
+            ProjectileConfig = projectileConfig,
+            BossCombatConfig = bossCombatConfig,
+            GetDamage = GetDamage,
+            GetHealthRatio = GetHealthRatio,
+            HandleAttackResult = HandleAttackResult,
+            GetProjectileTint = GetCurrentProjectileTint,
+            GetProjectileHitVfx = GetCurrentProjectileHitVfx,
+            Log = Log,
+            EnableCombatDebugLogs = enableCombatDebugLogs
+        });
         bossAgent.ApplyRuntimeCombatConfig(attackConfig, projectileConfig);
         bossAgent.Initialize(Time.time);
         target = bossAgent.CurrentTarget;
@@ -257,64 +259,6 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
         }
     }
 
-    private EnemyProjectile CreateProjectile(string _)
-    {
-        return projectileFactory.CreateProjectile();
-    }
-
-    private void ApplyDefaultConfigsIfNeeded()
-    {
-        if (visionConfig.ViewDistance <= 0f)
-        {
-            visionConfig = EnemyVisionConfig.CreateDefault();
-        }
-
-        if (movementConfig.MoveSpeed <= 0f)
-        {
-            movementConfig = EnemyMovementConfig.CreateDefault();
-        }
-        else
-        {
-            if (movementConfig.NavAcceleration <= 0f)
-            {
-                movementConfig.NavAcceleration = 16f;
-            }
-
-            if (movementConfig.NavAngularSpeed <= 0f)
-            {
-                movementConfig.NavAngularSpeed = 540f;
-            }
-
-            if (movementConfig.NavStoppingDistance < 0f)
-            {
-                movementConfig.NavStoppingDistance = 0.8f;
-            }
-
-            if (movementConfig.NavPathRepathInterval <= 0f)
-            {
-                movementConfig.NavPathRepathInterval = 0.2f;
-            }
-        }
-
-        if (attackConfig.AttackCooldown <= 0f)
-        {
-            attackConfig = EnemyAttackConfig.CreateDefault();
-        }
-
-        if (projectileConfig.ProjectileLifetime <= 0f)
-        {
-            projectileConfig = EnemyProjectileConfig.CreateDefault();
-        }
-
-        if (bossCombatConfig.StrongAttackCooldown <= 0f)
-        {
-            bossCombatConfig = BossCombatConfig.CreateDefault();
-        }
-
-        deaggroDistance = Mathf.Max(1f, deaggroDistance);
-        deaggroDelay = Mathf.Max(0.1f, deaggroDelay);
-    }
-
     private void Log(string message)
     {
         if (!enableCombatDebugLogs)
@@ -436,3 +380,5 @@ public class BossController : MonoBehaviour, IMovementStateProvider, IEnemyAttac
         BossDied?.Invoke(this);
     }
 }
+
+

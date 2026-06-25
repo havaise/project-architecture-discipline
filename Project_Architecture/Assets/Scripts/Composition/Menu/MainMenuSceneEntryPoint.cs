@@ -14,6 +14,8 @@ public class MainMenuSceneEntryPoint : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 1f;
 
+        ResolveViews();
+
         if (mainMenuView == null || settingsMenuView == null)
         {
             Debug.LogError("MainMenuSceneEntryPoint: assign both views.", this);
@@ -47,8 +49,22 @@ public class MainMenuSceneEntryPoint : MonoBehaviour
         mainMenuController.Initialize();
     }
 
+    private void ResolveViews()
+    {
+        if (mainMenuView == null)
+        {
+            mainMenuView = FindFirstObjectByType<MainMenuView>(FindObjectsInactive.Include);
+        }
+
+        if (settingsMenuView == null)
+        {
+            settingsMenuView = FindFirstObjectByType<SettingsMenuView>(FindObjectsInactive.Include);
+        }
+    }
+
     private void OnDestroy()
     {
         mainMenuController?.Dispose();
     }
 }
+

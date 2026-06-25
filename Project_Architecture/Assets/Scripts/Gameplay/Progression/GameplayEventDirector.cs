@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 public class GameplayEventDirector : MonoBehaviour
@@ -30,14 +30,20 @@ public class GameplayEventDirector : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool debugLogs;
 
-    public int Kills { get; private set; }
-    public int Score { get; private set; }
+    public int Kills => scoreboardModel != null ? scoreboardModel.Kills : 0;
+    public int Score => scoreboardModel != null ? scoreboardModel.Score : 0;
 
+    private ScoreboardModel scoreboardModel;
+    private ScoreboardController scoreboardController;
     private bool bossSpawned;
     private bool victoryPlayed;
 
     private void Awake()
     {
+        scoreboardModel = new ScoreboardModel();
+        scoreboardController = new ScoreboardController(scoreboardModel, scoreboardView);
+        scoreboardController.Initialize();
+
         if (hideBossObjectOnStart && bossObjectToActivate != null)
         {
             bossObjectToActivate.SetActive(false);
@@ -48,13 +54,18 @@ public class GameplayEventDirector : MonoBehaviour
     {
         EnemyController.EnemyDied += OnEnemyDied;
         BossController.BossDied += OnBossDied;
-        RefreshUi();
+        scoreboardModel?.NotifyCurrent();
     }
 
     private void OnDisable()
     {
         EnemyController.EnemyDied -= OnEnemyDied;
         BossController.BossDied -= OnBossDied;
+    }
+
+    private void OnDestroy()
+    {
+        scoreboardController?.Dispose();
     }
 
     private void OnEnemyDied(EnemyController enemy)
@@ -69,9 +80,7 @@ public class GameplayEventDirector : MonoBehaviour
 
     private void AddProgress(int killDelta, int scoreDelta)
     {
-        Kills += Mathf.Max(0, killDelta);
-        Score += Mathf.Max(0, scoreDelta);
-        RefreshUi();
+        scoreboardModel?.AddProgress(killDelta, scoreDelta);
 
         if (!bossSpawned && Kills >= Mathf.Max(1, bossSpawnKillThreshold))
         {
@@ -134,11 +143,6 @@ public class GameplayEventDirector : MonoBehaviour
         VictoryReached?.Invoke();
     }
 
-    private void RefreshUi()
-    {
-        if (scoreboardView != null)
-        {
-            scoreboardView.Render(Score, Kills);
-        }
-    }
 }
+
+

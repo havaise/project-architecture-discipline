@@ -646,30 +646,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 8551323782694836763}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e602518e4f44bdb988c27865f8875b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 15c813bc7364a1044ae0c06770bb3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   target: {fileID: 0}
   autoFindPlayer: 1
   playerTag: Player
   visionConfig:
-    ViewDistance: 10
+    ViewDistance: 12
     ViewAngle: 140
-    EyeHeight: 2
-    VisibilityMemoryDuration: 1.2
+    EyeHeight: 14
+    VisibilityMemoryDuration: 1.5
     VisibilityBlockers:
       serializedVersion: 2
       m_Bits: 0
   movementConfig:
-    PatrolLookAroundWhenIdle: 0
+    PatrolLookAroundWhenIdle: 1
     MoveSpeed: 3
-    RotationSpeed: 10
-    IdleTurnSpeed: 0.5
-    ConfigureRigidbodyForNavMesh: 0
-    NavAcceleration: 0
-    NavAngularSpeed: 0
-    NavStoppingDistance: 0
-    NavPathRepathInterval: 0
+    RotationSpeed: 8
+    IdleTurnSpeed: 45
+    ConfigureRigidbodyForNavMesh: 1
+    NavAcceleration: 14
+    NavAngularSpeed: 480
+    NavStoppingDistance: 1
+    NavPathRepathInterval: 0.2
   attackConfig:
     AttackMode: 1
     Damage: 15
@@ -680,23 +680,25 @@ MonoBehaviour:
     ProjectilePrefab: {fileID: 5928039675039283857, guid: 4a96115c349dee5409ce76d85252939f, type: 3}
     ProjectileSpawnPoint: {fileID: 5939371211265761693}
     ProjectileSpeed: 10
-    ProjectileLifetime: 10
-    ProjectileRadius: 1.5
+    ProjectileLifetime: 3
+    ProjectileRadius: 0.2
     ProjectileSpawnHeightOffset: 0
-    ProjectileSpawnForwardOffset: 0.5
+    ProjectileSpawnForwardOffset: 0.4
     ProjectileHitMask:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 0
   defaultWeapon: {fileID: 11400000, guid: e30bd49724ac6ce409c0f37ed1ac19dc, type: 2}
   availableWeapons:
   - {fileID: 11400000, guid: e30bd49724ac6ce409c0f37ed1ac19dc, type: 2}
+  - {fileID: 11400000, guid: a55db9b5a373ecd40b6ea71a55b6df58, type: 2}
   randomizeWeaponOnSpawn: 1
-  audioSource: {fileID: -6064035895139040444}
+  audioSource: {fileID: 0}
+  meleeVfxSpawnPoint: {fileID: 5939371211265761693}
   behaviourConfig:
     BehaviourMode: 0
-    FleeHealthThreshold: 0
-    FleeExitHealthThreshold: 0
-    FleeDistance: 0
+    FleeHealthThreshold: 0.25
+    FleeExitHealthThreshold: 0.45
+    FleeDistance: 8
   worldHudView: {fileID: 7858503700303615482}
   enableCombatDebugLogs: 0
   logCooldownBlocks: 0

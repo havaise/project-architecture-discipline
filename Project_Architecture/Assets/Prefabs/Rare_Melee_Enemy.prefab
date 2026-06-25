@@ -1255,8 +1255,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5fbd75552af6654bbe08209306cb26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAnimationController
-  enemyStateSource: {fileID: 5298783200442843815}
-  enemyAttackEventsSource: {fileID: 5298783200442843815}
+  enemyStateSource: {fileID: 4376306615743652165}
+  enemyAttackEventsSource: {fileID: 4376306615743652165}
   animator: {fileID: 4103029190647617822}
   isMovingParam: IsMoving
   moveSpeedParam: MoveSpeed
@@ -2260,7 +2260,7 @@ GameObject:
   - component: {fileID: 4522544625985934105}
   - component: {fileID: 1021707589157216459}
   - component: {fileID: 3771600883835423356}
-  - component: {fileID: 5298783200442843815}
+  - component: {fileID: 4376306615743652165}
   - component: {fileID: 3113195049516612055}
   - component: {fileID: 2032673920814925774}
   - component: {fileID: 1920917144214488807}
@@ -2338,7 +2338,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5298783200442843815
+--- !u!114 &4376306615743652165
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2347,36 +2347,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 8551323782694836763}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e602518e4f44bdb988c27865f8875b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 15c813bc7364a1044ae0c06770bb3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   target: {fileID: 0}
   autoFindPlayer: 1
   playerTag: Player
   visionConfig:
-    ViewDistance: 10
+    ViewDistance: 12
     ViewAngle: 140
     EyeHeight: 1.4
-    VisibilityMemoryDuration: 1.2
+    VisibilityMemoryDuration: 1.5
     VisibilityBlockers:
       serializedVersion: 2
       m_Bits: 0
   movementConfig:
-    PatrolLookAroundWhenIdle: 0
-    MoveSpeed: 3.5
-    RotationSpeed: 12
+    PatrolLookAroundWhenIdle: 1
+    MoveSpeed: 3
+    RotationSpeed: 8
     IdleTurnSpeed: 45
-    ConfigureRigidbodyForNavMesh: 0
-    NavAcceleration: 0
-    NavAngularSpeed: 0
-    NavStoppingDistance: 0
-    NavPathRepathInterval: 0
+    ConfigureRigidbodyForNavMesh: 1
+    NavAcceleration: 14
+    NavAngularSpeed: 480
+    NavStoppingDistance: 1
+    NavPathRepathInterval: 0.2
   attackConfig:
     AttackMode: 0
-    Damage: 12
-    MeleeAttackRange: 2
+    Damage: 15
+    MeleeAttackRange: 1.5
     RangedAttackRange: 0
-    AttackCooldown: 1.1
+    AttackCooldown: 1.5
   projectileConfig:
     ProjectilePrefab: {fileID: 0}
     ProjectileSpawnPoint: {fileID: 0}
@@ -2394,12 +2394,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b3c4a2c16a984cf4898b797275079947, type: 2}
   randomizeWeaponOnSpawn: 1
   audioSource: {fileID: 1920917144214488807}
+  meleeVfxSpawnPoint: {fileID: 0}
   behaviourConfig:
     BehaviourMode: 0
-    FleeHealthThreshold: 0.00042426406
-    FleeExitHealthThreshold: 0
-    FleeDistance: 0
-  worldHudView: {fileID: 2145528990443915504}
+    FleeHealthThreshold: 0.25
+    FleeExitHealthThreshold: 0.45
+    FleeDistance: 8
+  worldHudView: {fileID: 2145528990443915504, guid: 6e1b4ed122d222f468ef6f703823a130, type: 3}
   enableCombatDebugLogs: 0
   logCooldownBlocks: 0
 --- !u!114 &3113195049516612055

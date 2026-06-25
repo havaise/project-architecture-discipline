@@ -9,20 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0347a3bfee5f9e40bec6f72a404a882, type: 3}
+  m_Script: {fileID: 11500000, guid: bcb1b65a8b176e64db994f869995d52e, type: 3}
   m_Name: SwordMobWeaponConfig
   m_EditorClassIdentifier: Assembly-CSharp::MobWeaponConfig
-  WeaponName: Weapon
+  WeaponName: Short Sword
   AttackKind: 0
-  Damage: 10
-  AttackRange: 2
-  DamageDelay: 0
-  AttackCooldown: 1.2
+  Damage: 12
+  AttackRange: 2.1
+  DamageDelay: 0.15
+  AttackCooldown: 1
   ProjectilePrefab: {fileID: 0}
-  ProjectileSpeed: 14
-  ProjectileLifetime: 3
+  ProjectileSpeed: 0
+  ProjectileLifetime: 0
   ProjectileRadius: 0.2
   AttackVfxPrefab: {fileID: 0}
   HitVfxPrefab: {fileID: 0}
   AttackSfx: {fileID: 8300000, guid: 207c6595ee318174793d87bb9ba2ee6c, type: 3}
-  ProjectileTint: {r: 1, g: 1, b: 1, a: 1}
+  ProjectileTint: {r: 0.9, g: 0.95, b: 1, a: 1}

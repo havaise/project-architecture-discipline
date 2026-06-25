@@ -9,20 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0347a3bfee5f9e40bec6f72a404a882, type: 3}
+  m_Script: {fileID: 11500000, guid: bcb1b65a8b176e64db994f869995d52e, type: 3}
   m_Name: EtherKillsMobWeaponConfig 2
   m_EditorClassIdentifier: Assembly-CSharp::MobWeaponConfig
   WeaponName: Ether Kills
   AttackKind: 1
   Damage: 10
-  AttackRange: 9
-  DamageDelay: 0
-  AttackCooldown: 1.2
+  AttackRange: 12
+  DamageDelay: 0.05
+  AttackCooldown: 0.85
   ProjectilePrefab: {fileID: 5928039675039283857, guid: 4a96115c349dee5409ce76d85252939f, type: 3}
-  ProjectileSpeed: 14
+  ProjectileSpeed: 18
   ProjectileLifetime: 3
-  ProjectileRadius: 0.2
-  AttackVfxPrefab: {fileID: 1059172723860074, guid: 058c6c6f7bee2fc45a91fbdb528a9035, type: 3}
-  HitVfxPrefab: {fileID: 1059172723860074, guid: 058c6c6f7bee2fc45a91fbdb528a9035, type: 3}
+  ProjectileRadius: 0.18
+  AttackVfxPrefab: {fileID: 1016717492136352, guid: d9a16b144bb6373498d4374fb5d0d3b2, type: 3}
+  HitVfxPrefab: {fileID: 1029544359644514, guid: aab2daf1fd2b23f4a9bdbbb38fc95704, type: 3}
   AttackSfx: {fileID: 8300000, guid: 66677a20a6e896848b1b3c508cd5645e, type: 3}
-  ProjectileTint: {r: 1, g: 1, b: 1, a: 1}
+  ProjectileTint: {r: 0.48, g: 0.2, b: 1, a: 1}

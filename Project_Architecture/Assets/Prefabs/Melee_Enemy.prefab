@@ -2346,36 +2346,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 8551323782694836763}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e602518e4f44bdb988c27865f8875b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 15c813bc7364a1044ae0c06770bb3fde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   target: {fileID: 0}
   autoFindPlayer: 1
   playerTag: Player
   visionConfig:
-    ViewDistance: 10
+    ViewDistance: 12
     ViewAngle: 140
     EyeHeight: 1.4
-    VisibilityMemoryDuration: 1.2
+    VisibilityMemoryDuration: 1.5
     VisibilityBlockers:
       serializedVersion: 2
       m_Bits: 0
   movementConfig:
-    PatrolLookAroundWhenIdle: 0
-    MoveSpeed: 3.5
-    RotationSpeed: 12
+    PatrolLookAroundWhenIdle: 1
+    MoveSpeed: 3
+    RotationSpeed: 8
     IdleTurnSpeed: 45
-    ConfigureRigidbodyForNavMesh: 0
-    NavAcceleration: 0
-    NavAngularSpeed: 0
-    NavStoppingDistance: 0
-    NavPathRepathInterval: 0
+    ConfigureRigidbodyForNavMesh: 1
+    NavAcceleration: 14
+    NavAngularSpeed: 480
+    NavStoppingDistance: 1
+    NavPathRepathInterval: 0.2
   attackConfig:
     AttackMode: 0
-    Damage: 12
-    MeleeAttackRange: 2
+    Damage: 15
+    MeleeAttackRange: 1.5
     RangedAttackRange: 0
-    AttackCooldown: 1.1
+    AttackCooldown: 1.5
   projectileConfig:
     ProjectilePrefab: {fileID: 0}
     ProjectileSpawnPoint: {fileID: 0}
@@ -2392,12 +2392,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 00893ec492071e4449c2e833db10221a, type: 2}
   - {fileID: 11400000, guid: b3c4a2c16a984cf4898b797275079947, type: 2}
   randomizeWeaponOnSpawn: 1
-  audioSource: {fileID: 0}
+  audioSource: {fileID: 6767024089037020616}
+  meleeVfxSpawnPoint: {fileID: 0}
   behaviourConfig:
     BehaviourMode: 0
-    FleeHealthThreshold: 0.00042426406
-    FleeExitHealthThreshold: 0
-    FleeDistance: 0
+    FleeHealthThreshold: 0.25
+    FleeExitHealthThreshold: 0.45
+    FleeDistance: 8
   worldHudView: {fileID: 2145528990443915504}
   enableCombatDebugLogs: 0
   logCooldownBlocks: 0

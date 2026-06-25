@@ -68,6 +68,34 @@ public class GameplayEventDirector : MonoBehaviour
         scoreboardController?.Dispose();
     }
 
+
+    public GameplayProgressSaveData CaptureProgress()
+    {
+        return new GameplayProgressSaveData
+        {
+            Score = Score,
+            Kills = Kills,
+            BossSpawned = bossSpawned,
+            VictoryPlayed = victoryPlayed
+        };
+    }
+
+    public void RestoreProgress(GameplayProgressSaveData data)
+    {
+        if (data == null)
+        {
+            return;
+        }
+
+        scoreboardModel?.SetProgress(data.Score, data.Kills);
+        bossSpawned = data.BossSpawned;
+        victoryPlayed = data.VictoryPlayed;
+
+        if (bossSpawned && bossObjectToActivate != null)
+        {
+            bossObjectToActivate.SetActive(true);
+        }
+    }
     private void OnEnemyDied(EnemyController enemy)
     {
         AddProgress(1, scorePerKill);
@@ -144,5 +172,6 @@ public class GameplayEventDirector : MonoBehaviour
     }
 
 }
+
 
 

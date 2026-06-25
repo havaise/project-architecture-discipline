@@ -15,8 +15,16 @@ public sealed class ScoreboardModel
         Changed?.Invoke(Score, Kills);
     }
 
+    public void SetProgress(int score, int kills)
+    {
+        Score = Mathf.Max(0, score);
+        Kills = Mathf.Max(0, kills);
+        Changed?.Invoke(Score, Kills);
+    }
+
     public void NotifyCurrent()
     {
         Changed?.Invoke(Score, Kills);
     }
 }
+

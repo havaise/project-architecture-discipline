@@ -1,4 +1,4 @@
-using UnityEngine.SceneManagement;
+﻿using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public sealed class GameSaveInteractor : IGameSaveInteractor
@@ -6,6 +6,7 @@ public sealed class GameSaveInteractor : IGameSaveInteractor
     private readonly ISaveGameRepository saveRepository;
     private readonly IPlayerStateRepository playerRepository;
     private readonly IEnemyStateRepository enemyRepository;
+    private readonly IGameplayProgressRepository progressRepository;
     private readonly IGameSessionState sessionState;
     private readonly ISceneLoader sceneLoader;
 
@@ -13,12 +14,14 @@ public sealed class GameSaveInteractor : IGameSaveInteractor
         ISaveGameRepository saveRepository,
         IPlayerStateRepository playerRepository,
         IEnemyStateRepository enemyRepository,
+        IGameplayProgressRepository progressRepository,
         IGameSessionState sessionState,
         ISceneLoader sceneLoader)
     {
         this.saveRepository = saveRepository;
         this.playerRepository = playerRepository;
         this.enemyRepository = enemyRepository;
+        this.progressRepository = progressRepository;
         this.sessionState = sessionState;
         this.sceneLoader = sceneLoader;
     }
@@ -39,7 +42,8 @@ public sealed class GameSaveInteractor : IGameSaveInteractor
         {
             SceneName = SceneManager.GetActiveScene().name,
             Player = playerData,
-            Enemies = enemyRepository != null ? enemyRepository.Capture() : new List<EnemySaveData>()
+            Enemies = enemyRepository != null ? enemyRepository.Capture() : new List<EnemySaveData>(),
+            Progress = progressRepository != null ? progressRepository.Capture() : new GameplayProgressSaveData()
         };
         data.PlayerPosition = playerData.Position;
         data.PlayerRotation = playerData.Rotation;
@@ -86,7 +90,9 @@ public sealed class GameSaveInteractor : IGameSaveInteractor
 
         playerRepository.Restore(pending.Player);
         enemyRepository?.Restore(pending.Enemies);
+        progressRepository?.Restore(pending.Progress);
         sessionState.ClearPendingLoadedGame();
         return true;
     }
 }
+

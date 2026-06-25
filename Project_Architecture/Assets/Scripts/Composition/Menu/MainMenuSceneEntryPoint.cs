@@ -36,6 +36,7 @@ public class MainMenuSceneEntryPoint : MonoBehaviour
             GameEntryPoint.Services.SaveGameRepository,
             null,
             null,
+            null,
             GameEntryPoint.Services.GameSessionState,
             GameEntryPoint.Services.SceneLoader);
 
@@ -67,4 +68,5 @@ public class MainMenuSceneEntryPoint : MonoBehaviour
         mainMenuController?.Dispose();
     }
 }
+
 

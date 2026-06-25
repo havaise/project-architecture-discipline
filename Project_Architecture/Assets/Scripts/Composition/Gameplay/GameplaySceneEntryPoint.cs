@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 using IServiceLocator = ProjectArchitecture.Composition.IServiceLocator;
 
@@ -58,6 +58,7 @@ public class GameplaySceneEntryPoint : MonoBehaviour
             playerComposition.PlayerHealth,
             playerComposition.PlayerMana,
             playerComposition.PlayerStats,
+            gameplayEventDirector,
             this);
         pauseMenuController = PauseMenuComposition.BuildAndInitialize(
             pauseMenuView,
@@ -172,3 +173,4 @@ public class GameplaySceneEntryPoint : MonoBehaviour
         }
     }
 }
+

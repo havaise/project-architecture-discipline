@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 using IServiceLocator = ProjectArchitecture.Composition.IServiceLocator;
@@ -11,6 +11,7 @@ public static class SaveComposition
         HealthComponent playerHealth,
         ManaComponent playerMana,
         PlayerStatsComponent playerStats,
+        GameplayEventDirector gameplayEventDirector,
         Object context)
     {
         EnemyStateHandle[] enemyHandles = BuildEnemyHandles();
@@ -21,11 +22,13 @@ public static class SaveComposition
             playerMana,
             playerStats);
         IEnemyStateRepository enemyRepository = new EnemyStateRepository(enemyHandles);
+        IGameplayProgressRepository progressRepository = new GameplayProgressRepository(gameplayEventDirector);
 
         IGameSaveInteractor gameSaveInteractor = new GameSaveInteractor(
             services.SaveGameRepository,
             playerRepository,
             enemyRepository,
+            progressRepository,
             services.GameSessionState,
             services.SceneLoader);
 
@@ -76,3 +79,4 @@ public static class SaveComposition
         return handles.ToArray();
     }
 }
+

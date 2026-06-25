@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb1b65a8b176e64db994f869995d52e, type: 3}
+  m_Name: RedBoomMobWeaponConfig 1
+  m_EditorClassIdentifier: Assembly-CSharp::MobWeaponConfig
+  WeaponName: Red Boom
+  AttackKind: 1
+  Damage: 14
+  AttackRange: 10
+  DamageDelay: 0.2
+  AttackCooldown: 1.35
+  ProjectilePrefab: {fileID: 5928039675039283857, guid: 4a96115c349dee5409ce76d85252939f, type: 3}
+  ProjectileSpeed: 13
+  ProjectileLifetime: 3.5
+  ProjectileRadius: 0.28
+  AttackVfxPrefab: {fileID: 1795330392712688, guid: 7f11cfb7c95c8df45beb2209791430c4, type: 3}
+  HitVfxPrefab: {fileID: 1120835270511274, guid: 33cfc2755a55b7e4c86c9d7018efbaaa, type: 3}
+  AttackSfx: {fileID: 8300000, guid: 5257658e122b185408d7c774fb22d5c1, type: 3}
+  ProjectileTint: {r: 1, g: 0.22, b: 0.08, a: 1}

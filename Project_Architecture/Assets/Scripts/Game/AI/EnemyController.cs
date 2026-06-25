@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -52,7 +52,8 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
     private EnemyAgent enemyAgent;
     private IEnemyProjectileFactory projectileFactory;
     private HealthComponent healthComponent;
-    private MobWeaponConfig runtimeWeapon;
+    private MobWeaponFactory weaponFactory;
+    private MobWeaponRuntime runtimeWeapon;
     private float damageMultiplier = 1f;
     private bool deathReported;
 
@@ -63,6 +64,7 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         navMeshAgent = GetComponent<NavMeshAgent>();
         body = GetComponent<Rigidbody>();
         healthComponent = GetComponentInChildren<HealthComponent>();
+        weaponFactory = new MobWeaponFactory();
         if (worldHudView == null)
         {
             worldHudView = GetComponentInChildren<HudView>(true);
@@ -89,7 +91,8 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
 
     private void Start()
     {
-        ApplyWeaponConfig(ResolveWeaponConfig());
+        runtimeWeapon = weaponFactory.Create(defaultWeapon, availableWeapons, randomizeWeaponOnSpawn);
+        ApplyWeapon(runtimeWeapon);
 
         IEnemyTargetProvider targetProvider = new UnityEnemyTargetProvider(playerTag);
         projectileFactory = new UnityEnemyProjectileFactory(projectileConfig.ProjectilePrefab, Log);
@@ -271,45 +274,29 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         Debug.Log($"[EnemyController] {message}", this);
     }
 
-    private MobWeaponConfig ResolveWeaponConfig()
+    private void ApplyWeapon(MobWeaponRuntime weapon)
     {
-        if (availableWeapons != null && availableWeapons.Length > 0)
-        {
-            if (!randomizeWeaponOnSpawn)
-            {
-                return availableWeapons[0];
-            }
-
-            return availableWeapons[UnityEngine.Random.Range(0, availableWeapons.Length)];
-        }
-
-        return defaultWeapon;
-    }
-
-    private void ApplyWeaponConfig(MobWeaponConfig weaponConfig)
-    {
-        runtimeWeapon = weaponConfig;
-        if (runtimeWeapon == null)
+        if (weapon == null)
         {
             return;
         }
 
-        attackConfig.AttackMode = runtimeWeapon.AttackKind;
-        attackConfig.Damage = Mathf.Max(0, runtimeWeapon.Damage);
-        attackConfig.AttackCooldown = Mathf.Max(0.05f, runtimeWeapon.AttackCooldown);
-        if (runtimeWeapon.AttackKind == EnemyAttackKind.Melee)
+        attackConfig.AttackMode = weapon.AttackKind;
+        attackConfig.Damage = Mathf.Max(0, weapon.Damage);
+        attackConfig.AttackCooldown = Mathf.Max(0.05f, weapon.AttackCooldown);
+        if (weapon.AttackKind == EnemyAttackKind.Melee)
         {
-            attackConfig.MeleeAttackRange = Mathf.Max(0.1f, runtimeWeapon.AttackRange);
+            attackConfig.MeleeAttackRange = Mathf.Max(0.1f, weapon.AttackRange);
         }
         else
         {
-            attackConfig.RangedAttackRange = Mathf.Max(0.1f, runtimeWeapon.AttackRange);
-            projectileConfig.ProjectilePrefab = runtimeWeapon.ProjectilePrefab != null
-                ? runtimeWeapon.ProjectilePrefab
+            attackConfig.RangedAttackRange = Mathf.Max(0.1f, weapon.AttackRange);
+            projectileConfig.ProjectilePrefab = weapon.ProjectilePrefab != null
+                ? weapon.ProjectilePrefab
                 : projectileConfig.ProjectilePrefab;
-            projectileConfig.ProjectileSpeed = Mathf.Max(0.01f, runtimeWeapon.ProjectileSpeed);
-            projectileConfig.ProjectileLifetime = Mathf.Max(0.05f, runtimeWeapon.ProjectileLifetime);
-            projectileConfig.ProjectileRadius = Mathf.Max(0.01f, runtimeWeapon.ProjectileRadius);
+            projectileConfig.ProjectileSpeed = Mathf.Max(0.01f, weapon.ProjectileSpeed);
+            projectileConfig.ProjectileLifetime = Mathf.Max(0.05f, weapon.ProjectileLifetime);
+            projectileConfig.ProjectileRadius = Mathf.Max(0.01f, weapon.ProjectileRadius);
         }
     }
 
@@ -356,3 +343,4 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         EnemyDied?.Invoke(this);
     }
 }
+

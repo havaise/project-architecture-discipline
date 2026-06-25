@@ -50,7 +50,8 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
     private NavMeshAgent navMeshAgent;
     private Rigidbody body;
     private EnemyAgent enemyAgent;
-    private IEnemyProjectileFactory projectileFactory;
+    private EnemyAgentFactory agentFactory;
+    private EnemyConfigInitializer configInitializer;
     private HealthComponent healthComponent;
     private MobWeaponFactory weaponFactory;
     private MobWeaponRuntime runtimeWeapon;
@@ -59,12 +60,19 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
 
     private void Awake()
     {
-        ApplyDefaultConfigsIfNeeded();
+        configInitializer = new EnemyConfigInitializer();
+        configInitializer.ApplyDefaults(
+            ref visionConfig,
+            ref movementConfig,
+            ref attackConfig,
+            ref projectileConfig,
+            ref behaviourConfig);
 
         navMeshAgent = GetComponent<NavMeshAgent>();
         body = GetComponent<Rigidbody>();
         healthComponent = GetComponentInChildren<HealthComponent>();
         weaponFactory = new MobWeaponFactory();
+        agentFactory = new EnemyAgentFactory();
         if (worldHudView == null)
         {
             worldHudView = GetComponentInChildren<HudView>(true);
@@ -94,33 +102,25 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         runtimeWeapon = weaponFactory.Create(defaultWeapon, availableWeapons, randomizeWeaponOnSpawn);
         ApplyWeapon(runtimeWeapon);
 
-        IEnemyTargetProvider targetProvider = new UnityEnemyTargetProvider(playerTag);
-        projectileFactory = new UnityEnemyProjectileFactory(projectileConfig.ProjectilePrefab, Log);
-        EnemyAiModel aiModel = new EnemyAiModel(visionConfig.VisibilityMemoryDuration, attackConfig.AttackCooldown);
-        EnemyVisionSensor visionSensor = new EnemyVisionSensor(transform);
-        EnemyMovementMotor movementMotor = new EnemyMovementMotor(transform, navMeshAgent, aiModel);
-        EnemyAttackSystem attackSystem = new EnemyAttackSystem(transform, aiModel, CreateProjectile);
-
-        movementMotor.ConfigurePhysics(body, movementConfig.ConfigureRigidbodyForNavMesh);
-
-        enemyAgent = new EnemyAgent(
-            transform,
-            target,
-            aiModel,
-            visionSensor,
-            movementMotor,
-            attackSystem,
-            targetProvider,
-            visionConfig,
-            movementConfig,
-            attackConfig,
-            projectileConfig,
-            behaviourConfig,
-            autoFindPlayer,
-            GetDamage,
-            GetHealthRatio,
-            HandleAttackResult,
-            enableCombatDebugLogs);
+        enemyAgent = agentFactory.Create(new EnemyAgentFactoryContext
+        {
+            Owner = transform,
+            InitialTarget = target,
+            NavMeshAgent = navMeshAgent,
+            Body = body,
+            PlayerTag = playerTag,
+            AutoFindPlayer = autoFindPlayer,
+            VisionConfig = visionConfig,
+            MovementConfig = movementConfig,
+            AttackConfig = attackConfig,
+            ProjectileConfig = projectileConfig,
+            BehaviourConfig = behaviourConfig,
+            GetDamage = GetDamage,
+            GetHealthRatio = GetHealthRatio,
+            HandleAttackResult = HandleAttackResult,
+            Log = Log,
+            EnableCombatDebugLogs = enableCombatDebugLogs
+        });
         enemyAgent.Initialize(Time.time);
         target = enemyAgent.CurrentTarget;
     }
@@ -209,61 +209,6 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         }
     }
 
-    private EnemyProjectile CreateProjectile(string _)
-    {
-        return projectileFactory.CreateProjectile();
-    }
-
-    private void ApplyDefaultConfigsIfNeeded()
-    {
-        if (visionConfig.ViewDistance <= 0f)
-        {
-            visionConfig = EnemyVisionConfig.CreateDefault();
-        }
-
-        if (movementConfig.MoveSpeed <= 0f)
-        {
-            movementConfig = EnemyMovementConfig.CreateDefault();
-        }
-        else
-        {
-            if (movementConfig.NavAcceleration <= 0f)
-            {
-                movementConfig.NavAcceleration = 16f;
-            }
-
-            if (movementConfig.NavAngularSpeed <= 0f)
-            {
-                movementConfig.NavAngularSpeed = 540f;
-            }
-
-            if (movementConfig.NavStoppingDistance < 0f)
-            {
-                movementConfig.NavStoppingDistance = 0.8f;
-            }
-
-            if (movementConfig.NavPathRepathInterval <= 0f)
-            {
-                movementConfig.NavPathRepathInterval = 0.2f;
-            }
-        }
-
-        if (attackConfig.AttackCooldown <= 0f)
-        {
-            attackConfig = EnemyAttackConfig.CreateDefault();
-        }
-
-        if (projectileConfig.ProjectileLifetime <= 0f)
-        {
-            projectileConfig = EnemyProjectileConfig.CreateDefault();
-        }
-
-        if (behaviourConfig.FleeDistance <= 0f)
-        {
-            behaviourConfig = EnemyBehaviourConfig.CreateDefault();
-        }
-    }
-
     private void Log(string message)
     {
         if (!enableCombatDebugLogs)
@@ -343,4 +288,7 @@ public class EnemyController : MonoBehaviour, IMovementStateProvider, IEnemyAtta
         EnemyDied?.Invoke(this);
     }
 }
+
+
+
 
